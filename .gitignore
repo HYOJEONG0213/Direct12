@@ -30,3 +30,12 @@
 *.exe
 *.out
 *.app
+.vs/Game/v17/Solution.VC.db
+.vs/Game/v17/ipch/b18d6684ca591b9f.ipch
+.vs/Game/v17/ipch/AutoPCH/8e9b06f8d0f20537/CLIENT.ipch
+.vs/Game/v17/ipch/AutoPCH/63ddc51d9978d431/ENGINEPCH.ipch
+.vs/Game/v17/ipch/abaf31d160923341.ipch
+.vs/Game/v17/ipch/7d04365e0bba7b6.ipch
+.vs/Game/v17/ipch/2b7361a46885410b.ipch
+.vs/Game/v17/DocumentLayout.json
+.vs/Game/v17/DocumentLayout.backup.json
