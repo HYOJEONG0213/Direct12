@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Direct12\Direct12\x64\Debug\Client.exe</FullPath>
+      <FullPath>C:\Direct12\Direct12\Output\Client.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />
