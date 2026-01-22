@@ -1,2 +1,7 @@
+C:\Direct12\Direct12\Engine\CommandQueue.cpp;C:\Direct12\Direct12\Engine\x64\Debug\CommandQueue.obj
+C:\Direct12\Direct12\Engine\DescriptorHeap.cpp;C:\Direct12\Direct12\Engine\x64\Debug\DescriptorHeap.obj
+C:\Direct12\Direct12\Engine\Device.cpp;C:\Direct12\Direct12\Engine\x64\Debug\Device.obj
+C:\Direct12\Direct12\Engine\Engine.cpp;C:\Direct12\Direct12\Engine\x64\Debug\Engine.obj
 C:\Direct12\Direct12\Engine\EnginePch.cpp;C:\Direct12\Direct12\Engine\x64\Debug\EnginePch.obj
 C:\Direct12\Direct12\Engine\pch.cpp;C:\Direct12\Direct12\Engine\x64\Debug\pch.obj
+C:\Direct12\Direct12\Engine\SwapChain.cpp;C:\Direct12\Direct12\Engine\x64\Debug\SwapChain.obj

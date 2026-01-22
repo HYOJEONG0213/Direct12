@@ -1,7 +1,1 @@
-﻿  LINK : C:\Direct12\Direct12\Output\Client.exe을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
-Client.obj : warning LNK4099: '' PDB를 'Client.obj' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-Game.obj : warning LNK4099: '' PDB를 'Game.obj' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-pch.obj : warning LNK4099: '' PDB를 'pch.obj' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-Engine.lib(EnginePch.obj) : warning LNK4204: ''에 참조 모듈에 대한 디버깅 정보가 없습니다. 디버깅 정보가 없는 것처럼 개체를 링크합니다.
-Engine.lib(pch.obj) : warning LNK4204: ''에 참조 모듈에 대한 디버깅 정보가 없습니다. 디버깅 정보가 없는 것처럼 개체를 링크합니다.
-  Client.vcxproj -> C:\Direct12\Direct12\Output\Client.exe
+﻿  Client.vcxproj -> C:\Direct12\Direct12\Output\Client.exe
