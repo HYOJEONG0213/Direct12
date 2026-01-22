@@ -1,4 +1,5 @@
 ﻿  pch.cpp
-C:\Direct12\Direct12\Client\pch.h(4,10): error C1083: 포함 파일을 열 수 없습니다. 'EnginePch.h': No such file or directory
-  (소스 파일 '../Client/pch.cpp'을(를) 컴파일하는 중)
+C:\Direct12\Direct12\Engine\pch.h(13,10): warning C4067: 전처리기 지시문 다음에 예기치 않은 토큰이 있습니다. 줄 바꿈 문자가 필요합니다.
+  (소스 파일 'pch.cpp'을(를) 컴파일하는 중)
   
+  Engine.vcxproj -> C:\Direct12\Direct12\Output\Engine.lib

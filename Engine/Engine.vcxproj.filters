@@ -12,13 +12,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="EnginePch.h">
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="d3dx12.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
       <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
@@ -26,7 +26,7 @@
     <ClCompile Include="EnginePch.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="..\Client\pch.cpp">
+    <ClCompile Include="pch.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
