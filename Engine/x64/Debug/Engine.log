@@ -1,4 +1,5 @@
-﻿  DescriptorHeap.cpp
+﻿  CommandQueue.cpp
   Engine.cpp
+  EnginePch.cpp
   코드를 생성하고 있습니다...
   Engine.vcxproj -> C:\Direct12\Direct12\Output\Engine.lib

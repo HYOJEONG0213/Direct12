@@ -27,6 +27,23 @@ void Engine::Init(const WindowInfo& info)
 
 void Engine::Render()
 {
+	RenderBegin();
+
+	//그려줄(렌더링할) 내용 
+
+	RenderEnd();
+}
+
+//커멘더큐에 요청사항 넣기
+void Engine::RenderBegin()
+{
+	_cmdQueue->RenderBegin(&_viewport, &_scissorRect);
+}
+
+//커멘더큐에 요청사항 다 넣었음을 알린뒤 실행시키기
+void Engine::RenderEnd()
+{
+	_cmdQueue->RenderEnd();
 }
 
 //윈도우 크기 변경 

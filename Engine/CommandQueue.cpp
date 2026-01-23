@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "CommandQueue.h"
+#include "SwapChain.h"
+#include "DescriptorHeap.h"
 
 CommandQueue::~CommandQueue()
 {
@@ -65,8 +67,55 @@ void CommandQueue::WaitSync()
 
 void CommandQueue::RenderBegin(const D3D12_VIEWPORT* vp, const D3D12_RECT* rect)
 {
+	_cmdAlloc->Reset();
+	_cmdList->Reset(_cmdAlloc.Get(), nullptr);
+
+	// 스왑버퍼 왔다갔다 설정해주기 (Transition : Before(화면출력) -> After(외주결과물))
+	D3D12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
+		_swapChain->GetCurrentBackBufferResource().Get(),
+		D3D12_RESOURCE_STATE_PRESENT, // 현재 화면 출력
+		D3D12_RESOURCE_STATE_RENDER_TARGET); // 외주 결과물(뒤에서 작업되는 상태)
+
+	_cmdList->ResourceBarrier(1, &barrier);
+
+	// _cmdList의 viewport and scissor rect.  This needs to be reset whenever the command list is reset.
+	_cmdList->RSSetViewports(1, vp);
+	_cmdList->RSSetScissorRects(1, rect);
+
+	// Specify the buffers we are going to render to.
+	// 어떤 버퍼에 그림 그려야하는지 다시 언급 
+	// 백버퍼 꺼내온다음에 거기 대상으로 GPU한테 그려달라 요청하기 
+	D3D12_CPU_DESCRIPTOR_HANDLE backBufferView = _descHeap->GetBackBufferView();
+	_cmdList->ClearRenderTargetView(backBufferView, Colors::LightSteelBlue, 0, nullptr);
+	_cmdList->OMSetRenderTargets(1, &backBufferView, FALSE, nullptr);
+
 }
 
 void CommandQueue::RenderEnd()
 {
+	//Transition : Begin(외주 결과물 : 백버퍼) -> After(화면 출력) 
+	//Begin와 정반대;; 
+	D3D12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
+		_swapChain->GetCurrentBackBufferResource().Get(),
+		D3D12_RESOURCE_STATE_RENDER_TARGET, // 외주 결과물
+		D3D12_RESOURCE_STATE_PRESENT); // 화면 출력
+
+	_cmdList->ResourceBarrier(1, &barrier);
+	_cmdList->Close();	// 커맨드 리스트 닫기 추가됌 (일감 여기서 끝~)
+
+	// 커맨드 리스트 수행 (진.짜.실.행) 
+	ID3D12CommandList* cmdListArr[] = { _cmdList.Get() };
+	_cmdQueue->ExecuteCommandLists(_countof(cmdListArr), cmdListArr);
+
+	//버퍼를 가지고 진짜로 보여줌. 
+	_swapChain->Present();
+
+	// Wait until frame commands are complete.  This waiting is inefficient and is
+	// done for simplicity.  Later we will show how to organize our rendering code
+	// so we do not have to wait per frame.
+	// 일련의 과정들이 다 실행될때까지 대기 
+	WaitSync();
+
+	// 진짜 바꿔치기 
+	_swapChain->SwapIndex();
 }

@@ -5,6 +5,9 @@ public:
 	void Init(const WindowInfo & info);
 	void Render();
 
+	void RenderBegin();
+	void RenderEnd();
+
 	void ResizeWindow(int32 width, int32 height);
 private:
 	//그려질 화면 크기 관련 변수들 
