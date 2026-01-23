@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 class Engine
 {
 public:
@@ -10,7 +10,7 @@ public:
 
 	void ResizeWindow(int32 width, int32 height);
 private:
-	//±×·ÁÁú È­¸é Å©±â °ü·Ã º¯¼öµé 
+	//ê·¸ë ¤ì§ˆ í™”ë©´ í¬ê¸° ê´€ë ¨ ë³€ìˆ˜ë“¤ 
 	WindowInfo	_window;
 	D3D12_VIEWPORT	_viewport = {};
 	D3D12_RECT	_scissorRect = {};

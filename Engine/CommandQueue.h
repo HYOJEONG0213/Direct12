@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 class SwapChain;
 class DescriptorHeap;
@@ -13,22 +13,22 @@ public:
 	void RenderBegin(const D3D12_VIEWPORT* vp, const D3D12_RECT* rect);
 	void RenderEnd();
 
-	//¿ÜºÎ¿¡¼­ Ä¿¸Çµå ¸®½ºÆ®¸¦ ²¨³» ¾µ ¼ö ÀÖ°Ô
+	//ì™¸ë¶€ì—ì„œ ì»¤ë§¨ë“œ ë¦¬ìŠ¤íŠ¸ë¥¼ êº¼ë‚´ ì“¸ ìˆ˜ ìžˆê²Œ
 	ComPtr <ID3D12CommandQueue> GetCmdQueue() { return _cmdQueue; }
 
 private:
-	// CommandQueue : DX12¿¡ µîÀå
-	// ¿ÜÁÖ¸¦ ¿äÃ»ÇÒ ¶§, ÇÏ³ª¾¿ ¿äÃ»ÇÏ¸é ºñÈ¿À²Àû
-	// [¿ÜÁÖ ¸ñ·Ï]¿¡ ÀÏ°¨À» Â÷°îÂ÷°î ±â·ÏÇß´Ù°¡ ÇÑ ¹æ¿¡ ¿äÃ»ÇÏ´Â °Í
+	// CommandQueue : DX12ì— ë“±ìž¥
+	// ì™¸ì£¼ë¥¼ ìš”ì²­í•  ë•Œ, í•˜ë‚˜ì”© ìš”ì²­í•˜ë©´ ë¹„íš¨ìœ¨ì 
+	// [ì™¸ì£¼ ëª©ë¡]ì— ì¼ê°ì„ ì°¨ê³¡ì°¨ê³¡ ê¸°ë¡í–ˆë‹¤ê°€ í•œ ë°©ì— ìš”ì²­í•˜ëŠ” ê²ƒ
 	ComPtr<ID3D12CommandQueue>			_cmdQueue;
-	ComPtr<ID3D12CommandAllocator>		_cmdAlloc;	//ÀÏ ÇÒ´ç ¸Þ¸ð¸®¸¦ ÇÒ´ç
+	ComPtr<ID3D12CommandAllocator>		_cmdAlloc;	//ì¼ í• ë‹¹ ë©”ëª¨ë¦¬ë¥¼ í• ë‹¹
 	ComPtr<ID3D12GraphicsCommandList>	_cmdList;
 
 
-	// Fence : ¿ïÅ¸¸®(?) : ¿ÜÁÖ ÀÛ¾÷ÀÌ ³¡³¯¶§±îÁö ´ë±âÇÏ°Ú´Ù! 
-	// CPU / GPU µ¿±âÈ­¸¦ À§ÇÑ °£´ÜÇÑ µµ±¸
+	// Fence : ìš¸íƒ€ë¦¬(?) : ì™¸ì£¼ ìž‘ì—…ì´ ëë‚ ë•Œê¹Œì§€ ëŒ€ê¸°í•˜ê² ë‹¤! 
+	// CPU / GPU ë™ê¸°í™”ë¥¼ ìœ„í•œ ê°„ë‹¨í•œ ë„êµ¬
 	ComPtr<ID3D12Fence>					_fence;
-	uint32								_fenceValue = 0;	//ÇØ´ç ¹øÈ£±îÁö ±â´Ù·Á
+	uint32								_fenceValue = 0;	//í•´ë‹¹ ë²ˆí˜¸ê¹Œì§€ ê¸°ë‹¤ë ¤
 	HANDLE								_fenceEvent = INVALID_HANDLE_VALUE;
 
 

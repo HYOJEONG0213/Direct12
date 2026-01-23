@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "Engine.h"
 #include "Device.h"
 #include "CommandQueue.h"
@@ -10,7 +10,7 @@ void Engine::Init(const WindowInfo& info)
 	_window = info;
 	ResizeWindow(info.width, info.height);
 
-	//±×·ÁÁú È­¸é Å©±â ¼³Á¤ 
+	//ê·¸ë ¤ì§ˆ í™”ë©´ í¬ê¸° ì„¤ì • 
 	_viewport = { 0, 0, static_cast<FLOAT>(info.width), static_cast<FLOAT>(info.height), 0.0f, 1.0f };
 	_scissorRect = CD3DX12_RECT(0, 0, info.width, info.height);
 
@@ -29,33 +29,33 @@ void Engine::Render()
 {
 	RenderBegin();
 
-	//±×·ÁÁÙ(·»´õ¸µÇÒ) ³»¿ë 
+	//ê·¸ë ¤ì¤„(ë Œë”ë§í• ) ë‚´ìš© 
 
 	RenderEnd();
 }
 
-//Ä¿¸à´õÅ¥¿¡ ¿äÃ»»çÇ× ³Ö±â
+//ì»¤ë©˜ë”íì— ìš”ì²­ì‚¬í•­ ë„£ê¸°
 void Engine::RenderBegin()
 {
 	_cmdQueue->RenderBegin(&_viewport, &_scissorRect);
 }
 
-//Ä¿¸à´õÅ¥¿¡ ¿äÃ»»çÇ× ´Ù ³Ö¾úÀ½À» ¾Ë¸°µÚ ½ÇÇà½ÃÅ°±â
+//ì»¤ë©˜ë”íì— ìš”ì²­ì‚¬í•­ ë‹¤ ë„£ì—ˆìŒì„ ì•Œë¦°ë’¤ ì‹¤í–‰ì‹œí‚¤ê¸°
 void Engine::RenderEnd()
 {
 	_cmdQueue->RenderEnd();
 }
 
-//À©µµ¿ì Å©±â º¯°æ 
+//ìœˆë„ìš° í¬ê¸° ë³€ê²½ 
 void Engine::ResizeWindow(int32 width, int32 height)
 {
 	_window.width = width;
 	_window.height = height;
 
 	RECT rect = { 0, 0, _window.width, _window.height };
-	//:: ±Û·Î¹ú ³×ÀÓ½ºÆäÀÌ½º¿¡¼­ Ã£¾ÆÁÖ°Ú´Ù 
+	//:: ê¸€ë¡œë²Œ ë„¤ì„ìŠ¤í˜ì´ìŠ¤ì—ì„œ ì°¾ì•„ì£¼ê² ë‹¤ 
 	::AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
-	//(100,100) À§Ä¡¿¡ ÇÚµé·¯ À©µµ¿ìµÈ°Å ¶ç¿öÁà¶ó. 
+	//(100,100) ìœ„ì¹˜ì— í•¸ë“¤ëŸ¬ ìœˆë„ìš°ëœê±° ë„ì›Œì¤˜ë¼. 
 	::SetWindowPos(_window.hwnd, 0, 100, 100, width, height, 0);
 
 }

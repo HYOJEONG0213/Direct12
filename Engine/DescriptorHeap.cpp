@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "DescriptorHeap.h"
 #include "SwapChain.h"
 
@@ -7,38 +7,38 @@ void DescriptorHeap::Init(ComPtr<ID3D12Device> device, shared_ptr<SwapChain> swa
 	_swapChain = swapChain;
 
 	// Descriptor (DX12) = View (~DX11)
-	// [¼­¼úÀÚ Èü]À¸·Î RTV »ý¼º (¿ø·¡´Â °¢ ¸®¼Ò½º¸¶´Ù ºä°¡ ÀÖ¾úÀ¸³ª, ´Ù·º12¿¡¼­ ¸ðµç¾êµé °ü¸®ÇÔ) 
-	// DX11ÀÇ RTV(RenderTargetView), DSV(DepthStencilView), 
-	// CBV(ConstantBufferView), SRV(ShaderResourceView), UAV(UnorderedAccessView)¸¦ ÀüºÎ!
+	// [ì„œìˆ ìž íž™]ìœ¼ë¡œ RTV ìƒì„± (ì›ëž˜ëŠ” ê° ë¦¬ì†ŒìŠ¤ë§ˆë‹¤ ë·°ê°€ ìžˆì—ˆìœ¼ë‚˜, ë‹¤ë ‰12ì—ì„œ ëª¨ë“ ì–˜ë“¤ ê´€ë¦¬í•¨) 
+	// DX11ì˜ RTV(RenderTargetView), DSV(DepthStencilView), 
+	// CBV(ConstantBufferView), SRV(ShaderResourceView), UAV(UnorderedAccessView)ë¥¼ ì „ë¶€!
 
-	//·»´õÅ¸ÄÏºä »çÀÌÁî »ý¼º 
+	//ë Œë”íƒ€ì¼“ë·° ì‚¬ì´ì¦ˆ ìƒì„± 
 	_rtvHeapSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
-	//rtv¸¦ ¸¸µé°Å´Ù! ÀÌ¶§ SWAP_CHAIN_BUFFER_COUNT(2)¸¸Å­ ¸¸µé°Å´Ù! 
+	//rtvë¥¼ ë§Œë“¤ê±°ë‹¤! ì´ë•Œ SWAP_CHAIN_BUFFER_COUNT(2)ë§Œí¼ ë§Œë“¤ê±°ë‹¤! 
 	D3D12_DESCRIPTOR_HEAP_DESC rtvDesc;
 	rtvDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
 	rtvDesc.NumDescriptors = SWAP_CHAIN_BUFFER_COUNT;
 	rtvDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
 	rtvDesc.NodeMask = 0;
 
-	// °°Àº Á¾·ùÀÇ µ¥ÀÌÅÍ³¢¸® ¹è¿­·Î °ü¸®
-	// RTV ¸ñ·Ï : [ ] [ ] : 2°³Â¥¸® °ü¸® °¡´É 
+	// ê°™ì€ ì¢…ë¥˜ì˜ ë°ì´í„°ë¼ë¦¬ ë°°ì—´ë¡œ ê´€ë¦¬
+	// RTV ëª©ë¡ : [ ] [ ] : 2ê°œì§œë¦¬ ê´€ë¦¬ ê°€ëŠ¥ 
 	device->CreateDescriptorHeap(&rtvDesc, IID_PPV_ARGS(&_rtvHeap));
 
-	//rtvHeapÀÇ Ã¹ÁÖ¼Ò ²¨³½ÈÄ 
+	//rtvHeapì˜ ì²«ì£¼ì†Œ êº¼ë‚¸í›„ 
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHeapBegin = _rtvHeap->GetCPUDescriptorHandleForHeapStart();
 
 	for (int i = 0; i < SWAP_CHAIN_BUFFER_COUNT; i++)
 	{
-		// (Ã¹ÁÖ¼Ò + i* »çÀÌÁî) ¸¸Å­ÇØ¼­ ´ÙÀ½ ÁÖ¼Ò·Î ÀÌµ¿ÇÏ°Ú´Ù!  
-		// Handle : Æ÷ÀÎÅÍÃ³·³ ¿ø°ÝÀ¸·Î Á¢±ÙÇØ »ç¿ë
+		// (ì²«ì£¼ì†Œ + i* ì‚¬ì´ì¦ˆ) ë§Œí¼í•´ì„œ ë‹¤ìŒ ì£¼ì†Œë¡œ ì´ë™í•˜ê² ë‹¤!  
+		// Handle : í¬ì¸í„°ì²˜ëŸ¼ ì›ê²©ìœ¼ë¡œ ì ‘ê·¼í•´ ì‚¬ìš©
 		_rtvHandle[i] = CD3DX12_CPU_DESCRIPTOR_HANDLE(rtvHeapBegin, i * _rtvHeapSize);
-		//0¹ø°ú 1¹ø °¢°¢ ²¨³»¼­ ·»´õÅ¸ÄÏºä »ý¼º 
+		//0ë²ˆê³¼ 1ë²ˆ ê°ê° êº¼ë‚´ì„œ ë Œë”íƒ€ì¼“ë·° ìƒì„± 
 		device->CreateRenderTargetView(swapChain->GetRenderTarget(i).Get(), nullptr, _rtvHandle[i]);
 	}
 }
 
-//ÇöÀç ½º¿ÒÃ¼ÀÎÀÇ ¹é¹öÆÛÀÇ RTV¸¦ ²¨³»¼­ ¹ÝÈ¯
+//í˜„ìž¬ ìŠ¤ì™‘ì²´ì¸ì˜ ë°±ë²„í¼ì˜ RTVë¥¼ êº¼ë‚´ì„œ ë°˜í™˜
 D3D12_CPU_DESCRIPTOR_HANDLE DescriptorHeap::GetBackBufferView()
 {
 	return GetRTV(_swapChain->GetCurrentBackBufferIndex());

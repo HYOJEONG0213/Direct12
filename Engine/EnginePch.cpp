@@ -1,6 +1,6 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "EnginePch.h"
 #include "Engine.h"
 
-//¾ğÁ¦ ¾îµğ¼­³ª ²¨³»¾²±â : ½Ì±ÛÅæ OR Àü¿ªÅ¬·¡½º·Î ¸¸µé±â 
+//ì–¸ì œ ì–´ë””ì„œë‚˜ êº¼ë‚´ì“°ê¸° : ì‹±ê¸€í†¤ OR ì „ì—­í´ë˜ìŠ¤ë¡œ ë§Œë“¤ê¸° 
 unique_ptr<Engine> GEngine = make_unique<Engine>();

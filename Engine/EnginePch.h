@@ -1,6 +1,6 @@
-#pragma once
+ï»¿#pragma once
 
-// °¢Á¾ include
+// ê°ì¢… include
 #include <windows.h>
 #include <tchar.h>
 #include <memory>
@@ -23,13 +23,13 @@ using namespace DirectX;
 using namespace DirectX::PackedVector;
 using namespace Microsoft::WRL;
 
-// °¢Á¾ lib
+// ê°ì¢… lib
 #pragma comment(lib, "d3d12")
 #pragma comment(lib, "dxgi")
 #pragma comment(lib, "dxguid")
 #pragma comment(lib, "d3dcompiler")
 
-// °¢Á¾ typedef
+// ê°ì¢… typedef
 using int8 = __int8;
 using int16 = __int16;
 using int32 = __int32;
@@ -49,9 +49,9 @@ enum {
 
 
 struct WindowInfo {
-	HWND	hwnd;	//Ãâ·Â À©µµ¿ì
-	int32	width;	//³Êºñ
-	int32	height;	//³ôÀÌ
-	bool	windowed;	//Ã¢¸ğµå , ÀüÃ¼È­¸é
+	HWND	hwnd;	//ì¶œë ¥ ìœˆë„ìš°
+	int32	width;	//ë„ˆë¹„
+	int32	height;	//ë†’ì´
+	bool	windowed;	//ì°½ëª¨ë“œ , ì „ì²´í™”ë©´
 };
 extern unique_ptr<class Engine> GEngine;

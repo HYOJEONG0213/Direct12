@@ -1,42 +1,42 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "SwapChain.h"
 
 void SwapChain::Init(const WindowInfo& info, ComPtr<IDXGIFactory> dxgi, ComPtr<ID3D12CommandQueue> cmdQueue)
 {
-	// ÀÌÀü¿¡ ¸¸µç Á¤º¸ ³¯¸°´Ù
+	// ì´ì „ì— ë§Œë“  ì •ë³´ ë‚ ë¦°ë‹¤
 	_swapChain.Reset();
 
-	//¹öÆÛ ¾î¶»°Ô ¸¸µéÁö ¹¦»çÇÏ±â 
+	//ë²„í¼ ì–´ë–»ê²Œ ë§Œë“¤ì§€ ë¬˜ì‚¬í•˜ê¸° 
 	DXGI_SWAP_CHAIN_DESC sd;
-	sd.BufferDesc.Width = static_cast<uint32>(info.width); // ¹öÆÛÀÇ ÇØ»óµµ ³Êºñ
-	sd.BufferDesc.Height = static_cast<uint32>(info.height); // ¹öÆÛÀÇ ÇØ»óµµ ³ôÀÌ
-	sd.BufferDesc.RefreshRate.Numerator = 60; // È­¸é °»½Å ºñÀ²
-	sd.BufferDesc.RefreshRate.Denominator = 1; // È­¸é °»½Å ºñÀ²
-	sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; // ¹öÆÛÀÇ µğ½ºÇÃ·¹ÀÌ Çü½Ä
+	sd.BufferDesc.Width = static_cast<uint32>(info.width); // ë²„í¼ì˜ í•´ìƒë„ ë„ˆë¹„
+	sd.BufferDesc.Height = static_cast<uint32>(info.height); // ë²„í¼ì˜ í•´ìƒë„ ë†’ì´
+	sd.BufferDesc.RefreshRate.Numerator = 60; // í™”ë©´ ê°±ì‹  ë¹„ìœ¨
+	sd.BufferDesc.RefreshRate.Denominator = 1; // í™”ë©´ ê°±ì‹  ë¹„ìœ¨
+	sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; // ë²„í¼ì˜ ë””ìŠ¤í”Œë ˆì´ í˜•ì‹
 	sd.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 	sd.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-	sd.SampleDesc.Count = 1; // ¸ÖÆ¼ »ùÇÃ¸µ OFF
+	sd.SampleDesc.Count = 1; // ë©€í‹° ìƒ˜í”Œë§ OFF
 	sd.SampleDesc.Quality = 0;
-	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT; // ÈÄ¸é ¹öÆÛ¿¡ ·»´õ¸µÇÒ °Í 
-	//¹öÆÛÄ«¿îÅÍ
-	sd.BufferCount = SWAP_CHAIN_BUFFER_COUNT; // Àü¸é+ÈÄ¸é ¹öÆÛ
+	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT; // í›„ë©´ ë²„í¼ì— ë Œë”ë§í•  ê²ƒ 
+	//ë²„í¼ì¹´ìš´í„°
+	sd.BufferCount = SWAP_CHAIN_BUFFER_COUNT; // ì „ë©´+í›„ë©´ ë²„í¼
 	sd.OutputWindow = info.hwnd;
 	sd.Windowed = info.windowed;
-	// Àü¸é ÈÄ¸é ¹öÆÛ ±³Ã¼ ½Ã ÀÌÀü ÇÁ·¹ÀÓ Á¤º¸ ¹ö¸²
+	// ì „ë©´ í›„ë©´ ë²„í¼ êµì²´ ì‹œ ì´ì „ í”„ë ˆì„ ì •ë³´ ë²„ë¦¼
 	sd.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD; 
 	sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
 
-	//dxgi: device Ãâ·Â°ú °ü·ÃµÈ ºÎºĞµé, &_swapChin : °á°ú¹°À» ¿©±â¿¡ ¾Ë·ÁÁà 
+	//dxgi: device ì¶œë ¥ê³¼ ê´€ë ¨ëœ ë¶€ë¶„ë“¤, &_swapChin : ê²°ê³¼ë¬¼ì„ ì—¬ê¸°ì— ì•Œë ¤ì¤˜ 
 	dxgi->CreateSwapChain(cmdQueue.Get(), &sd, &_swapChain);
 
-	//¹öÆÛ¸¦ _renderTargets ¿¡ ³Ö¾îÁØ´Ù.. 
+	//ë²„í¼ë¥¼ _renderTargets ì— ë„£ì–´ì¤€ë‹¤.. 
 	for (int32 i = 0; i < SWAP_CHAIN_BUFFER_COUNT; i++)
 		_swapChain->GetBuffer(i, IID_PPV_ARGS(&_renderTargets[i]));
 
 }
 
-//ÇöÀç È­¸é¿¡ ¾î¶²°Ô Ç¥½ÃµÇ¾î¾ßÇÏ´ÂÁö, Ç¥½ÃÇÏ±â 
+//í˜„ì¬ í™”ë©´ì— ì–´ë–¤ê²Œ í‘œì‹œë˜ì–´ì•¼í•˜ëŠ”ì§€, í‘œì‹œí•˜ê¸° 
 void SwapChain::Present()
 {
 	_swapChain->Present(0, 0);
