@@ -1,4 +1,4 @@
-﻿  Engine.cpp
-  SwapChain.cpp
+﻿  DescriptorHeap.cpp
+  Engine.cpp
   코드를 생성하고 있습니다...
   Engine.vcxproj -> C:\Direct12\Direct12\Output\Engine.lib
