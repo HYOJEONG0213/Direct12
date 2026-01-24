@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 class SwapChain;
 class DescriptorHeap;
@@ -7,14 +7,16 @@ class CommandQueue
 {
 public:
 	~CommandQueue();
-	void Init(ComPtr<ID3D12Device> device, shared_ptr<SwapChain> swapChain, shared_ptr<DescriptorHeap> descHeap);
+	void Init(ComPtr<ID3D12Device> device,shared_ptr<SwapChain> swapChain);
 	void WaitSync();
 
-	void RenderBegin(const D3D12_VIEWPORT* vp, const D3D12_RECT* rect);
+	void RenderBegin(const D3D12_VIEWPORT* vp,const D3D12_RECT* rect);
 	void RenderEnd();
 
 	//외부에서 커맨드 리스트를 꺼내 쓸 수 있게
-	ComPtr <ID3D12CommandQueue> GetCmdQueue() { return _cmdQueue; }
+	ComPtr <ID3D12CommandQueue> GetCmdQueue() {
+		return _cmdQueue;
+	}
 
 private:
 	// CommandQueue : DX12에 등장

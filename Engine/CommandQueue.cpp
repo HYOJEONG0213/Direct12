@@ -1,28 +1,26 @@
-﻿#include "pch.h"
+#include "pch.h"
 #include "CommandQueue.h"
 #include "SwapChain.h"
-#include "DescriptorHeap.h"
 
 CommandQueue::~CommandQueue()
 {
 	::CloseHandle(_fenceEvent);
 }
 
-void CommandQueue::Init(ComPtr<ID3D12Device> device, shared_ptr<SwapChain> swapChain, shared_ptr<DescriptorHeap> descHeap)
+void CommandQueue::Init(ComPtr<ID3D12Device> device,shared_ptr<SwapChain> swapChain)
 {
 	_swapChain = swapChain;
-	_descHeap = descHeap;
 
 	D3D12_COMMAND_QUEUE_DESC queueDesc = {};
 	queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
 	queueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
 
 	//device를 통해 cmdQueue에 CommandQueue 생성
-	device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&_cmdQueue));
+	device->CreateCommandQueue(&queueDesc,IID_PPV_ARGS(&_cmdQueue));
 
 	//cmdAlloc 으로 메모리 관리 
 	// - D3D12_COMMAND_LIST_TYPE_DIRECT : GPU가 직접 실행하는 명령 목록
-	device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&_cmdAlloc));
+	device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT,IID_PPV_ARGS(&_cmdAlloc));
 
 	// GPU가 하나인 시스템에서는 0으로
 	// DIRECT
@@ -30,7 +28,7 @@ void CommandQueue::Init(ComPtr<ID3D12Device> device, shared_ptr<SwapChain> swapC
 	// 초기 상태 (그리기 명령은 nullptr 지정)
 
 	//벡터에 clear()하면 다 날리는게 아니라 capacity는 유지, 사이즈만 바꾸는 느낌 
-	device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, _cmdAlloc.Get(), nullptr, IID_PPV_ARGS(&_cmdList));
+	device->CreateCommandList(0,D3D12_COMMAND_LIST_TYPE_DIRECT,_cmdAlloc.Get(),nullptr,IID_PPV_ARGS(&_cmdList));
 
 
 	// CommandList는 Close / Open 상태가 있는데
@@ -39,8 +37,8 @@ void CommandQueue::Init(ComPtr<ID3D12Device> device, shared_ptr<SwapChain> swapC
 
 	// CreateFence
 	// - CPU와 GPU의 동기화 수단으로 쓰인다
-	device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&_fence));
-	_fenceEvent = ::CreateEvent(nullptr, FALSE, FALSE, nullptr);
+	device->CreateFence(0,D3D12_FENCE_FLAG_NONE,IID_PPV_ARGS(&_fence));
+	_fenceEvent = ::CreateEvent(nullptr,FALSE,FALSE,nullptr);
 
 }
 
@@ -52,42 +50,42 @@ void CommandQueue::WaitSync()
 	_fenceValue++;
 
 	//커멘드 큐에 해당 펜스값 보냄 
-	_cmdQueue->Signal(_fence.Get(), _fenceValue);
+	_cmdQueue->Signal(_fence.Get(),_fenceValue);
 
 	// Wait until the GPU has completed commands up to this fence point.
-	if (_fence->GetCompletedValue() < _fenceValue)
+	if(_fence->GetCompletedValue() < _fenceValue)
 	{
 		// 펜스 번호까지 끝났으면 이벤트 실행 
-		_fence->SetEventOnCompletion(_fenceValue, _fenceEvent);
+		_fence->SetEventOnCompletion(_fenceValue,_fenceEvent);
 
 		// cpu 살짝 대기 
-		::WaitForSingleObject(_fenceEvent, INFINITE);
+		::WaitForSingleObject(_fenceEvent,INFINITE);
 	}
 }
 
-void CommandQueue::RenderBegin(const D3D12_VIEWPORT* vp, const D3D12_RECT* rect)
+void CommandQueue::RenderBegin(const D3D12_VIEWPORT* vp,const D3D12_RECT* rect)
 {
 	_cmdAlloc->Reset();
-	_cmdList->Reset(_cmdAlloc.Get(), nullptr);
+	_cmdList->Reset(_cmdAlloc.Get(),nullptr);
 
 	// 스왑버퍼 왔다갔다 설정해주기 (Transition : Before(화면출력) -> After(외주결과물))
 	D3D12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
-		_swapChain->GetCurrentBackBufferResource().Get(),
+		_swapChain->GetBackRTVBuffer().Get(),
 		D3D12_RESOURCE_STATE_PRESENT, // 현재 화면 출력
 		D3D12_RESOURCE_STATE_RENDER_TARGET); // 외주 결과물(뒤에서 작업되는 상태)
 
-	_cmdList->ResourceBarrier(1, &barrier);
+	_cmdList->ResourceBarrier(1,&barrier);
 
 	// _cmdList의 viewport and scissor rect.  This needs to be reset whenever the command list is reset.
-	_cmdList->RSSetViewports(1, vp);
-	_cmdList->RSSetScissorRects(1, rect);
+	_cmdList->RSSetViewports(1,vp);
+	_cmdList->RSSetScissorRects(1,rect);
 
 	// Specify the buffers we are going to render to.
 	// 어떤 버퍼에 그림 그려야하는지 다시 언급 
 	// 백버퍼 꺼내온다음에 거기 대상으로 GPU한테 그려달라 요청하기 
-	D3D12_CPU_DESCRIPTOR_HANDLE backBufferView = _descHeap->GetBackBufferView();
-	_cmdList->ClearRenderTargetView(backBufferView, Colors::LightSteelBlue, 0, nullptr);
-	_cmdList->OMSetRenderTargets(1, &backBufferView, FALSE, nullptr);
+	D3D12_CPU_DESCRIPTOR_HANDLE backBufferView = _swapChain->GetBackRTV();
+	_cmdList->ClearRenderTargetView(backBufferView,Colors::LightSteelBlue,0,nullptr);
+	_cmdList->OMSetRenderTargets(1,&backBufferView,FALSE,nullptr);
 
 }
 
@@ -96,16 +94,16 @@ void CommandQueue::RenderEnd()
 	//Transition : Begin(외주 결과물 : 백버퍼) -> After(화면 출력) 
 	//Begin와 정반대;; 
 	D3D12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
-		_swapChain->GetCurrentBackBufferResource().Get(),
+		_swapChain->GetBackRTVBuffer().Get(),
 		D3D12_RESOURCE_STATE_RENDER_TARGET, // 외주 결과물
 		D3D12_RESOURCE_STATE_PRESENT); // 화면 출력
 
-	_cmdList->ResourceBarrier(1, &barrier);
+	_cmdList->ResourceBarrier(1,&barrier);
 	_cmdList->Close();	// 커맨드 리스트 닫기 추가됌 (일감 여기서 끝~)
 
 	// 커맨드 리스트 수행 (진.짜.실.행) 
-	ID3D12CommandList* cmdListArr[] = { _cmdList.Get() };
-	_cmdQueue->ExecuteCommandLists(_countof(cmdListArr), cmdListArr);
+	ID3D12CommandList* cmdListArr[] = {_cmdList.Get()};
+	_cmdQueue->ExecuteCommandLists(_countof(cmdListArr),cmdListArr);
 
 	//버퍼를 가지고 진짜로 보여줌. 
 	_swapChain->Present();
