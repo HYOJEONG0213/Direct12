@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 // 각종 include
 #include <windows.h>
@@ -54,4 +54,8 @@ struct WindowInfo {
 	int32	height;	//높이
 	bool	windowed;	//창모드 , 전체화면
 };
+
+#define DEVICE		GEngine->GetDevice()->GetDevice()
+#define CMD_LIST	GEngine->GetCmdQueue()->GetCmdList()
+
 extern unique_ptr<class Engine> GEngine;
