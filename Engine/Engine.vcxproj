@@ -178,6 +178,9 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SwapChain.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Resources\Shader\default.hlsl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
