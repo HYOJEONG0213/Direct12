@@ -28,7 +28,7 @@ void Mesh::Init(vector<Vertex>& vec)
 	// Copy the triangle data to the vertex buffer.
 	void* vertexDataBuffer = nullptr;
 	CD3DX12_RANGE readRange(0,0); // We do not intend to read from this resource on the CPU.
-	
+
 	// 공간 매핑 (뚜껑 열고, 닫고) 
 	_vertexBuffer->Map(0,&readRange,&vertexDataBuffer);
 	// 실제 GPU 공간에 데이터 복사
@@ -53,6 +53,15 @@ void Mesh::Render()
 	CMD_LIST->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	// vertexBufferView 연결
 	CMD_LIST->IASetVertexBuffers(0,1,&_vertexBufferView); // Slot: (0~15)
+
+
+	// Buffer에다가 데이터 셋팅
+	// Buffer의 주소를 register에다가 전송 
+	GEngine->GetCB()->PushData(0,&_transform,sizeof(_transform));
+	GEngine->GetCB()->PushData(1,&_transform,sizeof(_transform));
+
+	//CMD_LIST->SetGraphicsRootConstantBufferView(0,버퍼의 위치);
+
 	// 그리라고 예약하기 
 	CMD_LIST->DrawInstanced(_vertexCount,1,0,0);
 }

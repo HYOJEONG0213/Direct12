@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CommandQueue.h"
 #include "SwapChain.h"
+#include "Engine.h"
 
 CommandQueue::~CommandQueue()
 {
@@ -73,6 +74,9 @@ void CommandQueue::RenderBegin(const D3D12_VIEWPORT* vp,const D3D12_RECT* rect)
 		_swapChain->GetBackRTVBuffer().Get(),
 		D3D12_RESOURCE_STATE_PRESENT, // 현재 화면 출력
 		D3D12_RESOURCE_STATE_RENDER_TARGET); // 외주 결과물(뒤에서 작업되는 상태)
+
+	_cmdList->SetGraphicsRootSignature(ROOT_SIGNATURE.Get());
+	GEngine->GetCB()->Clear();
 
 	_cmdList->ResourceBarrier(1,&barrier);
 
