@@ -13,11 +13,18 @@ public:
 	void RenderBegin(const D3D12_VIEWPORT* vp,const D3D12_RECT* rect);
 	void RenderEnd();
 
+	void FlushResourceCommandQueue();
+
 	//외부에서 커맨드 리스트를 꺼내 쓸 수 있게
 	ComPtr <ID3D12CommandQueue> GetCmdQueue() {
 		return _cmdQueue;
 	}
-	ComPtr <ID3D12GraphicsCommandList> GetCmdList() { return _cmdList; }
+	ComPtr <ID3D12GraphicsCommandList> GetCmdList() {
+		return _cmdList;
+	}
+	ComPtr<ID3D12GraphicsCommandList> GetResourceCmdList() {
+		return	_resCmdList;
+	}
 
 private:
 	// CommandQueue : DX12에 등장
@@ -26,6 +33,10 @@ private:
 	ComPtr<ID3D12CommandQueue>			_cmdQueue;
 	ComPtr<ID3D12CommandAllocator>		_cmdAlloc;	//일 할당 메모리를 할당
 	ComPtr<ID3D12GraphicsCommandList>	_cmdList;
+
+	// 텍스처 때문에 resource-command-list 생성 
+	ComPtr<ID3D12CommandAllocator>		_resCmdAlloc;
+	ComPtr<ID3D12GraphicsCommandList>	_resCmdList;
 
 
 	// Fence : 울타리(?) : 외주 작업이 끝날때까지 대기하겠다! 
