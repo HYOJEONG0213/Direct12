@@ -9,10 +9,14 @@ void Shader::Init(const wstring& path)
 	CreateVertexShader(path,"VS_Main","vs_5_0");
 	CreatePixelShader(path,"PS_Main","ps_5_0");
 
+	//hlsl 의 정책에 맞춰야함!
+	//pos : float3, color : float4, uv: float2
+	//12바이트에 맞추기 위해서 0 + 4*3 -> 12, 12+4*4 = 28
 	D3D12_INPUT_ELEMENT_DESC desc[] =
 	{
 		{"POSITION",0,DXGI_FORMAT_R32G32B32_FLOAT,0,0,D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0},
-		{"COLOR",0,DXGI_FORMAT_R32G32B32A32_FLOAT,0,12,D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0}
+		{"COLOR",0,DXGI_FORMAT_R32G32B32A32_FLOAT,0,12,D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0},
+		{"TEXCOORD",0,DXGI_FORMAT_R32G32_FLOAT,0,28,D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0},
 	};
 
 	_pipelineDesc.InputLayout = {desc,_countof(desc)};
