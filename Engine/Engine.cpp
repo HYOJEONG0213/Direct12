@@ -4,7 +4,6 @@
 void Engine::Init(const WindowInfo &info)
 {
 	_window = info;
-	ResizeWindow(info.width, info.height);
 
 	// 그려질 화면 크기 설정
 	_viewport = {0, 0, static_cast<FLOAT>(info.width), static_cast<FLOAT>(info.height), 0.0f, 1.0f};
@@ -16,6 +15,7 @@ void Engine::Init(const WindowInfo &info)
 	_rootSignature = make_shared<class RootSignature>();
 	_cb = make_shared<ConstantBuffer>();
 	_tableDescHeap = make_shared<TableDescriptorHeap>();
+	_depthStencilBuffer = make_shared<DepthStencilBuffer>();
 
 	_device->Init();
 	_cmdQueue->Init(_device->GetDevice(), _swapChain);
@@ -23,6 +23,9 @@ void Engine::Init(const WindowInfo &info)
 	_rootSignature->Init();
 	_cb->Init(sizeof(Transform), 256);
 	_tableDescHeap->Init(512);
+	_depthStencilBuffer->Init(_window);
+
+	ResizeWindow(info.width, info.height);
 }
 
 void Engine::Render()
@@ -51,4 +54,6 @@ void Engine::ResizeWindow(int32 width, int32 height)
 	::AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
 	//(100,100) 위치에 핸들러 윈도우된거 띄워줘라.
 	::SetWindowPos(_window.hwnd, 0, 100, 100, width, height, 0);
+
+	_depthStencilBuffer->Init(_window);
 }
