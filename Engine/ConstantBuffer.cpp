@@ -2,22 +2,20 @@
 #include "ConstantBuffer.h"
 #include "Engine.h"
 
-ConstantBuffer::ConstantBuffer()
-{}
+ConstantBuffer::ConstantBuffer() {}
 
 ConstantBuffer::~ConstantBuffer()
 {
-	// 사용 안할 때 뚜껑 덮기 
-	if(_cbvBuffer)
+	// 사용 안할 때 뚜껑 덮기
+	if (_cbvBuffer)
 	{
-		if(_cbvBuffer != nullptr)
-			_cbvBuffer->Unmap(0,nullptr);
+		if (_cbvBuffer != nullptr) _cbvBuffer->Unmap(0, nullptr);
 
 		_cbvBuffer = nullptr;
 	}
 }
 
-void ConstantBuffer::Init(uint32 size,uint32 count)
+void ConstantBuffer::Init(uint32 size, uint32 count)
 {
 	// 상수 버퍼는 256 바이트 배수로 만들어야 한다
 	// 0 256 512 768
@@ -28,16 +26,13 @@ void ConstantBuffer::Init(uint32 size,uint32 count)
 	CreateView();
 }
 
-void ConstantBuffer::Clear()
-{
-	_currentIndex = 0;
-}
+void ConstantBuffer::Clear() { _currentIndex = 0; }
 
-D3D12_CPU_DESCRIPTOR_HANDLE ConstantBuffer::PushData(int32 rootParamIndex,void * buffer,uint32 size)
+D3D12_CPU_DESCRIPTOR_HANDLE ConstantBuffer::PushData(int32 rootParamIndex, void *buffer, uint32 size)
 {
 	assert(_currentIndex < _elementSize);
 
-	::memcpy(&_mappedBuffer[_currentIndex * _elementSize],buffer,size);
+	::memcpy(&_mappedBuffer[_currentIndex * _elementSize], buffer, size);
 
 	D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = GetCpuHandle(_currentIndex);
 
@@ -53,26 +48,20 @@ D3D12_GPU_VIRTUAL_ADDRESS ConstantBuffer::GetGpuVirtualAddress(uint32 index)
 	return objCBAddress;
 }
 
-
 void ConstantBuffer::CreateBuffer()
 {
-	uint32 bufferSize = _elementSize * _elementCount;
+	uint32				  bufferSize = _elementSize * _elementCount;
 	D3D12_HEAP_PROPERTIES heapProperty = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
-	D3D12_RESOURCE_DESC desc = CD3DX12_RESOURCE_DESC::Buffer(bufferSize);
+	D3D12_RESOURCE_DESC	  desc = CD3DX12_RESOURCE_DESC::Buffer(bufferSize);
 
-	DEVICE->CreateCommittedResource(
-		&heapProperty,
-		D3D12_HEAP_FLAG_NONE,
-		&desc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&_cbvBuffer));
+	DEVICE->CreateCommittedResource(&heapProperty, D3D12_HEAP_FLAG_NONE, &desc, D3D12_RESOURCE_STATE_GENERIC_READ,
+									nullptr, IID_PPV_ARGS(&_cbvBuffer));
 
-	// gpu쪽과 연결 
-	_cbvBuffer->Map(0,nullptr,reinterpret_cast<void**>(&_mappedBuffer));
-	// We do not need to unmap until we are done with the resource.  
+	// gpu쪽과 연결
+	_cbvBuffer->Map(0, nullptr, reinterpret_cast<void **>(&_mappedBuffer));
+	// We do not need to unmap until we are done with the resource.
 	// However, we must not write to
-	// the resource while it is in use by the GPU 
+	// the resource while it is in use by the GPU
 	// (so we must use synchronization techniques).
 }
 
@@ -80,26 +69,26 @@ void ConstantBuffer::CreateView()
 {
 	D3D12_DESCRIPTOR_HEAP_DESC cbvDesc = {};
 	cbvDesc.NumDescriptors = _elementCount;
-	cbvDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;	// 기본으로 해야 효율적임
-	cbvDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;	//constant buffer view로 쓸 것
-	DEVICE->CreateDescriptorHeap(&cbvDesc,IID_PPV_ARGS(&_cbvHeap));
+	cbvDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;	   // 기본으로 해야 효율적임
+	cbvDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV; // constant buffer view로 쓸 것
+	DEVICE->CreateDescriptorHeap(&cbvDesc, IID_PPV_ARGS(&_cbvHeap));
 
 	_cpuHandleBegin = _cbvHeap->GetCPUDescriptorHandleForHeapStart();
 	_handleIncrementSize = DEVICE->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
-	for(uint32 i = 0; i < _elementCount; ++i)
+	for (uint32 i = 0; i < _elementCount; ++i)
 	{
 		D3D12_CPU_DESCRIPTOR_HANDLE cbvHandle = GetCpuHandle(i);
 
 		D3D12_CONSTANT_BUFFER_VIEW_DESC cbvDesc = {};
 		cbvDesc.BufferLocation = _cbvBuffer->GetGPUVirtualAddress() + static_cast<uint64>(_elementSize) * i;
-		cbvDesc.SizeInBytes = _elementSize;   // CB size is required to be 256-byte aligned.
+		cbvDesc.SizeInBytes = _elementSize; // CB size is required to be 256-byte aligned.
 
-		DEVICE->CreateConstantBufferView(&cbvDesc,cbvHandle);
+		DEVICE->CreateConstantBufferView(&cbvDesc, cbvHandle);
 	}
 }
 
 D3D12_CPU_DESCRIPTOR_HANDLE ConstantBuffer::GetCpuHandle(uint32 index)
 {
-	return CD3DX12_CPU_DESCRIPTOR_HANDLE(_cpuHandleBegin,index * _handleIncrementSize);
+	return CD3DX12_CPU_DESCRIPTOR_HANDLE(_cpuHandleBegin, index * _handleIncrementSize);
 }

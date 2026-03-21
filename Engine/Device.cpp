@@ -1,4 +1,4 @@
-﻿#include "pch.h"
+#include "pch.h"
 #include "Device.h"
 
 void Device::Init()
@@ -8,13 +8,11 @@ void Device::Init()
 	// - riid : 디바이스의 COM ID
 	// - ppDevice : 생성된 장치가 매개변수에 설정
 
-//디버그에서만 사용함 
+// 디버그에서만 사용함
 #ifdef _DEBUG
-	//id 레퍼런스, 포인터 꺼내기 
+	// id 레퍼런스, 포인터 꺼내기
 	::D3D12GetDebugInterface(IID_PPV_ARGS(&_debugController));
 	_debugController->EnableDebugLayer();
-
-
 
 #endif
 	// DXGI(DirectX Graphics Infrastructure)
@@ -26,8 +24,6 @@ void Device::Init()
 	// - ppDevice : 생성된 장치가 매개변수에 설정
 	::CreateDXGIFactory(IID_PPV_ARGS(&_dxgi));
 
-
-
 	// CreateDevice
 	// - 디스플레이 어댑터(그래픽 카드)를 나타내는 객체
 	// - pAdapter : nullptr 지정하면 시스템 기본 디스플레이 어댑터
@@ -35,5 +31,4 @@ void Device::Init()
 	// - riid : 디바이스의 COM ID
 	// - ppDevice : 생성된 장치가 매개변수에 설정
 	::D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&_device));
-
 }

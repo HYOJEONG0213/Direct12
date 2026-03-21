@@ -17,7 +17,6 @@ using namespace std;
 #include <filesystem>
 namespace fs = std::filesystem;
 
-
 #include "d3dx12.h"
 #include <d3d12.h>
 #include <wrl.h>
@@ -59,7 +58,8 @@ using Vec3 = XMFLOAT3;
 using Vec4 = XMFLOAT4;
 using Matrix = XMMATRIX;
 
-enum class CBV_REGISTER: uint8{
+enum class CBV_REGISTER : uint8
+{
 	b0,
 	b1,
 	b2,
@@ -69,7 +69,7 @@ enum class CBV_REGISTER: uint8{
 	END
 };
 
-enum class SRV_REGISTER: uint8
+enum class SRV_REGISTER : uint8
 {
 	t0 = static_cast<uint8>(CBV_REGISTER::END),
 	t1,
@@ -80,35 +80,38 @@ enum class SRV_REGISTER: uint8
 	END
 };
 
-enum{
+enum
+{
 	SWAP_CHAIN_BUFFER_COUNT = 2,
 	CBV_REGISTER_COUNT = CBV_REGISTER::END,
-	//t0 시작하는 위치 = cbv 레지스터 끝나는 위치
+	// t0 시작하는 위치 = cbv 레지스터 끝나는 위치
 	SRV_REGISTER_COUNT = static_cast<uint8>(SRV_REGISTER::END) - CBV_REGISTER_COUNT,
 	REGISTER_COUNT = CBV_REGISTER_COUNT + SRV_REGISTER_COUNT,
 };
 
-
-struct WindowInfo {
-	HWND	hwnd;	//출력 윈도우
-	int32	width;	//너비
-	int32	height;	//높이
-	bool	windowed;	//창모드 , 전체화면
+struct WindowInfo
+{
+	HWND  hwnd;		// 출력 윈도우
+	int32 width;	// 너비
+	int32 height;	// 높이
+	bool  windowed; // 창모드 , 전체화면
 };
 
-struct Vertex{
+struct Vertex
+{
 	Vec3 pos;
 	Vec4 color;
 	Vec2 uv;
 };
 
-struct Transform{
+struct Transform
+{
 	Vec4 offset;
 };
 
-#define DEVICE				GEngine->GetDevice()->GetDevice()
-#define CMD_LIST			GEngine->GetCmdQueue()->GetCmdList()
-#define RESOURCE_CMD_LIST	GEngine->GetCmdQueue()->GetResourceCmdList()
-#define ROOT_SIGNATURE		GEngine->GetRootSignature()->GetRootSignature()
+#define DEVICE GEngine->GetDevice()->GetDevice()
+#define CMD_LIST GEngine->GetCmdQueue()->GetCmdList()
+#define RESOURCE_CMD_LIST GEngine->GetCmdQueue()->GetResourceCmdList()
+#define ROOT_SIGNATURE GEngine->GetRootSignature()->GetRootSignature()
 
 extern unique_ptr<class Engine> GEngine;

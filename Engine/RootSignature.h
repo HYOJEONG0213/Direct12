@@ -1,6 +1,6 @@
 #pragma once
 
-// 계약서 , 결재 
+// 계약서 , 결재
 // 어떤일을 할지 서명한다!
 
 class RootSignature
@@ -8,10 +8,7 @@ class RootSignature
 public:
 	void Init();
 
-	ComPtr<ID3D12RootSignature>	GetRootSignature() {
-		return _signature;
-	}
-
+	ComPtr<ID3D12RootSignature> GetRootSignature() { return _signature; }
 
 private:
 	void CreateSamplerDesc();
@@ -19,6 +16,5 @@ private:
 
 private:
 	ComPtr<ID3D12RootSignature> _signature;
-	D3D12_STATIC_SAMPLER_DESC _samplerDesc;
+	D3D12_STATIC_SAMPLER_DESC	_samplerDesc;
 };
-
