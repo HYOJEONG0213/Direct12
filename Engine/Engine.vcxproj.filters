@@ -60,6 +60,9 @@
     <ClInclude Include="Timer.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EnginePch.cpp">
@@ -107,8 +110,13 @@
     <ClCompile Include="Timer.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Resources\Shader\default.hlsl" />
+    <None Include="..\Resources\Shader\default.hlsl">
+      <Filter>Resource</Filter>
+    </None>
   </ItemGroup>
 </Project>
