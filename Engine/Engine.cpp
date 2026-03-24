@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Engine.h"
+#include "Material.h"
 
 void Engine::Init(const WindowInfo &info)
 {
@@ -13,12 +14,14 @@ void Engine::Init(const WindowInfo &info)
 	_cmdQueue->Init(_device->GetDevice(), _swapChain);
 	_swapChain->Init(info, _device->GetDevice(), _device->GetDXGI(), _cmdQueue->GetCmdQueue());
 	_rootSignature->Init();
-	_cb->Init(sizeof(Transform), 256);
 	_tableDescHeap->Init(512);
 	_depthStencilBuffer->Init(_window);
 
 	_input->Init(info.hwnd);
 	_timer->Init();
+
+	CreateConstantBuffer(CBV_REGISTER::b0, sizeof(Transform), 256);		 // b0: 트랜스폼 저장
+	CreateConstantBuffer(CBV_REGISTER::b1, sizeof(MaterialParams), 256); // Material 파람 저장
 
 	ResizeWindow(info.width, info.height);
 }
@@ -40,6 +43,18 @@ void Engine::ShowFps()
 	::wsprintf(text, L"FPS : %d", fps);
 
 	::SetWindowText(_window.hwnd, text);
+}
+
+void Engine::CreateConstantBuffer(CBV_REGISTER reg, uint32 bufferSize, uint32 count)
+{
+	// 배열의 인덱스 = 레지스터 번호 맞추기
+	uint8 typeInt = static_cast<uint8>(reg);
+	assert(_constantBuffers.size() == typeInt);
+
+	// 2차원 벡터마냥 만들어주고, 버퍼 Init() 해주고 push_back
+	shared_ptr<ConstantBuffer> buffer = make_shared<ConstantBuffer>();
+	buffer->Init(reg, bufferSize, count);
+	_constantBuffers.push_back(buffer);
 }
 
 // 커멘더큐에 요청사항 넣기
