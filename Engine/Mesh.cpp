@@ -12,24 +12,12 @@ void Mesh::Init(const vector<Vertex> &vertexBuffer, const vector<uint32> &indexb
 // CommandQueue.cpp의 RenderBegin과 RenderEnd 사이에 호출
 void Mesh::Render()
 {
-	// 커맨드리스트를 이용해서
-	// 정점들이 어떻게 연결되어있는지 설정
 	CMD_LIST->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	// vertexBufferView 연결
 	CMD_LIST->IASetVertexBuffers(0, 1, &_vertexBufferView); // Slot: (0~15)
 	CMD_LIST->IASetIndexBuffer(&_indexBufferView);
 
-	// 1. Buffer에다가 데이터 셋팅
-	// 2. TableDescHeap에다가 CBV 전달
-	// 3. 모두 세팅이 끝났으면 TableDescHeap 커밋
-	CONST_BUFFER(CONSTANT_BUFFER_TYPE::TRANSFORM)->PushData(&_transform, sizeof(_transform));
-
-	_mat->Update();
-
 	GEngine->GetTableDescHeap()->CommitTable();
 
-	// 그리라고 예약하기 (버텍스버전)
-	// CMD_LIST->DrawInstanced(_vertexCount,1,0,0);
 	CMD_LIST->DrawIndexedInstanced(_indexCount, 1, 0, 0, 0);
 }
 

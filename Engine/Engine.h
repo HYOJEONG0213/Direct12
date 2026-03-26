@@ -21,6 +21,10 @@ public:
 	void Render();
 
 public:
+	void Update();
+	void LateUpdate();
+
+public:
 	shared_ptr<Device>				GetDevice() { return _device; }
 	shared_ptr<CommandQueue>		GetCmdQueue() { return _cmdQueue; }
 	shared_ptr<SwapChain>			GetSwapChain() { return _swapChain; }
@@ -43,7 +47,6 @@ private:
 public:
 	void RenderBegin();
 	void RenderEnd();
-	void Update();
 
 	void ResizeWindow(int32 width, int32 height);
 
