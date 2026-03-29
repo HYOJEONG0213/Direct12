@@ -2,6 +2,9 @@
 #include "Engine.h"
 #include "Material.h"
 #include "Transform.h"
+#include "Input.h"
+#include "Timer.h"
+#include "SceneManager.h"
 
 void Engine::Init(const WindowInfo &info)
 {
@@ -18,27 +21,18 @@ void Engine::Init(const WindowInfo &info)
 	_tableDescHeap->Init(512);
 	_depthStencilBuffer->Init(_window);
 
-	_input->Init(info.hwnd);
-	_timer->Init();
-
 	CreateConstantBuffer(CBV_REGISTER::b0, sizeof(TransformMatrix), 256); // b0: 트랜스폼 저장
 	CreateConstantBuffer(CBV_REGISTER::b1, sizeof(MaterialParams), 256);  // Material 파람 저장
 
 	ResizeWindow(info.width, info.height);
-}
 
-void Engine::Render()
-{
-	RenderBegin();
-
-	// 그려줄(렌더링할) 내용
-
-	RenderEnd();
+	GET_SINGLE(Input)->Init(info.hwnd);
+	GET_SINGLE(Timer)->Init();
 }
 
 void Engine::ShowFps()
 {
-	uint32 fps = _timer->GetFps();
+	uint32 fps = GET_SINGLE(Timer)->GetFps();
 
 	WCHAR text[100] = L"";
 	::wsprintf(text, L"FPS : %d", fps);
@@ -58,21 +52,33 @@ void Engine::CreateConstantBuffer(CBV_REGISTER reg, uint32 bufferSize, uint32 co
 	_constantBuffers.push_back(buffer);
 }
 
-// 커멘더큐에 요청사항 넣기
-void Engine::RenderBegin() { _cmdQueue->RenderBegin(&_viewport, &_scissorRect); }
-
-// 커멘더큐에 요청사항 다 넣었음을 알린뒤 실행시키기
-void Engine::RenderEnd() { _cmdQueue->RenderEnd(); }
-
 void Engine::Update()
 {
-	_input->Update();
-	_timer->Update();
+	GET_SINGLE(Input)->Update();
+	GET_SINGLE(Timer)->Update();
+
+	Render();
 
 	ShowFps();
 }
 
 void Engine::LateUpdate() {}
+
+void Engine::Render()
+{
+	RenderBegin();
+
+	// 그려줄(렌더링할) 내용
+	GET_SINGLE(SceneManager)->Update();
+
+	RenderEnd();
+}
+
+// 커멘더큐에 요청사항 넣기
+void Engine::RenderBegin() { _cmdQueue->RenderBegin(&_viewport, &_scissorRect); }
+
+// 커멘더큐에 요청사항 다 넣었음을 알린뒤 실행시키기
+void Engine::RenderEnd() { _cmdQueue->RenderEnd(); }
 
 // 윈도우 크기 변경
 void Engine::ResizeWindow(int32 width, int32 height)
