@@ -30,5 +30,5 @@ void Transform::PushData()
 	// view : 카메라가 바라보는 방향을 기준으로 만들어지는 행렬..
 	// WVP : World * View * Projection
 	Matrix matWVP = _matWorld * Camera::S_MatView * Camera::S_MatProjection;
-	// CONST_BUFFER(CONSTANT_BUFFER_TYPE::TRANSFORM)->PushData(&matWVP, sizeof(matWVP));
+	CONST_BUFFER(CONSTANT_BUFFER_TYPE::TRANSFORM)->PushData(&matWVP, sizeof(matWVP));
 }
