@@ -7,14 +7,17 @@
     <Filter Include="Resource">
       <UniqueIdentifier>{09187517-c1c3-4616-96ce-61a0868eb968}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utils">
-      <UniqueIdentifier>{4a2f072e-e457-491e-8e13-ced4d51c4366}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameObject">
       <UniqueIdentifier>{33b34cf4-f9f4-4301-9856-7a48f7eed2b3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Manager">
       <UniqueIdentifier>{c88e20df-b4b0-4a4c-a58f-40af9c0861fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{4a2f072e-e457-491e-8e13-ced4d51c4366}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Test">
+      <UniqueIdentifier>{ac7f5183-32b3-4b51-ae5c-f8e1b6a47827}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -81,12 +84,23 @@
     <ClInclude Include="SceneManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h" />
     <ClInclude Include="Input.h">
       <Filter>Manager</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleMath.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCameraScript.h">
+      <Filter>GameObject\Test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -159,10 +173,22 @@
     <ClCompile Include="Timer.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleMath.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCameraScript.cpp">
+      <Filter>GameObject\Test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Shader\default.hlsl">
       <Filter>Resource</Filter>
+    </None>
+    <None Include="SimpleMath.inl">
+      <Filter>Utils</Filter>
     </None>
   </ItemGroup>
 </Project>
