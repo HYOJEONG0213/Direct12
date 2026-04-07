@@ -21,7 +21,7 @@ void Engine::Init(const WindowInfo &info)
 	_tableDescHeap->Init(512);
 	_depthStencilBuffer->Init(_window);
 
-	CreateConstantBuffer(CBV_REGISTER::b0, sizeof(TransformMatrix), 256); // b0: 트랜스폼 저장
+	CreateConstantBuffer(CBV_REGISTER::b0, sizeof(TransformParams), 256); // b0: 트랜스폼 저장
 	CreateConstantBuffer(CBV_REGISTER::b1, sizeof(MaterialParams), 256);  // Material 파람 저장
 
 	ResizeWindow(info.width, info.height);
@@ -56,6 +56,7 @@ void Engine::Update()
 {
 	GET_SINGLE(Input)->Update();
 	GET_SINGLE(Timer)->Update();
+	GET_SINGLE(SceneManager)->Update();
 
 	Render();
 
@@ -69,7 +70,7 @@ void Engine::Render()
 	RenderBegin();
 
 	// 그려줄(렌더링할) 내용
-	GET_SINGLE(SceneManager)->Update();
+	GET_SINGLE(SceneManager)->Render();
 
 	RenderEnd();
 }

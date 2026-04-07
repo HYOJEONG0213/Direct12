@@ -8,6 +8,7 @@ class SceneManager
 
 public:
 	void Update();
+	void Render();
 	void LoadScene(wstring sceneName); // 씬 바꾸기
 
 public:
