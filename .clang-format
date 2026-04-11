@@ -14,4 +14,5 @@ TabWidth: 4
 UseTab: Always
 AccessModifierOffset: -4
 
+AlwaysBreakTemplateDeclarations: Yes
 SortIncludes: false
