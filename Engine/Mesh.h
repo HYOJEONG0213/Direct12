@@ -1,12 +1,16 @@
 #pragma once
+#include "Object.h"
 
 class Material;
 
 // Mesh : 정점으로 이루어진 물체
 
-class Mesh
+class Mesh : public Object
 {
 public:
+	Mesh();
+	virtual ~Mesh();
+
 	void Init(const vector<Vertex> &vertexBuffer, const vector<uint32> &indexbuffer);
 	void Render();
 

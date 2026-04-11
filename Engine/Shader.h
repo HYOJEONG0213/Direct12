@@ -1,11 +1,15 @@
 #pragma once
+#include "Object.h"
 
 // 일감 기술서 : 외주 인력들이 뭘 해야할지 기술함
 // 단계별 기술서
 
-class Shader
+class Shader : public Object
 {
 public:
+	Shader();
+	virtual ~Shader();
+
 	void Init(const wstring &path);
 	void Update();
 

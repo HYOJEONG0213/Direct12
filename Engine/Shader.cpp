@@ -2,6 +2,10 @@
 #include "Shader.h"
 #include "Engine.h"
 
+Shader::Shader() : Object(OBJECT_TYPE::SHADER) {}
+
+Shader::~Shader() {}
+
 void Shader::Init(const wstring &path)
 {
 	// 파이프라인 - vertex Shader, pixel Shader 설정

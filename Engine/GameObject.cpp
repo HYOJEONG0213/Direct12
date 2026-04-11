@@ -5,7 +5,7 @@
 #include "MonoBehaviour.h"
 #include "Camera.h"
 
-GameObject::GameObject() {}
+GameObject::GameObject() : Object(OBJECT_TYPE::GAMEOBJECT) {}
 
 GameObject::~GameObject() {}
 
