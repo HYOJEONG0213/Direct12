@@ -33,3 +33,9 @@ Output
 Engine/x64
 Client/x64
 .vs
+Output/Client.pdb
+Output/Engine.idb
+Output/Engine.pdb
+Output/Client.pdb
+Output/Engine.idb
+Output/Engine.pdb
