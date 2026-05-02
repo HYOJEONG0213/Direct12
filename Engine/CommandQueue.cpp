@@ -95,7 +95,7 @@ void CommandQueue::RenderBegin(const D3D12_VIEWPORT *vp, const D3D12_RECT *rect)
 	// 어떤 버퍼에 그림 그려야하는지 다시 언급
 	// 백버퍼 꺼내온다음에 거기 대상으로 GPU한테 그려달라 요청하기
 	D3D12_CPU_DESCRIPTOR_HANDLE backBufferView = _swapChain->GetBackRTV();
-	_cmdList->ClearRenderTargetView(backBufferView, Colors::LightSteelBlue, 0, nullptr);
+	_cmdList->ClearRenderTargetView(backBufferView, Colors::Black, 0, nullptr);
 
 	D3D12_CPU_DESCRIPTOR_HANDLE depthStencilView = GEngine->GetDepthStencilBuffer()->GetDSVCpuHandle();
 	_cmdList->OMSetRenderTargets(1, &backBufferView, FALSE,

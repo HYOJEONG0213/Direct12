@@ -81,5 +81,56 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 	}
 #pragma endregion
 
+#pragma region Green Directional Light
+	{
+		shared_ptr<GameObject> light = make_shared<GameObject>();
+		light->AddComponent(make_shared<Transform>());
+		// light->GetTransform()->SetLocalPosition(Vec3(0.f, 150.f, 150.f));
+		light->AddComponent(make_shared<Light>());
+		light->GetLight()->SetLightDirection(Vec3(0.f, -1.f, 0.f)); // 위에서 직각으로 내려쏘기
+		light->GetLight()->SetLightType(LIGHT_TYPE::DIRECTIONAL_LIGHT);
+		light->GetLight()->SetDiffuse(Vec3(0.1f, 1.f, 0.1f));
+		light->GetLight()->SetAmbient(Vec3(0.f, 0.1f, 0.f));
+		light->GetLight()->SetSpecular(Vec3(0.1f, 0.1f, 0.1f));
+
+		scene->AddGameObject(light);
+	}
+
+#pragma endregion
+
+#pragma region Red Point Light
+	{
+		shared_ptr<GameObject> light = make_shared<GameObject>();
+		light->AddComponent(make_shared<Transform>());
+		light->GetTransform()->SetLocalPosition(Vec3(150.f, 150.f, 150.f)); // 우측 위쪽
+		light->AddComponent(make_shared<Light>());
+		// light->GetLight()->SetLightDirection(Vec3(0.f, -1.f, 0.f));
+		light->GetLight()->SetLightType(LIGHT_TYPE::POINT_LIGHT);
+		light->GetLight()->SetDiffuse(Vec3(1.f, 0.1f, 0.1f));
+		light->GetLight()->SetAmbient(Vec3(0.1f, 0.f, 0.f));
+		light->GetLight()->SetSpecular(Vec3(0.1f, 0.1f, 0.1f));
+		light->GetLight()->SetLightRange(10000.f);
+		// light->GetLight()->SetLightAngle(XM_PI / 4);
+		scene->AddGameObject(light);
+	}
+#pragma endregion
+
+#pragma region Blue Spot Light
+	{
+		shared_ptr<GameObject> light = make_shared<GameObject>();
+		light->AddComponent(make_shared<Transform>());
+		light->GetTransform()->SetLocalPosition(Vec3(-150.f, 0.f, 150.f)); // 물체 기준 왼쪽
+		light->AddComponent(make_shared<Light>());
+		light->GetLight()->SetLightDirection(Vec3(1.f, 0.f, 0.f));
+		light->GetLight()->SetLightType(LIGHT_TYPE::SPOT_LIGHT);
+		light->GetLight()->SetDiffuse(Vec3(0.f, 0.1f, 1.f));
+		// light->GetLight()->SetAmbient(Vec3(0.f, 0.f, 0.1f));
+		light->GetLight()->SetSpecular(Vec3(0.1f, 0.1f, 0.1f));
+		light->GetLight()->SetLightRange(10000.f);
+		light->GetLight()->SetLightAngle(XM_PI / 4); // 45도 원뿔 범위
+		scene->AddGameObject(light);
+	}
+#pragma endregion
+
 	return scene;
 }

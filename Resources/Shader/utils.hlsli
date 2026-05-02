@@ -32,7 +32,7 @@ LightColor CalculateLightColor(int lightIndex, float3 viewNormal, float3 viewPos
 		if (g_light[lightIndex].range == 0.f)
 			distanceRatio = 0.f;
 		else
-			distanceRatio = saturate(1.f - pow(dist / g_light[lightIndex].range, 100));
+			distanceRatio = saturate(1.f - pow(dist / g_light[lightIndex].range, 2));
 	}
 	else
 	{
