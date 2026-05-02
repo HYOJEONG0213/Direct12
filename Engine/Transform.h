@@ -17,7 +17,7 @@ public:
 	const Vec3 &GetLocalScale() { return _localScale; }
 
 	const Matrix &GetLocalToWorldMatrix() { return _matWorld; }			 // 찐찐찐 월드 행렬 반환
-	const Vec3	 &GetWorldPosition() { return _matWorld.Translation(); } // 월드에서의 내 위치
+	Vec3		  GetWorldPosition() { return _matWorld.Translation(); } // 월드에서의 내 위치
 
 	Vec3 GetRight() { return _matWorld.Right(); } // 월드에서의 내 오른쪽 방향
 	Vec3 GetUp() { return _matWorld.Up(); }
