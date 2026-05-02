@@ -5,6 +5,7 @@
 #include "Input.h"
 #include "Timer.h"
 #include "SceneManager.h"
+#include "Light.h"
 
 void Engine::Init(const WindowInfo &info)
 {
@@ -21,8 +22,9 @@ void Engine::Init(const WindowInfo &info)
 	_tableDescHeap->Init(512);
 	_depthStencilBuffer->Init(_window);
 
-	CreateConstantBuffer(CBV_REGISTER::b0, sizeof(TransformParams), 256); // b0: 트랜스폼 저장
-	CreateConstantBuffer(CBV_REGISTER::b1, sizeof(MaterialParams), 256);  // Material 파람 저장
+	CreateConstantBuffer(CBV_REGISTER::b0, sizeof(LightParams), 1);		  // b0: 라이트 저장 (전역으로 사용)
+	CreateConstantBuffer(CBV_REGISTER::b1, sizeof(TransformParams), 256); // b1: 트랜스폼 저장
+	CreateConstantBuffer(CBV_REGISTER::b2, sizeof(MaterialParams), 256);  // Material 파람 저장
 
 	ResizeWindow(info.width, info.height);
 

@@ -16,12 +16,13 @@ void RootSignature::CreateSamplerDesc()
 void RootSignature::CreateRootSignature()
 {
 	CD3DX12_DESCRIPTOR_RANGE ranges[] = {
-		CD3DX12_DESCRIPTOR_RANGE(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, CBV_REGISTER_COUNT, 0), // b0~b4
-		CD3DX12_DESCRIPTOR_RANGE(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, SRV_REGISTER_COUNT, 0), // t0~t4
+		CD3DX12_DESCRIPTOR_RANGE(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, CBV_REGISTER_COUNT - 1, 1), // b1~b4
+		CD3DX12_DESCRIPTOR_RANGE(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, SRV_REGISTER_COUNT, 0),	  // t0~t4
 	};
 
-	CD3DX12_ROOT_PARAMETER param[1];
-	param[0].InitAsDescriptorTable(_countof(ranges), ranges);
+	CD3DX12_ROOT_PARAMETER param[2];
+	param[0].InitAsConstantBufferView(static_cast<uint32>(CBV_REGISTER::b0)); // b0	; 전역으로 사용
+	param[1].InitAsDescriptorTable(_countof(ranges), ranges);
 
 	// 기본상태의 서명이 들어간다 (여기서 _samplerDesc가 들어감!)
 	D3D12_ROOT_SIGNATURE_DESC sigDesc = CD3DX12_ROOT_SIGNATURE_DESC(_countof(param), param, 1, &_samplerDesc);
