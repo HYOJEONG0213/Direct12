@@ -40,8 +40,8 @@ VS_OUT VS_Main(VS_IN input)
 // 픽셸단위 연산 
 float4 PS_Main(VS_OUT input) : SV_Target
 {
-	//float4 color = tex_0.Sample(sam_0, input.uv);
-	float4 color = float4(1.f, 1.f, 1.f, 1.f);
+	float4 color = g_tex_0.Sample(g_sam_0, input.uv);
+	//float4 color = float4(1.f, 1.f, 1.f, 1.f);
 	
 	// 각각에 대한 빛의 색상 계산
 	LightColor totalColor = (LightColor) 0.f;
