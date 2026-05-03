@@ -12,6 +12,7 @@ struct VS_IN
 	float3 pos : POSITION;
 	float2 uv : TEXCOORD;
 	float3 normal : NORMAL;
+	float3 tangent : TANGENT;
 };
 
 struct VS_OUT
@@ -20,6 +21,8 @@ struct VS_OUT
 	float2 uv : TEXCOORD;
 	float3 viewPos : POSITION;
 	float3 viewNormal : NORMAL;
+	float3 viewTangent : TANGENT;
+	float3 viewBinormal : BINORMAL;
 };
 
 VS_OUT VS_Main(VS_IN input)
@@ -31,24 +34,39 @@ VS_OUT VS_Main(VS_IN input)
 	output.uv = input.uv;
 	
 	output.viewPos = mul(float4(input.pos, 1.f), g_matWV).xyz;
-	// 0으로 적용해야 이동이 적용안됌
 	output.viewNormal = normalize(mul(float4(input.normal, 0.f), g_matWV).xyz);
-
+	output.viewTangent = normalize(mul(float4(input.tangent, 0.f), g_matWV).xyz);
+	output.viewBinormal = normalize(cross(output.viewTangent, output.viewNormal));
+	
 	return output;
 }
 
 // 픽셸단위 연산 
 float4 PS_Main(VS_OUT input) : SV_Target
 {
-	float4 color = g_tex_0.Sample(g_sam_0, input.uv);
-	//float4 color = float4(1.f, 1.f, 1.f, 1.f);
+	float4 color = float4(1.f, 1.f, 1.f, 1.f);
+	if(g_tex_on_0)
+		color = g_tex_0.Sample(g_sam_0, input.uv);
+
+	float3 viewNormal = input.viewNormal;
+	if (g_tex_on_1)
+	{
+		// [0,255] 범위에서 [0,1]로 변환
+		float3 tangentSpaceNormal = g_tex_1.Sample(g_sam_0, input.uv).xyz;
+        // [0,1] 범위에서 [-1,1]로 변환
+		tangentSpaceNormal = (tangentSpaceNormal - 0.5f) * 2.f;
+		
+		// 변환 행렬 적용 
+		float3x3 matTBN = { input.viewTangent, input.viewBinormal, input.viewNormal };
+		viewNormal = normalize(mul(tangentSpaceNormal, matTBN));
+	}
 	
 	// 각각에 대한 빛의 색상 계산
 	LightColor totalColor = (LightColor) 0.f;
 
 	for (int i = 0; i < g_lightCount; ++i)
 	{
-		LightColor color = CalculateLightColor(i, input.viewNormal, input.viewPos);
+		LightColor color = CalculateLightColor(i, viewNormal, input.viewPos);
 		totalColor.diffuse += color.diffuse;
 		totalColor.ambient += color.ambient;
 		totalColor.specular += color.specular;
