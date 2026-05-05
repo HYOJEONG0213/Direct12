@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "Frustum.h"
 
 // 원근 투영 카메라, 직교 투영 카메라
 enum class PROJECTION_TYPE
@@ -27,6 +28,8 @@ private:
 
 	Matrix _matView = {};
 	Matrix _matProjection = {}; // 투영 변환 행렬
+
+	Frustum _frustum;
 
 public:
 	// TEMP

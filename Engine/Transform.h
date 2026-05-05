@@ -10,6 +10,9 @@ public:
 	virtual void FinalUpdate() override;
 	void		 PushData();
 
+	// 임시!
+	float GetBoundingSphereRadius() { return max(max(_localScale.x, _localScale.y), _localScale.z); }
+
 public:
 	// Parent 기준
 	const Vec3 &GetLocalPosition() { return _localPosition; }
