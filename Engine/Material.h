@@ -13,6 +13,8 @@ enum
 
 struct MaterialParams
 {
+	MaterialParams() : intParams(), floatParams(), texOnParams() {}
+
 	void SetInt(uint8 index, int32 value) { intParams[index] = value; }
 	void SetFloat(uint8 index, float value) { floatParams[index] = value; }
 	void SetTexOn(uint8 index, int32 value) { texOnParams[index] = value; }
