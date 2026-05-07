@@ -28,15 +28,14 @@ void Camera::FinalUpdate()
 	else // 직교 투영
 		_matProjection = ::XMMatrixOrthographicLH(width * _scale, height * _scale, _near, _far);
 
-	// static으로 잠시만 셋팅! (Transform에서 사용할 예정)
-	S_MatView = _matView;
-	S_MatProjection = _matProjection;
-
 	_frustum.FinalUpdate();
 }
 
 void Camera::Render()
 {
+	S_MatView = _matView;
+	S_MatProjection = _matProjection;
+
 	shared_ptr<Scene> scene = GET_SINGLE(SceneManager)->GetActiveScene();
 
 	// TODO : Layer 구분
@@ -45,6 +44,8 @@ void Camera::Render()
 	for (auto &gameObject : gameObjects)
 	{
 		if (gameObject->GetMeshRenderer() == nullptr) continue;
+
+		if (IsCulled(gameObject->GetLayerIndex())) continue;
 
 		if (gameObject->GetCheckFrustum())
 		{
