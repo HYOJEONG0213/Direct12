@@ -101,6 +101,10 @@
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -121,6 +125,10 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -138,6 +146,10 @@
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -159,6 +171,10 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
@@ -231,19 +247,13 @@
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Resources\Shader\default.hlsl">
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\Resources\Shader\skybox.hlsli" />
     <None Include="SimpleMath.inl" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Resources\Shader\params.hlsli">
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\Resources\Shader\utils.hlsli">
-      <FileType>Document</FileType>
-    </None>
+    <FxCompile Include="..\Resources\Shader\default.fx" />
+    <FxCompile Include="..\Resources\Shader\params.fx" />
+    <FxCompile Include="..\Resources\Shader\skybox.fx" />
+    <FxCompile Include="..\Resources\Shader\utils.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

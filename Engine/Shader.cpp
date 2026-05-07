@@ -9,7 +9,7 @@ Shader::~Shader() {}
 void Shader::Init(const wstring &path, ShaderInfo info)
 {
 	// 파이프라인 - vertex Shader, pixel Shader 설정
-	// 파일은 default.hlsli 에서 가져옴
+	// 파일은 default.fx 에서 가져옴
 	CreateVertexShader(path, "VS_Main", "vs_5_0");
 	CreatePixelShader(path, "PS_Main", "ps_5_0");
 

@@ -68,7 +68,7 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 		{
 			shared_ptr<Shader>	shader = make_shared<Shader>();
 			shared_ptr<Texture> texture = make_shared<Texture>();
-			shader->Init(L"..\\Resources\\Shader\\skybox.hlsli",
+			shader->Init(L"..\\Resources\\Shader\\skybox.fx",
 						 {RASTERIZER_TYPE::CULL_NONE, DEPTH_STENCIL_TYPE::LESS_EQUAL});
 			texture->Init(L"..\\Resources\\Texture\\Sky01.jpg");
 			shared_ptr<Material> material = make_shared<Material>();
@@ -96,7 +96,7 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 			shared_ptr<Shader>	shader = make_shared<Shader>();
 			shared_ptr<Texture> texture = make_shared<Texture>();
 			shared_ptr<Texture> texture2 = make_shared<Texture>();
-			shader->Init(L"..\\Resources\\Shader\\default.hlsl");
+			shader->Init(L"..\\Resources\\Shader\\default.fx");
 			texture->Init(L"..\\Resources\\Texture\\Leather.jpg");
 			texture2->Init(L"..\\Resources\\Texture\\Leather_normal.jpg");
 			shared_ptr<Material> material = make_shared<Material>();

@@ -1,10 +1,10 @@
 // 셰이더 : 일감, 명령어. 외주를 어떤 일을 시킬지 단계별로 묘사함 
 
-#ifndef _DEFAULT_HLSL_
-#define _DEFAULT_HLSL_
+#ifndef _DEFAULT_FX_
+#define _DEFAULT_FX_
 
-#include "params.hlsli"
-#include "utils.hlsli"
+#include "params.fx"
+#include "utils.fx"
 
 
 struct VS_IN
