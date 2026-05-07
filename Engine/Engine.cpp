@@ -6,6 +6,7 @@
 #include "Timer.h"
 #include "SceneManager.h"
 #include "Light.h"
+#include "Resources.h"
 
 void Engine::Init(const WindowInfo &info)
 {
@@ -19,7 +20,7 @@ void Engine::Init(const WindowInfo &info)
 	_cmdQueue->Init(_device->GetDevice(), _swapChain);
 	_swapChain->Init(info, _device->GetDevice(), _device->GetDXGI(), _cmdQueue->GetCmdQueue());
 	_rootSignature->Init();
-	_tableDescHeap->Init(512);
+	_tableDescHeap->Init(256);
 	_depthStencilBuffer->Init(_window);
 
 	CreateConstantBuffer(CBV_REGISTER::b0, sizeof(LightParams), 1);		  // b0: 라이트 저장 (전역으로 사용)
@@ -30,6 +31,7 @@ void Engine::Init(const WindowInfo &info)
 
 	GET_SINGLE(Input)->Init(info.hwnd);
 	GET_SINGLE(Timer)->Init();
+	GET_SINGLE(Resources)->Init();
 }
 
 void Engine::ShowFps()
@@ -64,8 +66,6 @@ void Engine::Update()
 
 	ShowFps();
 }
-
-void Engine::LateUpdate() {}
 
 void Engine::Render()
 {

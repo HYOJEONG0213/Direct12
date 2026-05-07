@@ -11,6 +11,8 @@ class Resources
 	DECLARE_SINGLE(Resources);
 
 public:
+	void Init();
+
 	template <typename T>
 	shared_ptr<T> Load(const wstring &key, const wstring &path);
 
@@ -25,6 +27,9 @@ public:
 
 	shared_ptr<Mesh> LoadCubeMesh();
 	shared_ptr<Mesh> LoadSphereMesh();
+
+private:
+	void CreateDefaultShader();
 
 private:
 	using KeyObjMap = std::map<wstring /*key*/, shared_ptr<Object>>;
