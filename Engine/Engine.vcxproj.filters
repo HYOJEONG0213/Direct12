@@ -219,9 +219,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\Resources\Shader\default.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
     <FxCompile Include="..\Resources\Shader\params.fx">
       <Filter>Shader</Filter>
     </FxCompile>
@@ -229,6 +226,9 @@
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="..\Resources\Shader\utils.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shader\forward.fx">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>

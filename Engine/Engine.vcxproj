@@ -250,7 +250,7 @@
     <None Include="SimpleMath.inl" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\Resources\Shader\default.fx" />
+    <FxCompile Include="..\Resources\Shader\forward.fx" />
     <FxCompile Include="..\Resources\Shader\params.fx" />
     <FxCompile Include="..\Resources\Shader\skybox.fx" />
     <FxCompile Include="..\Resources\Shader\utils.fx" />
