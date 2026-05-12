@@ -27,7 +27,7 @@ public:
 	void SetGlobalData(void *buffer, uint32 size); // b0 용도
 
 	D3D12_GPU_VIRTUAL_ADDRESS	GetGpuVirtualAddress(uint32 index);
-	D3D12_CPU_DESCRIPTOR_HANDLE GetCpuHandle(uint32 index);
+	D3D12_CPU_DESCRIPTOR_HANDLE GetSRVHandle(uint32 index);
 
 private:
 	void CreateBuffer();
