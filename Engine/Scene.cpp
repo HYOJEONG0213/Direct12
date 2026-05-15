@@ -35,11 +35,29 @@ void Scene::Render()
 {
 	PushLightData();
 
+	// SwapChain Group 초기화
+	int8 backIndex = GEngine->GetSwapChain()->GetBackBufferIndex();
+	GEngine->GetRTGroup(RENDER_TARGET_GROUP_TYPE::SWAP_CHAIN)->ClearRenderTargetView(backIndex);
+
+	// Deferred Group 초기화
+	GEngine->GetRTGroup(RENDER_TARGET_GROUP_TYPE::G_BUFFER)->ClearRenderTargetView();
+
 	for (auto &gameObject : _gameObjects)
 	{
 		if (gameObject->GetCamera() == nullptr) continue;
 
-		gameObject->GetCamera()->Render();
+		// Deffered 쉐이더와 Forward 쉐이더는 렌더링 방식이 다르기 때문에 카메라가 정렬을 해주는게 좋음
+		gameObject->GetCamera()->SortGameObject();
+
+		// Deferred OMSet
+		GEngine->GetRTGroup(RENDER_TARGET_GROUP_TYPE::G_BUFFER)->OMSetRenderTargets();
+		gameObject->GetCamera()->Render_Deferred();
+
+		// Light OMSet
+
+		// Swapchain OMSet
+		GEngine->GetRTGroup(RENDER_TARGET_GROUP_TYPE::SWAP_CHAIN)->OMSetRenderTargets(1, backIndex);
+		gameObject->GetCamera()->Render_Forward();
 	}
 }
 
