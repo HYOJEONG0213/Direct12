@@ -6,9 +6,10 @@ class Texture;
 
 enum
 {
-	MATERIAL_INT_COUNT = 5,
-	MATERIAL_FLOAT_COUNT = 5,
-	MATERIAL_TEXTURE_COUNT = 5,
+	MATERIAL_INT_COUNT = 4,
+	MATERIAL_FLOAT_COUNT = 4,
+	MATERIAL_TEXTURE_COUNT = 4,
+	MATERIAL_VECTOR2_COUNT = 4
 };
 
 struct MaterialParams
@@ -18,10 +19,12 @@ struct MaterialParams
 	void SetInt(uint8 index, int32 value) { intParams[index] = value; }
 	void SetFloat(uint8 index, float value) { floatParams[index] = value; }
 	void SetTexOn(uint8 index, int32 value) { texOnParams[index] = value; }
+	void SetVec2(uint8 index, Vec2 value) { vec2Params[index] = value; }
 
 	array<int32, MATERIAL_INT_COUNT>	 intParams;
 	array<float, MATERIAL_FLOAT_COUNT>	 floatParams;
 	array<int32, MATERIAL_TEXTURE_COUNT> texOnParams; // 텍스처 사용여부
+	array<Vec2, MATERIAL_VECTOR2_COUNT>	 vec2Params;
 };
 
 class Material : public Object
@@ -40,6 +43,7 @@ public:
 		_textures[index] = texture;
 		_params.SetTexOn(index, (texture == nullptr) ? 0 : 1);
 	}
+	void SetVec2(uint8 index, Vec2 value) { _params.SetVec2(index, value); }
 
 	void PushData();
 
