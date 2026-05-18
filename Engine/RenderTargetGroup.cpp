@@ -3,7 +3,8 @@
 #include "Engine.h"
 #include "Device.h"
 
-void RenderTargetGroup::Create(RENDER_TARGET_GROUP_TYPE groupType, vector<RenderTarget>& rtVec, shared_ptr<Texture> dsTexture)
+void RenderTargetGroup::Create(RENDER_TARGET_GROUP_TYPE groupType, vector<RenderTarget> &rtVec,
+							   shared_ptr<Texture> dsTexture)
 {
 	_groupType = groupType;
 	_rtVec = rtVec;
@@ -24,14 +25,23 @@ void RenderTargetGroup::Create(RENDER_TARGET_GROUP_TYPE groupType, vector<Render
 
 	for (uint32 i = 0; i < _rtCount; i++)
 	{
-		uint32 destSize = 1;
+		uint32						destSize = 1;
 		D3D12_CPU_DESCRIPTOR_HANDLE destHandle = CD3DX12_CPU_DESCRIPTOR_HANDLE(_rtvHeapBegin, i * _rtvHeapSize);
 
-		uint32 srcSize = 1;
+		uint32						 srcSize = 1;
 		ComPtr<ID3D12DescriptorHeap> srcRtvHeapBegin = _rtVec[i].target->GetRTV();
-		D3D12_CPU_DESCRIPTOR_HANDLE srcHandle = srcRtvHeapBegin->GetCPUDescriptorHandleForHeapStart();
+		D3D12_CPU_DESCRIPTOR_HANDLE	 srcHandle = srcRtvHeapBegin->GetCPUDescriptorHandleForHeapStart();
 
 		DEVICE->CopyDescriptors(1, &destHandle, &destSize, 1, &srcHandle, &srcSize, D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+	}
+
+	for (int i = 0; i < _rtCount; ++i)
+	{
+		_targetToResource[i] = CD3DX12_RESOURCE_BARRIER::Transition(
+			_rtVec[i].target->GetTex2D().Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_COMMON);
+
+		_resourceToTarget[i] = CD3DX12_RESOURCE_BARRIER::Transition(
+			_rtVec[i].target->GetTex2D().Get(), D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_RENDER_TARGET);
 	}
 }
 
@@ -56,6 +66,8 @@ void RenderTargetGroup::ClearRenderTargetView(uint32 index)
 
 void RenderTargetGroup::ClearRenderTargetView()
 {
+	WaitResourceToTarget();
+
 	for (uint32 i = 0; i < _rtCount; i++)
 	{
 		D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = CD3DX12_CPU_DESCRIPTOR_HANDLE(_rtvHeapBegin, i * _rtvHeapSize);
@@ -64,3 +76,7 @@ void RenderTargetGroup::ClearRenderTargetView()
 
 	CMD_LIST->ClearDepthStencilView(_dsvHeapBegin, D3D12_CLEAR_FLAG_DEPTH, 1.f, 0, 0, nullptr);
 }
+
+void RenderTargetGroup::WaitTargetToResource() { CMD_LIST->ResourceBarrier(_rtCount, _targetToResource); }
+
+void RenderTargetGroup::WaitResourceToTarget() { CMD_LIST->ResourceBarrier(_rtCount, _resourceToTarget); }
