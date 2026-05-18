@@ -44,7 +44,7 @@ void Texture::Load(const wstring &path)
 	::UpdateSubresources(RESOURCE_CMD_LIST.Get(), _tex2D.Get(), textureUploadHeap.Get(), 0, 0,
 						 static_cast<unsigned int>(subResources.size()), subResources.data());
 
-	GEngine->GetCmdQueue()->FlushResourceCommandQueue();
+	GEngine->GetGraphicsCmdQueue()->FlushResourceCommandQueue();
 
 	// DescriptorHeap 생성하고
 	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};

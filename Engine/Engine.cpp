@@ -17,8 +17,9 @@ void Engine::Init(const WindowInfo &info)
 	_scissorRect = CD3DX12_RECT(0, 0, info.width, info.height);
 
 	_device->Init();
-	_cmdQueue->Init(_device->GetDevice(), _swapChain);
-	_swapChain->Init(info, _device->GetDevice(), _device->GetDXGI(), _cmdQueue->GetCmdQueue());
+	_graphicsCmdQueue->Init(_device->GetDevice(), _swapChain);
+	_computeCmdQueue->Init(_device->GetDevice());
+	_swapChain->Init(info, _device->GetDevice(), _device->GetDXGI(), _graphicsCmdQueue->GetGraphicsCmdQueue());
 	_rootSignature->Init();
 	_tableDescHeap->Init(256);
 
@@ -79,10 +80,10 @@ void Engine::Render()
 }
 
 // 커멘더큐에 요청사항 넣기
-void Engine::RenderBegin() { _cmdQueue->RenderBegin(&_viewport, &_scissorRect); }
+void Engine::RenderBegin() { _graphicsCmdQueue->RenderBegin(&_viewport, &_scissorRect); }
 
 // 커멘더큐에 요청사항 다 넣었음을 알린뒤 실행시키기
-void Engine::RenderEnd() { _cmdQueue->RenderEnd(); }
+void Engine::RenderEnd() { _graphicsCmdQueue->RenderEnd(); }
 
 // 윈도우 크기 변경
 void Engine::ResizeWindow(int32 width, int32 height)

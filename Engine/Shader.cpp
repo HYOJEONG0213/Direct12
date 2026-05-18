@@ -139,7 +139,7 @@ void Shader::Init(const wstring &path, ShaderInfo info, const string &vs, const 
 	DEVICE->CreateGraphicsPipelineState(&_pipelineDesc, IID_PPV_ARGS(&_pipelineState));
 }
 
-void Shader::Update() { CMD_LIST->SetPipelineState(_pipelineState.Get()); }
+void Shader::Update() { GRAPHICS_CMD_LIST->SetPipelineState(_pipelineState.Get()); }
 
 void Shader::CreateShader(const wstring &path, const string &name, const string &version, ComPtr<ID3DBlob> &blob,
 						  D3D12_SHADER_BYTECODE &shaderByteCode)

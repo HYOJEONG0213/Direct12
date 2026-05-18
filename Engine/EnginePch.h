@@ -77,8 +77,24 @@ enum class SRV_REGISTER : uint8
 	t2,
 	t3,
 	t4,
+	t5,
+	t6,
+	t7,
+	t8,
+	t9,
 
 	END
+};
+
+enum class UAV_REGISTER : uint8
+{
+	u0 = static_cast<uint8>(SRV_REGISTER::END),
+	u1,
+	u2,
+	u3,
+	u4,
+
+	END,
 };
 
 enum
@@ -87,7 +103,9 @@ enum
 	CBV_REGISTER_COUNT = CBV_REGISTER::END,
 	// t0 시작하는 위치 = cbv 레지스터 끝나는 위치
 	SRV_REGISTER_COUNT = static_cast<uint8>(SRV_REGISTER::END) - CBV_REGISTER_COUNT,
-	REGISTER_COUNT = CBV_REGISTER_COUNT + SRV_REGISTER_COUNT,
+	CBV_SRV_REGISTER_COUNT = CBV_REGISTER_COUNT + SRV_REGISTER_COUNT,
+	UAV_REGISTER_COUNT = static_cast<uint8>(UAV_REGISTER::END) - CBV_SRV_REGISTER_COUNT,
+	TOTAL_REGISTER_COUNT = CBV_SRV_REGISTER_COUNT + UAV_REGISTER_COUNT
 };
 
 struct WindowInfo
@@ -126,8 +144,9 @@ public:                                                                         
 #define GET_SINGLE(type) type::GetInstance()
 
 #define DEVICE GEngine->GetDevice()->GetDevice()
-#define CMD_LIST GEngine->GetCmdQueue()->GetCmdList()
-#define RESOURCE_CMD_LIST GEngine->GetCmdQueue()->GetResourceCmdList()
+#define GRAPHICS_CMD_LIST GEngine->GetGraphicsCmdQueue()->GetGraphicsCmdList()
+#define COMPUTE_CMD_LIST GEngine->GetComputeCmdQueue()->GetComputeCmdList()
+#define RESOURCE_CMD_LIST GEngine->GetGraphicsCmdQueue()->GetResourceCmdList()
 #define ROOT_SIGNATURE GEngine->GetRootSignature()->GetRootSignature()
 
 #define INPUT GET_SINGLE(Input)

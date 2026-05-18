@@ -3,9 +3,9 @@
 #include "SwapChain.h"
 #include "Engine.h"
 
-CommandQueue::~CommandQueue() { ::CloseHandle(_fenceEvent); }
+GraphicsCommandQueue::~GraphicsCommandQueue() { ::CloseHandle(_fenceEvent); }
 
-void CommandQueue::Init(ComPtr<ID3D12Device> device, shared_ptr<SwapChain> swapChain)
+void GraphicsCommandQueue::Init(ComPtr<ID3D12Device> device, shared_ptr<SwapChain> swapChain)
 {
 	_swapChain = swapChain;
 
@@ -14,7 +14,7 @@ void CommandQueue::Init(ComPtr<ID3D12Device> device, shared_ptr<SwapChain> swapC
 	queueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
 
 	// device를 통해 cmdQueue에 CommandQueue 생성
-	device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&_cmdQueue));
+	device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&_graphicsCmdQueue));
 
 	// cmdAlloc 으로 메모리 관리
 	//  - D3D12_COMMAND_LIST_TYPE_DIRECT : GPU가 직접 실행하는 명령 목록
@@ -43,14 +43,14 @@ void CommandQueue::Init(ComPtr<ID3D12Device> device, shared_ptr<SwapChain> swapC
 }
 
 // cpu가 gpu 일이 끝날떄까지 대기 -> 나쁜코드긴 함..
-void CommandQueue::WaitSync()
+void GraphicsCommandQueue::WaitSync()
 {
 	// 펜스값 증가
 	//  Advance the fence value to mark commands up to this fence point.
 	_fenceValue++;
 
 	// 커멘드 큐에 해당 펜스값 보냄
-	_cmdQueue->Signal(_fence.Get(), _fenceValue);
+	_graphicsCmdQueue->Signal(_fence.Get(), _fenceValue);
 
 	// Wait until the GPU has completed commands up to this fence point.
 	if (_fence->GetCompletedValue() < _fenceValue)
@@ -63,7 +63,7 @@ void CommandQueue::WaitSync()
 	}
 }
 
-void CommandQueue::RenderBegin(const D3D12_VIEWPORT *vp, const D3D12_RECT *rect)
+void GraphicsCommandQueue::RenderBegin(const D3D12_VIEWPORT *vp, const D3D12_RECT *rect)
 {
 	_cmdAlloc->Reset();
 	_cmdList->Reset(_cmdAlloc.Get(), nullptr);
@@ -94,7 +94,7 @@ void CommandQueue::RenderBegin(const D3D12_VIEWPORT *vp, const D3D12_RECT *rect)
 	_cmdList->RSSetScissorRects(1, rect);
 }
 
-void CommandQueue::RenderEnd()
+void GraphicsCommandQueue::RenderEnd()
 {
 	int8 backIndex = _swapChain->GetBackBufferIndex();
 
@@ -110,7 +110,7 @@ void CommandQueue::RenderEnd()
 
 	// 커맨드 리스트 수행 (진.짜.실.행)
 	ID3D12CommandList *cmdListArr[] = {_cmdList.Get()};
-	_cmdQueue->ExecuteCommandLists(_countof(cmdListArr), cmdListArr);
+	_graphicsCmdQueue->ExecuteCommandLists(_countof(cmdListArr), cmdListArr);
 
 	// 버퍼를 가지고 진짜로 보여줌.
 	_swapChain->Present();
@@ -123,17 +123,70 @@ void CommandQueue::RenderEnd()
 }
 
 // resCmdList 에 있는 일감들의 리소스 로드
-void CommandQueue::FlushResourceCommandQueue()
+void GraphicsCommandQueue::FlushResourceCommandQueue()
 {
 	_resCmdList->Close(); // 명령 기록 종료
 
 	// GPU에 명령 전달 (실행 시작)
 	ID3D12CommandList *cmdListArr[] = {_resCmdList.Get()};
-	_cmdQueue->ExecuteCommandLists(_countof(cmdListArr), cmdListArr);
+	_graphicsCmdQueue->ExecuteCommandLists(_countof(cmdListArr), cmdListArr);
 
 	// CPU와 GPU와 동기화 (기다리기)
 	WaitSync();
 
 	_resCmdAlloc->Reset();
 	_resCmdList->Reset(_resCmdAlloc.Get(), nullptr);
+}
+
+// ----------------------------
+//     ComputeCommandQueue
+// ----------------------------
+
+ComputeCommandQueue::~ComputeCommandQueue() { ::CloseHandle(_fenceEvent); }
+
+void ComputeCommandQueue::Init(ComPtr<ID3D12Device> device)
+{
+	D3D12_COMMAND_QUEUE_DESC computeQueueDesc = {};
+	computeQueueDesc.Type = D3D12_COMMAND_LIST_TYPE_COMPUTE;
+	computeQueueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
+	device->CreateCommandQueue(&computeQueueDesc, IID_PPV_ARGS(&_graphicsCmdQueue));
+
+	device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_COMPUTE, IID_PPV_ARGS(&_cmdAlloc));
+	device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_COMPUTE, _cmdAlloc.Get(), nullptr, IID_PPV_ARGS(&_cmdList));
+
+	device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&_fence));
+
+	// CreateFence
+	// - CPU와 GPU의 동기화 수단으로 쓰인다
+	device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&_fence));
+	_fenceEvent = ::CreateEvent(nullptr, FALSE, FALSE, nullptr);
+}
+
+void ComputeCommandQueue::WaitSync()
+{
+	_fenceValue++;
+
+	_graphicsCmdQueue->Signal(_fence.Get(), _fenceValue);
+
+	if (_fence->GetCompletedValue() < _fenceValue)
+	{
+		_fence->SetEventOnCompletion(_fenceValue, _fenceEvent);
+		::WaitForSingleObject(_fenceEvent, INFINITE);
+	}
+}
+
+void ComputeCommandQueue::FlushComputeCommandQueue()
+{
+	_cmdList->Close();
+
+	ID3D12CommandList *cmdListArr[] = {_cmdList.Get()};
+	auto			   t = _countof(cmdListArr);
+	_graphicsCmdQueue->ExecuteCommandLists(_countof(cmdListArr), cmdListArr);
+
+	WaitSync();
+
+	_cmdAlloc->Reset();
+	_cmdList->Reset(_cmdAlloc.Get(), nullptr);
+
+	COMPUTE_CMD_LIST->SetComputeRootSignature(COMPUTE_ROOT_SIGNATURE.Get());
 }

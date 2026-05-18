@@ -19,12 +19,13 @@ public:
 	// void LateUpdate();
 
 public:
-	const WindowInfo			   &GetWindow() { return _window; }
-	shared_ptr<Device>				GetDevice() { return _device; }
-	shared_ptr<CommandQueue>		GetCmdQueue() { return _cmdQueue; }
-	shared_ptr<SwapChain>			GetSwapChain() { return _swapChain; }
-	shared_ptr<RootSignature>		GetRootSignature() { return _rootSignature; };
-	shared_ptr<TableDescriptorHeap> GetTableDescHeap() { return _tableDescHeap; }
+	const WindowInfo				&GetWindow() { return _window; }
+	shared_ptr<Device>				 GetDevice() { return _device; }
+	shared_ptr<GraphicsCommandQueue> GetGraphicsCmdQueue() { return _graphicsCmdQueue; }
+	shared_ptr<ComputeCommandQueue>	 GetComputeCmdQueue() { return _computeCmdQueue; }
+	shared_ptr<SwapChain>			 GetSwapChain() { return _swapChain; }
+	shared_ptr<RootSignature>		 GetRootSignature() { return _rootSignature; };
+	shared_ptr<TableDescriptorHeap>	 GetTableDescHeap() { return _tableDescHeap; }
 
 	shared_ptr<ConstantBuffer> GetConstantBuffer(CONSTANT_BUFFER_TYPE type)
 	{
@@ -53,11 +54,12 @@ private:
 	D3D12_VIEWPORT _viewport = {};
 	D3D12_RECT	   _scissorRect = {};
 
-	shared_ptr<Device>				_device = make_shared<Device>();
-	shared_ptr<CommandQueue>		_cmdQueue = make_shared<CommandQueue>();
-	shared_ptr<SwapChain>			_swapChain = make_shared<SwapChain>();
-	shared_ptr<RootSignature>		_rootSignature = make_shared<RootSignature>();
-	shared_ptr<TableDescriptorHeap> _tableDescHeap = make_shared<TableDescriptorHeap>();
+	shared_ptr<Device>				 _device = make_shared<Device>();
+	shared_ptr<GraphicsCommandQueue> _graphicsCmdQueue = make_shared<GraphicsCommandQueue>();
+	shared_ptr<ComputeCommandQueue>	 _computeCmdQueue = make_shared<ComputeCommandQueue>();
+	shared_ptr<SwapChain>			 _swapChain = make_shared<SwapChain>();
+	shared_ptr<RootSignature>		 _rootSignature = make_shared<RootSignature>();
+	shared_ptr<TableDescriptorHeap>	 _tableDescHeap = make_shared<TableDescriptorHeap>();
 
 	vector<shared_ptr<ConstantBuffer>>								_constantBuffers;
 	array<shared_ptr<RenderTargetGroup>, RENDER_TARGET_GROUP_COUNT> _rtGroups;

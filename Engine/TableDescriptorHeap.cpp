@@ -7,7 +7,7 @@ void TableDescriptorHeap::Init(uint32 count)
 	_groupCount = count;
 
 	D3D12_DESCRIPTOR_HEAP_DESC desc = {};
-	desc.NumDescriptors = count * (REGISTER_COUNT - 1); // b0는 전역이라 제외함
+	desc.NumDescriptors = count * (CBV_SRV_REGISTER_COUNT - 1); // b0는 전역이라 제외함
 	// Shader visible로 해야 GPU상주하고, 위로 올려보낼 수 있음
 	desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
 	//용도 : Constant Buffer View\
@@ -16,7 +16,7 @@ void TableDescriptorHeap::Init(uint32 count)
 	DEVICE->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&_descHeap));
 
 	_handleSize = DEVICE->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	_groupSize = _handleSize * (REGISTER_COUNT - 1); // b0는 전역이라 제외함
+	_groupSize = _handleSize * (CBV_SRV_REGISTER_COUNT - 1); // b0는 전역이라 제외함
 }
 
 void TableDescriptorHeap::Clear() { _currentGroupIndex = 0; }
@@ -48,7 +48,7 @@ void TableDescriptorHeap::CommitTable()
 	// DescHeap(Shader visible) -> 위쪽 레지스터 테이블로 올려보냄
 	D3D12_GPU_DESCRIPTOR_HANDLE handle = _descHeap->GetGPUDescriptorHandleForHeapStart();
 	handle.ptr += _currentGroupIndex * _groupSize;
-	CMD_LIST->SetGraphicsRootDescriptorTable(1, handle);
+	GRAPHICS_CMD_LIST->SetGraphicsRootDescriptorTable(1, handle);
 
 	_currentGroupIndex++;
 }
