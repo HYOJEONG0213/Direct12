@@ -24,7 +24,7 @@ public:
 	shared_ptr<GraphicsCommandQueue> GetGraphicsCmdQueue() { return _graphicsCmdQueue; }
 	shared_ptr<ComputeCommandQueue>	 GetComputeCmdQueue() { return _computeCmdQueue; }
 	shared_ptr<SwapChain>			 GetSwapChain() { return _swapChain; }
-	shared_ptr<RootSignature>		 GetRootSignature() { return _rootSignature; };
+	shared_ptr<RootSignature>		 GetGraphicsRootSignature() { return _rootSignature; };
 	shared_ptr<TableDescriptorHeap>	 GetTableDescHeap() { return _tableDescHeap; }
 
 	shared_ptr<ConstantBuffer> GetConstantBuffer(CONSTANT_BUFFER_TYPE type)

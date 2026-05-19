@@ -147,7 +147,8 @@ public:                                                                         
 #define GRAPHICS_CMD_LIST GEngine->GetGraphicsCmdQueue()->GetGraphicsCmdList()
 #define COMPUTE_CMD_LIST GEngine->GetComputeCmdQueue()->GetComputeCmdList()
 #define RESOURCE_CMD_LIST GEngine->GetGraphicsCmdQueue()->GetResourceCmdList()
-#define ROOT_SIGNATURE GEngine->GetRootSignature()->GetRootSignature()
+#define GRAPHICS_ROOT_SIGNATURE GEngine->GetGraphicsRootSignature()->GetGraphicsRootSignature()
+#define COMPUTE_ROOT_SIGNATURE GEngine->GetGraphicsRootSignature()->GetComputeRootSignature()
 
 #define INPUT GET_SINGLE(Input)
 #define DELTA_TIME GET_SINGLE(Timer)->GetDeltaTime()

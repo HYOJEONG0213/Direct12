@@ -76,7 +76,7 @@ void GraphicsCommandQueue::RenderBegin(const D3D12_VIEWPORT *vp, const D3D12_REC
 		D3D12_RESOURCE_STATE_PRESENT,		 // 현재 화면 출력
 		D3D12_RESOURCE_STATE_RENDER_TARGET); // 외주 결과물(뒤에서 작업되는 상태)
 
-	_cmdList->SetGraphicsRootSignature(ROOT_SIGNATURE.Get());
+	_cmdList->SetGraphicsRootSignature(GRAPHICS_ROOT_SIGNATURE.Get());
 
 	// GEngine->GetCB()->Clear()
 
