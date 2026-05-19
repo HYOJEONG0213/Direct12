@@ -38,7 +38,7 @@ void ConstantBuffer::PushData(void *buffer, uint32 size)
 	::memcpy(&_mappedBuffer[_currentIndex * _elementSize], buffer, size);
 
 	D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = GetSRVHandle(_currentIndex);
-	GEngine->GetTableDescHeap()->SetCBV(cpuHandle, _reg);
+	GEngine->GetGraphicsDescHeap()->SetCBV(cpuHandle, _reg);
 
 	_currentIndex++;
 }

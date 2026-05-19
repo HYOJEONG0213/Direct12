@@ -21,7 +21,8 @@ void Engine::Init(const WindowInfo &info)
 	_computeCmdQueue->Init(_device->GetDevice());
 	_swapChain->Init(info, _device->GetDevice(), _device->GetDXGI(), _graphicsCmdQueue->GetGraphicsCmdQueue());
 	_rootSignature->Init();
-	_tableDescHeap->Init(256);
+	_graphicsDescHeap->Init(256);
+	_computeDescHeap->Init();
 
 	CreateConstantBuffer(CBV_REGISTER::b0, sizeof(LightParams), 1);		  // b0: 라이트 저장 (전역으로 사용)
 	CreateConstantBuffer(CBV_REGISTER::b1, sizeof(TransformParams), 256); // b1: 트랜스폼 저장

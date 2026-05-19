@@ -17,7 +17,7 @@ void Material::PushData()
 		if (_textures[i] == nullptr) continue;
 
 		SRV_REGISTER reg = SRV_REGISTER(static_cast<int8>(SRV_REGISTER::t0) + i);
-		GEngine->GetTableDescHeap()->SetSRV(_textures[i]->GetSRVHandle(), reg);
+		GEngine->GetGraphicsDescHeap()->SetSRV(_textures[i]->GetSRVHandle(), reg);
 	}
 
 	// 파이프라인 세팅
