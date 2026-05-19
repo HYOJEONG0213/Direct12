@@ -22,12 +22,13 @@ public:
 	void Init(CBV_REGISTER reg, uint32 size, uint32 count);
 
 	void Clear();
-	void PushData(void *buffer, uint32 size);
+	void PushGraphicsData(void *buffer, uint32 size);
+	void PushComputeData(void *buffer, uint32 size);
 
-	void SetGlobalData(void *buffer, uint32 size); // b0 용도
+	void SetGraphicsGlobalData(void *buffer, uint32 size); // b0 용도
 
 	D3D12_GPU_VIRTUAL_ADDRESS	GetGpuVirtualAddress(uint32 index);
-	D3D12_CPU_DESCRIPTOR_HANDLE GetSRVHandle(uint32 index);
+	D3D12_CPU_DESCRIPTOR_HANDLE GetCpuHandle(uint32 index);
 
 private:
 	void CreateBuffer();
