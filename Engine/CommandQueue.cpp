@@ -149,7 +149,7 @@ void ComputeCommandQueue::Init(ComPtr<ID3D12Device> device)
 	D3D12_COMMAND_QUEUE_DESC computeQueueDesc = {};
 	computeQueueDesc.Type = D3D12_COMMAND_LIST_TYPE_COMPUTE;
 	computeQueueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
-	device->CreateCommandQueue(&computeQueueDesc, IID_PPV_ARGS(&_graphicsCmdQueue));
+	device->CreateCommandQueue(&computeQueueDesc, IID_PPV_ARGS(&_computeCmdQueue));
 
 	device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_COMPUTE, IID_PPV_ARGS(&_cmdAlloc));
 	device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_COMPUTE, _cmdAlloc.Get(), nullptr, IID_PPV_ARGS(&_cmdList));
@@ -166,7 +166,7 @@ void ComputeCommandQueue::WaitSync()
 {
 	_fenceValue++;
 
-	_graphicsCmdQueue->Signal(_fence.Get(), _fenceValue);
+	_computeCmdQueue->Signal(_fence.Get(), _fenceValue);
 
 	if (_fence->GetCompletedValue() < _fenceValue)
 	{
@@ -181,7 +181,7 @@ void ComputeCommandQueue::FlushComputeCommandQueue()
 
 	ID3D12CommandList *cmdListArr[] = {_cmdList.Get()};
 	auto			   t = _countof(cmdListArr);
-	_graphicsCmdQueue->ExecuteCommandLists(_countof(cmdListArr), cmdListArr);
+	_computeCmdQueue->ExecuteCommandLists(_countof(cmdListArr), cmdListArr);
 
 	WaitSync();
 

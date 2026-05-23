@@ -51,11 +51,11 @@ public:
 	void WaitSync();
 	void FlushComputeCommandQueue();
 
-	ComPtr<ID3D12CommandQueue>		  GetGraphicsCmdQueue() { return _graphicsCmdQueue; }
+	ComPtr<ID3D12CommandQueue>		  GetGraphicsCmdQueue() { return _computeCmdQueue; }
 	ComPtr<ID3D12GraphicsCommandList> GetComputeCmdList() { return _cmdList; }
 
 private:
-	ComPtr<ID3D12CommandQueue>		  _graphicsCmdQueue;
+	ComPtr<ID3D12CommandQueue>		  _computeCmdQueue;
 	ComPtr<ID3D12CommandAllocator>	  _cmdAlloc;
 	ComPtr<ID3D12GraphicsCommandList> _cmdList;
 
