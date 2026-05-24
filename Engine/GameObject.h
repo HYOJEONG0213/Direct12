@@ -7,6 +7,7 @@ class MeshRenderer;
 class MonoBehaviour;
 class Light;
 class Camera;
+class ParticleSystem;
 
 class GameObject : public Object, public enable_shared_from_this<GameObject>
 {
@@ -22,10 +23,11 @@ public:
 
 	shared_ptr<Component> GetFixedComponent(COMPONENT_TYPE type);
 
-	shared_ptr<Transform>	 GetTransform();
-	shared_ptr<MeshRenderer> GetMeshRenderer();
-	shared_ptr<Camera>		 GetCamera();
-	shared_ptr<Light>		 GetLight();
+	shared_ptr<Transform>	   GetTransform();
+	shared_ptr<MeshRenderer>   GetMeshRenderer();
+	shared_ptr<Camera>		   GetCamera();
+	shared_ptr<Light>		   GetLight();
+	shared_ptr<ParticleSystem> GetParticleSystem();
 
 	void AddComponent(shared_ptr<Component> component);
 

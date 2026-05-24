@@ -9,22 +9,25 @@ enum
 	MATERIAL_INT_COUNT = 4,
 	MATERIAL_FLOAT_COUNT = 4,
 	MATERIAL_TEXTURE_COUNT = 4,
-	MATERIAL_VECTOR2_COUNT = 4
+	MATERIAL_VECTOR2_COUNT = 4,
+	MATERIAL_VECTOR4_COUNT = 4,
 };
 
 struct MaterialParams
 {
-	MaterialParams() : intParams(), floatParams(), texOnParams() {}
+	MaterialParams() : intParams(), floatParams(), texOnParams(), vec2Params(), vec4Params() {}
 
 	void SetInt(uint8 index, int32 value) { intParams[index] = value; }
 	void SetFloat(uint8 index, float value) { floatParams[index] = value; }
 	void SetTexOn(uint8 index, int32 value) { texOnParams[index] = value; }
 	void SetVec2(uint8 index, Vec2 value) { vec2Params[index] = value; }
+	void SetVec4(uint8 index, Vec4 value) { vec4Params[index] = value; }
 
 	array<int32, MATERIAL_INT_COUNT>	 intParams;
 	array<float, MATERIAL_FLOAT_COUNT>	 floatParams;
 	array<int32, MATERIAL_TEXTURE_COUNT> texOnParams; // 텍스처 사용여부
 	array<Vec2, MATERIAL_VECTOR2_COUNT>	 vec2Params;
+	array<Vec4, MATERIAL_VECTOR4_COUNT>	 vec4Params;
 };
 
 class Material : public Object
@@ -44,6 +47,7 @@ public:
 		_params.SetTexOn(index, (texture == nullptr) ? 0 : 1);
 	}
 	void SetVec2(uint8 index, Vec2 value) { _params.SetVec2(index, value); }
+	void SetVec4(uint8 index, Vec4 value) { _params.SetVec4(index, value); }
 
 	void PushGraphicsData();
 	void PushComputeData();
