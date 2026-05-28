@@ -14,3 +14,12 @@ void MeshRenderer::Render()
 	_material->PushGraphicsData();
 	_mesh->Render();
 }
+
+uint64 MeshRenderer::GetInstanceID()
+{
+	if (_mesh == nullptr || _material == nullptr) return 0;
+
+	// uint64 id = (_mesh->GetID() << 32) | _material->GetID();
+	InstanceID instanceID{_mesh->GetID(), _material->GetID()};
+	return instanceID.id;
+}
