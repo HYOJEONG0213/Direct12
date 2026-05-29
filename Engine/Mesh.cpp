@@ -2,6 +2,7 @@
 #include "Mesh.h"
 #include "Engine.h"
 #include "Material.h"
+#include "InstancingBuffer.h"
 
 Mesh::Mesh() : Object(OBJECT_TYPE::MESH) {}
 
@@ -13,7 +14,6 @@ void Mesh::Init(const vector<Vertex> &vertexBuffer, const vector<uint32> &indexb
 	CreateIndexBuffer(indexbuffer);
 }
 
-// GraphicsCommandQueue.cpp의 RenderBegin과 RenderEnd 사이에 호출
 void Mesh::Render(uint32 instanceCount)
 {
 	GRAPHICS_CMD_LIST->IASetVertexBuffers(0, 1, &_vertexBufferView); // Slot: (0~15)
@@ -22,6 +22,17 @@ void Mesh::Render(uint32 instanceCount)
 	GEngine->GetGraphicsDescHeap()->CommitTable();
 
 	GRAPHICS_CMD_LIST->DrawIndexedInstanced(_indexCount, instanceCount, 0, 0, 0);
+}
+
+void Mesh::Render(shared_ptr<InstancingBuffer> &buffer)
+{
+	D3D12_VERTEX_BUFFER_VIEW bufferViews[] = {_vertexBufferView, buffer->GetBufferView()};
+	GRAPHICS_CMD_LIST->IASetVertexBuffers(0, 2, bufferViews);
+	GRAPHICS_CMD_LIST->IASetIndexBuffer(&_indexBufferView);
+
+	GEngine->GetGraphicsDescHeap()->CommitTable();
+
+	GRAPHICS_CMD_LIST->DrawIndexedInstanced(_indexCount, buffer->GetCount(), 0, 0, 0);
 }
 
 // 벡터에 vertex 받기 (위치, 컬러 정보)
