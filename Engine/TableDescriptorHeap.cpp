@@ -10,7 +10,7 @@ void GraphicsDescriptorHeap::Init(uint32 count)
 	desc.NumDescriptors = count * (CBV_SRV_REGISTER_COUNT - 1); // b0는 전역이라 제외함
 	// Shader visible로 해야 GPU상주하고, 위로 올려보낼 수 있음
 	desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-	//용도 : Constant Buffer View\
+	// 용도 : Constant Buffer View
 	desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 
 	DEVICE->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&_descHeap));
