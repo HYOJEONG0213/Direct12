@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Object.h"
 
 // 일감 기술서 : 외주 인력들이 뭘 해야할지 기술함

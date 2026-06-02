@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 enum class KEY_TYPE
 {
 	UP = VK_UP,

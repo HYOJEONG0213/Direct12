@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "MonoBehaviour.h"
 
 class TestCameraScript : public MonoBehaviour

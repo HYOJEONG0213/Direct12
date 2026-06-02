@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Object.h"
 
 enum class COMPONENT_TYPE : uint8

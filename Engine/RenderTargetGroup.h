@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Texture.h"
 
 enum class RENDER_TARGET_GROUP_TYPE : uint8

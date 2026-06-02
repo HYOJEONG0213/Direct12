@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Component.h"
 
 enum class LIGHT_TYPE : uint8

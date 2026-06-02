@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 // 인력사무소
 class Device

@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "Input.h"
 
 void Input::Init(HWND hwnd)

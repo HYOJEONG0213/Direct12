@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 enum class CONSTANT_BUFFER_TYPE : uint8
 {
