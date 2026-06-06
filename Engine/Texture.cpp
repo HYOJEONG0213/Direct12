@@ -1,4 +1,4 @@
-﻿#include "pch.h"
+#include "pch.h"
 #include "Texture.h"
 #include "Engine.h"
 
@@ -22,6 +22,8 @@ void Texture::Load(const wstring &path)
 	HRESULT hr = ::CreateTexture(DEVICE.Get(), _image.GetMetadata(), &_tex2D);
 	if (FAILED(hr)) assert(nullptr);
 
+	_desc = _tex2D->GetDesc();
+
 	vector<D3D12_SUBRESOURCE_DATA> subResources;
 
 	// 업로드 준비
@@ -32,11 +34,11 @@ void Texture::Load(const wstring &path)
 	const uint64 bufferSize = ::GetRequiredIntermediateSize(_tex2D.Get(), 0, static_cast<uint32>(subResources.size()));
 
 	D3D12_HEAP_PROPERTIES heapProperty = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
-	_desc = CD3DX12_RESOURCE_DESC::Buffer(bufferSize);
+	D3D12_RESOURCE_DESC	  desc = CD3DX12_RESOURCE_DESC::Buffer(bufferSize);
 
 	// 업로드 버퍼 생성
 	ComPtr<ID3D12Resource> textureUploadHeap;
-	hr = DEVICE->CreateCommittedResource(&heapProperty, D3D12_HEAP_FLAG_NONE, &_desc, D3D12_RESOURCE_STATE_GENERIC_READ,
+	hr = DEVICE->CreateCommittedResource(&heapProperty, D3D12_HEAP_FLAG_NONE, &desc, D3D12_RESOURCE_STATE_GENERIC_READ,
 										 nullptr, IID_PPV_ARGS(textureUploadHeap.GetAddressOf()));
 
 	if (FAILED(hr)) assert(nullptr);
