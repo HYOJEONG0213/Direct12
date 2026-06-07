@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "Object.h"
 
 enum class COMPONENT_TYPE : uint8
@@ -8,6 +8,7 @@ enum class COMPONENT_TYPE : uint8
 	CAMERA,
 	LIGHT,
 	PARTICLE_SYSTEM,
+	TERRAIN,
 	MONO_BEHAVIOUR, // 꼭 마지막에 위치!
 	END,
 };
