@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 class GameObject;
 
@@ -11,6 +11,8 @@ public:
 	void Update();
 	void LateUpdate();
 	void FinalUpdate();
+
+	shared_ptr<class Camera> GetMainCamera();
 
 	void Render();
 

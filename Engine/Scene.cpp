@@ -1,4 +1,4 @@
-﻿#include "pch.h"
+#include "pch.h"
 #include "Scene.h"
 #include "GameObject.h"
 #include "Camera.h"
@@ -30,6 +30,13 @@ void Scene::LateUpdate()
 void Scene::FinalUpdate()
 {
 	for (const shared_ptr<GameObject> &gameObject : _gameObjects) { gameObject->FinalUpdate(); }
+}
+
+shared_ptr<Camera> Scene::GetMainCamera()
+{
+	if (_cameras.empty()) return nullptr;
+
+	return _cameras[0];
 }
 
 void Scene::Render()
