@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 enum class KEY_TYPE
 {
 	UP = VK_UP,
@@ -15,6 +15,9 @@ enum class KEY_TYPE
 	E = 'E',
 	Z = 'Z',
 	C = 'C',
+
+	LBUTTON = VK_LBUTTON,
+	RBUTTON = VK_RBUTTON,
 };
 
 enum class KEY_STATE
@@ -47,10 +50,13 @@ public:
 	// 맨 처음 눌렀다 뗐을 때
 	bool GetButtonUp(KEY_TYPE key) { return GetState(key) == KEY_STATE::UP; }
 
+	const POINT &GetMousePos() { return _mousePos; }
+
 private:
 	inline KEY_STATE GetState(KEY_TYPE key) { return _states[static_cast<uint8>(key)]; }
 
 private:
 	HWND			  _hwnd;
 	vector<KEY_STATE> _states;
+	POINT			  _mousePos = {};
 };

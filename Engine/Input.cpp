@@ -1,5 +1,6 @@
-﻿#include "pch.h"
+#include "pch.h"
 #include "Input.h"
+#include "Engine.h"
 
 void Input::Init(HWND hwnd)
 {
@@ -45,4 +46,8 @@ void Input::Update()
 				state = KEY_STATE::NONE;
 		}
 	}
+
+	// 마우스 위치를 매 프레임마다 갱신시키기
+	::GetCursorPos(&_mousePos);
+	::ScreenToClient(GEngine->GetWindow().hwnd, &_mousePos);
 }
