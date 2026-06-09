@@ -11,6 +11,7 @@
 #include "Light.h"
 #include "Terrain.h"
 #include "SphereCollider.h"
+#include "MeshData.h"
 
 #include "Resources.h"
 #include "ParticleSystem.h"
@@ -280,6 +281,23 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 		light->GetLight()->SetSpecular(Vec3(0.1f, 0.1f, 0.1f));
 
 		scene->AddGameObject(light);
+	}
+#pragma endregion
+
+#pragma region FBX
+	{
+		shared_ptr<MeshData> meshData = GET_SINGLE(Resources)->LoadFBX(L"..\\Resources\\FBX\\Dragon.fbx");
+
+		vector<shared_ptr<GameObject>> gameObjects = meshData->Instantiate();
+
+		for (auto &gameObject : gameObjects)
+		{
+			gameObject->SetName(L"Dragon");
+			gameObject->SetCheckFrustum(false);
+			gameObject->GetTransform()->SetLocalPosition(Vec3(0.f, 0.f, 300.f));
+			gameObject->GetTransform()->SetLocalScale(Vec3(1.f, 1.f, 1.f));
+			scene->AddGameObject(gameObject);
+		}
 	}
 #pragma endregion
 
