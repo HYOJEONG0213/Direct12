@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Resources.h"
 #include "Engine.h"
+#include "MeshData.h"
 
 void Resources::Init()
 {
@@ -20,7 +21,7 @@ shared_ptr<Mesh> Resources::LoadPointMesh()
 	idx[0] = 0;
 
 	shared_ptr<Mesh> mesh = make_shared<Mesh>();
-	mesh->Init(vec, idx);
+	mesh->Create(vec, idx);
 	Add(L"Point", mesh);
 
 	return mesh;
@@ -53,7 +54,7 @@ shared_ptr<Mesh> Resources::LoadRectangleMesh()
 	idx[5] = 3;
 
 	shared_ptr<Mesh> mesh = make_shared<Mesh>();
-	mesh->Init(vec, idx);
+	mesh->Create(vec, idx);
 	Add(L"Rectangle", mesh);
 
 	return mesh;
@@ -147,7 +148,7 @@ shared_ptr<Mesh> Resources::LoadCubeMesh()
 	idx[35] = 23;
 
 	shared_ptr<Mesh> mesh = make_shared<Mesh>();
-	mesh->Init(vec, idx);
+	mesh->Create(vec, idx);
 	Add(L"Cube", mesh);
 
 	return mesh;
@@ -264,7 +265,7 @@ shared_ptr<Mesh> Resources::LoadSphereMesh()
 	}
 
 	shared_ptr<Mesh> mesh = make_shared<Mesh>();
-	mesh->Init(vec, idx);
+	mesh->Create(vec, idx);
 	Add(L"Sphere", mesh);
 
 	return mesh;
@@ -314,12 +315,12 @@ shared_ptr<Mesh> Resources::LoadTerrainMesh(int32 sizeX, int32 sizeZ)
 	shared_ptr<Mesh> findMesh = Get<Mesh>(L"Terrain");
 	if (findMesh)
 	{
-		findMesh->Init(vec, idx);
+		findMesh->Create(vec, idx);
 		return findMesh;
 	}
 
 	shared_ptr<Mesh> mesh = make_shared<Mesh>();
-	mesh->Init(vec, idx);
+	mesh->Create(vec, idx);
 	Add(L"Terrain", mesh);
 	return mesh;
 }
@@ -341,6 +342,20 @@ shared_ptr<Texture> Resources::CreateTextureFromResource(const wstring &name, Co
 	Add(name, texture);
 
 	return texture;
+}
+
+shared_ptr<MeshData> Resources::LoadFBX(const wstring &path)
+{
+	wstring key = path;
+
+	shared_ptr<MeshData> meshData = Get<MeshData>(key);
+	if (meshData) return meshData;
+
+	meshData = MeshData::LoadFromFBX(path);
+	meshData->SetName(key);
+	Add(key, meshData);
+
+	return meshData;
 }
 
 void Resources::CreateDefaultShader()
