@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "Component.h"
 
 class Mesh;
@@ -21,10 +21,10 @@ public:
 	MeshRenderer();
 	virtual ~MeshRenderer();
 
-	shared_ptr<Material> GetMaterial() { return _material; }
+	shared_ptr<Material> GetMaterial(uint32 idx = 0) { return _materials[idx]; }
 
 	void SetMesh(shared_ptr<Mesh> mesh) { _mesh = mesh; }
-	void SetMaterial(shared_ptr<Material> material) { _material = material; }
+	void SetMaterial(shared_ptr<Material> material, uint32 idx = 0);
 
 	void Render();
 	void Render(shared_ptr<class InstancingBuffer> &buffer);
@@ -33,6 +33,6 @@ public:
 	uint64 GetInstanceID();
 
 private:
-	shared_ptr<Mesh>	 _mesh;
-	shared_ptr<Material> _material;
+	shared_ptr<Mesh>			 _mesh;
+	vector<shared_ptr<Material>> _materials;
 };

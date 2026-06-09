@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 enum class OBJECT_TYPE : uint8
 {
@@ -7,6 +7,7 @@ enum class OBJECT_TYPE : uint8
 	COMPONENT,
 	MATERIAL,
 	MESH,
+	MESH_DATA,
 	SHADER,
 	TEXTURE,
 
