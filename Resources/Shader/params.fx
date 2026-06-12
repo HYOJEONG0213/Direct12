@@ -75,6 +75,9 @@ Texture2D g_tex_2 : register(t2);
 Texture2D g_tex_3 : register(t3);
 Texture2D g_tex_4 : register(t4);
 
+
+StructuredBuffer<Matrix> g_mat_bone : register(t7);
+
 // rasterizer 단계에서 uv값 정해준 뒤 픽셸 세이더에서 원하는 색상 골라주는 정책
 SamplerState g_sam_0 : register(s0);
 
