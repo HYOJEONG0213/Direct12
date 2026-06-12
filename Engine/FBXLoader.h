@@ -15,7 +15,7 @@ struct FbxMaterialInfo
 
 struct BoneWeight
 {
-	using Pair = pair<int32, double>;
+	using Pair = pair<int32, double>; // {몇번째 인덱스, 비율}
 	vector<Pair> boneWeights;
 
 	void AddWeights(uint32 index, double weight)
@@ -67,10 +67,12 @@ struct FbxBoneInfo
 
 struct FbxAnimClipInfo
 {
-	wstring							name;
-	FbxTime							startTime;
-	FbxTime							endTime;
-	FbxTime::EMode					mode;
+	wstring		   name;
+	FbxTime		   startTime;
+	FbxTime		   endTime;
+	FbxTime::EMode mode;
+
+	// 가로 : 본의 개수, 세로 : 키프레임의 개수
 	vector<vector<FbxKeyFrameInfo>> keyFrames;
 };
 

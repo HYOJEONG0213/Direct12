@@ -19,8 +19,8 @@ void FBXLoader::LoadFbx(const wstring &path)
 	Import(path);
 
 	// Animation
-	// LoadBones(_scene->GetRootNode());
-	// LoadAnimationInfo();
+	LoadBones(_scene->GetRootNode());
+	LoadAnimationInfo();
 
 	// 로드된 데이터 파싱 (Mesh/Material/Skin)
 	ParseNode(_scene->GetRootNode());
@@ -510,7 +510,7 @@ void FBXLoader::LoadKeyframe(int32 animIndex, FbxNode *node, FbxCluster *cluster
 
 	// 애니메이션 골라줌
 	FbxAnimStack *animStack = _scene->FindMember<FbxAnimStack>(_animNames[animIndex]->Buffer());
-	_scene->SetCurrentAnimationStack(OUT animStack);
+	_scene->SetCurrentAnimationStack(OUT animStack); // 어떤 애니메이션을 사용할지 설정
 
 	FbxLongLong startFrame = _animClips[animIndex]->startTime.GetFrameCount(timeMode);
 	FbxLongLong endFrame = _animClips[animIndex]->endTime.GetFrameCount(timeMode);
