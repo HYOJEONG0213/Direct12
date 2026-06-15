@@ -326,8 +326,8 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 		obj->SetName(L"Mercury");
 		obj->AddComponent(make_shared<Transform>());
 		obj->AddComponent(make_shared<SphereCollider>());
-		obj->GetTransform()->SetLocalScale(Vec3(30.f, 30.f, 30.f));
-		obj->GetTransform()->SetLocalPosition(Vec3(-450.f, 0.f, 800.f));
+		obj->GetTransform()->SetLocalScale(Vec3(15.f, 15.f, 15.f));
+		obj->GetTransform()->SetLocalPosition(Vec3(-250.f, 0.f, 800.f));
 		obj->SetCheckFrustum(false);
 		obj->SetStatic(false);
 		shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
@@ -339,7 +339,7 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 			shared_ptr<Material> material = GET_SINGLE(Resources)->Get<Material>(L"Mercury");
 			meshRenderer->SetMaterial(material->Clone());
 		}
-		dynamic_pointer_cast<SphereCollider>(obj->GetCollider())->SetRadius(0.5f);
+		dynamic_pointer_cast<SphereCollider>(obj->GetCollider())->SetRadius(0.8f);
 		obj->AddComponent(meshRenderer);
 		scene->AddGameObject(obj);
 	}
@@ -351,8 +351,8 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 		obj->SetName(L"Mars");
 		obj->AddComponent(make_shared<Transform>());
 		obj->AddComponent(make_shared<SphereCollider>());
-		obj->GetTransform()->SetLocalScale(Vec3(50.f, 50.f, 50.f));
-		obj->GetTransform()->SetLocalPosition(Vec3(-380.f, 0.f, 800.f));
+		obj->GetTransform()->SetLocalScale(Vec3(25.f, 25.f, 25.f));
+		obj->GetTransform()->SetLocalPosition(Vec3(-210.f, 0.f, 800.f));
 		obj->SetCheckFrustum(false);
 		obj->SetStatic(false);
 		shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
@@ -364,7 +364,7 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 			shared_ptr<Material> material = GET_SINGLE(Resources)->Get<Material>(L"Mars");
 			meshRenderer->SetMaterial(material->Clone());
 		}
-		dynamic_pointer_cast<SphereCollider>(obj->GetCollider())->SetRadius(0.5f);
+		dynamic_pointer_cast<SphereCollider>(obj->GetCollider())->SetRadius(0.8f);
 		obj->AddComponent(meshRenderer);
 		scene->AddGameObject(obj);
 	}
@@ -376,8 +376,8 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 		obj->SetName(L"Venus");
 		obj->AddComponent(make_shared<Transform>());
 		obj->AddComponent(make_shared<SphereCollider>());
-		obj->GetTransform()->SetLocalScale(Vec3(75.f, 75.f, 75.f));
-		obj->GetTransform()->SetLocalPosition(Vec3(-290.f, 0.f, 800.f));
+		obj->GetTransform()->SetLocalScale(Vec3(37.5f, 37.5f, 37.5f));
+		obj->GetTransform()->SetLocalPosition(Vec3(-160.f, 0.f, 800.f));
 		obj->SetCheckFrustum(false);
 		obj->SetStatic(false);
 		shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
@@ -389,7 +389,7 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 			shared_ptr<Material> material = GET_SINGLE(Resources)->Get<Material>(L"Venus");
 			meshRenderer->SetMaterial(material->Clone());
 		}
-		dynamic_pointer_cast<SphereCollider>(obj->GetCollider())->SetRadius(0.5f);
+		dynamic_pointer_cast<SphereCollider>(obj->GetCollider())->SetRadius(0.8f);
 		obj->AddComponent(meshRenderer);
 		scene->AddGameObject(obj);
 	}
@@ -401,8 +401,8 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 		obj->SetName(L"Earth");
 		obj->AddComponent(make_shared<Transform>());
 		obj->AddComponent(make_shared<SphereCollider>());
-		obj->GetTransform()->SetLocalScale(Vec3(105.f, 105.f, 105.f));
-		obj->GetTransform()->SetLocalPosition(Vec3(-160.f, 0.f, 800.f));
+		obj->GetTransform()->SetLocalScale(Vec3(52.5f, 52.5f, 52.5f));
+		obj->GetTransform()->SetLocalPosition(Vec3(-95.f, 0.f, 800.f));
 		obj->SetCheckFrustum(false);
 		obj->SetStatic(false);
 		shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
@@ -414,7 +414,7 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 			shared_ptr<Material> material = GET_SINGLE(Resources)->Get<Material>(L"Earth");
 			meshRenderer->SetMaterial(material->Clone());
 		}
-		dynamic_pointer_cast<SphereCollider>(obj->GetCollider())->SetRadius(0.5f);
+		dynamic_pointer_cast<SphereCollider>(obj->GetCollider())->SetRadius(0.8f);
 		obj->AddComponent(meshRenderer);
 		scene->AddGameObject(obj);
 	}
@@ -426,7 +426,7 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 		obj->SetName(L"Neptune");
 		obj->AddComponent(make_shared<Transform>());
 		obj->AddComponent(make_shared<SphereCollider>());
-		obj->GetTransform()->SetLocalScale(Vec3(145.f, 145.f, 145.f));
+		obj->GetTransform()->SetLocalScale(Vec3(72.5f, 72.5f, 72.5f));
 		obj->GetTransform()->SetLocalPosition(Vec3(0.f, 0.f, 800.f));
 		obj->SetCheckFrustum(false);
 		obj->SetStatic(false);
@@ -439,7 +439,7 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 			shared_ptr<Material> material = GET_SINGLE(Resources)->Get<Material>(L"Neptune");
 			meshRenderer->SetMaterial(material->Clone());
 		}
-		dynamic_pointer_cast<SphereCollider>(obj->GetCollider())->SetRadius(0.5f);
+		dynamic_pointer_cast<SphereCollider>(obj->GetCollider())->SetRadius(0.8f);
 		obj->AddComponent(meshRenderer);
 		scene->AddGameObject(obj);
 	}
@@ -451,8 +451,8 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 		obj->SetName(L"Uranus");
 		obj->AddComponent(make_shared<Transform>());
 		obj->AddComponent(make_shared<SphereCollider>());
-		obj->GetTransform()->SetLocalScale(Vec3(195.f, 195.f, 195.f));
-		obj->GetTransform()->SetLocalPosition(Vec3(200.f, 0.f, 800.f));
+		obj->GetTransform()->SetLocalScale(Vec3(97.5f, 97.5f, 97.5f));
+		obj->GetTransform()->SetLocalPosition(Vec3(110.f, 0.f, 800.f));
 		obj->SetCheckFrustum(false);
 		obj->SetStatic(false);
 		shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
@@ -464,7 +464,7 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 			shared_ptr<Material> material = GET_SINGLE(Resources)->Get<Material>(L"Uranus");
 			meshRenderer->SetMaterial(material->Clone());
 		}
-		dynamic_pointer_cast<SphereCollider>(obj->GetCollider())->SetRadius(0.5f);
+		dynamic_pointer_cast<SphereCollider>(obj->GetCollider())->SetRadius(0.8f);
 		obj->AddComponent(meshRenderer);
 		scene->AddGameObject(obj);
 	}
@@ -476,8 +476,8 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 		obj->SetName(L"Saturn");
 		obj->AddComponent(make_shared<Transform>());
 		obj->AddComponent(make_shared<SphereCollider>());
-		obj->GetTransform()->SetLocalScale(Vec3(255.f, 255.f, 255.f));
-		obj->GetTransform()->SetLocalPosition(Vec3(480.f, 0.f, 800.f));
+		obj->GetTransform()->SetLocalScale(Vec3(127.5f, 127.5f, 127.5f));
+		obj->GetTransform()->SetLocalPosition(Vec3(260.f, 0.f, 800.f));
 		obj->SetCheckFrustum(false);
 		obj->SetStatic(false);
 		shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
@@ -489,7 +489,7 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 			shared_ptr<Material> material = GET_SINGLE(Resources)->Get<Material>(L"Saturn");
 			meshRenderer->SetMaterial(material->Clone());
 		}
-		dynamic_pointer_cast<SphereCollider>(obj->GetCollider())->SetRadius(0.5f);
+		dynamic_pointer_cast<SphereCollider>(obj->GetCollider())->SetRadius(0.8f);
 		obj->AddComponent(meshRenderer);
 		scene->AddGameObject(obj);
 	}
@@ -501,8 +501,8 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 		obj->SetName(L"Jupiter");
 		obj->AddComponent(make_shared<Transform>());
 		obj->AddComponent(make_shared<SphereCollider>());
-		obj->GetTransform()->SetLocalScale(Vec3(325.f, 325.f, 325.f));
-		obj->GetTransform()->SetLocalPosition(Vec3(850.f, 0.f, 800.f));
+		obj->GetTransform()->SetLocalScale(Vec3(162.5f, 162.5f, 162.5f));
+		obj->GetTransform()->SetLocalPosition(Vec3(440.f, 0.f, 800.f));
 		obj->SetCheckFrustum(false);
 		obj->SetStatic(false);
 		shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
@@ -514,7 +514,7 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 			shared_ptr<Material> material = GET_SINGLE(Resources)->Get<Material>(L"Jupiter");
 			meshRenderer->SetMaterial(material->Clone());
 		}
-		dynamic_pointer_cast<SphereCollider>(obj->GetCollider())->SetRadius(0.5f);
+		dynamic_pointer_cast<SphereCollider>(obj->GetCollider())->SetRadius(0.8f);
 		obj->AddComponent(meshRenderer);
 		scene->AddGameObject(obj);
 	}
