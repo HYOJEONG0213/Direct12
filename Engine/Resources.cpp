@@ -631,6 +631,83 @@ void Resources::CreateDefaultMaterial()
 		Add<Material>(L"Earth", material);
 	}
 
+	// 수성 (Mercury)
+	{
+		shared_ptr<Shader>	shader = GET_SINGLE(Resources)->Get<Shader>(L"Deferred");
+		shared_ptr<Texture> diff = GET_SINGLE(Resources)->Load<Texture>(
+			L"Mercury_Diffuse", L"..\\Resources\\FBX\\Planets\\Mercury\\2k_mercury.jpg");
+		shared_ptr<Material> material = make_shared<Material>();
+		material->SetTexture(0, diff);
+		material->SetShader(shader);
+		Add<Material>(L"Mercury", material);
+	}
+
+	// 금성 (Venus)
+	{
+		shared_ptr<Shader>	shader = GET_SINGLE(Resources)->Get<Shader>(L"Deferred");
+		shared_ptr<Texture> diff = GET_SINGLE(Resources)->Load<Texture>(
+			L"Venus_Diffuse", L"..\\Resources\\FBX\\Planets\\Venus\\2k_venus_surface.jpg");
+		shared_ptr<Material> material = make_shared<Material>();
+		material->SetTexture(0, diff);
+		material->SetShader(shader);
+		Add<Material>(L"Venus", material);
+	}
+
+	// 화성 (Mars)
+	{
+		shared_ptr<Shader>	shader = GET_SINGLE(Resources)->Get<Shader>(L"Deferred");
+		shared_ptr<Texture> diff = GET_SINGLE(Resources)->Load<Texture>(
+			L"Mars_Diffuse", L"..\\Resources\\FBX\\Planets\\Mars\\2k_mars.jpg");
+		shared_ptr<Material> material = make_shared<Material>();
+		material->SetTexture(0, diff);
+		material->SetShader(shader);
+		Add<Material>(L"Mars", material);
+	}
+
+	// 목성 (Jupiter)
+	{
+		shared_ptr<Shader>	shader = GET_SINGLE(Resources)->Get<Shader>(L"Deferred");
+		shared_ptr<Texture> diff = GET_SINGLE(Resources)->Load<Texture>(
+			L"Jupiter_Diffuse", L"..\\Resources\\FBX\\Planets\\Jupiter\\2k_jupiter.jpg");
+		shared_ptr<Material> material = make_shared<Material>();
+		material->SetTexture(0, diff);
+		material->SetShader(shader);
+		Add<Material>(L"Jupiter", material);
+	}
+
+	// 토성 (Saturn)
+	{
+		shared_ptr<Shader>	shader = GET_SINGLE(Resources)->Get<Shader>(L"Deferred");
+		shared_ptr<Texture> diff = GET_SINGLE(Resources)->Load<Texture>(
+			L"Saturn_Diffuse", L"..\\Resources\\FBX\\Planets\\Saturn\\2k_saturn.jpg");
+		shared_ptr<Material> material = make_shared<Material>();
+		material->SetTexture(0, diff);
+		material->SetShader(shader);
+		Add<Material>(L"Saturn", material);
+	}
+
+	// 천왕성 (Uranus)
+	{
+		shared_ptr<Shader>	shader = GET_SINGLE(Resources)->Get<Shader>(L"Deferred");
+		shared_ptr<Texture> diff = GET_SINGLE(Resources)->Load<Texture>(
+			L"Uranus_Diffuse", L"..\\Resources\\FBX\\Planets\\Uranus\\2k_uranus.jpg");
+		shared_ptr<Material> material = make_shared<Material>();
+		material->SetTexture(0, diff);
+		material->SetShader(shader);
+		Add<Material>(L"Uranus", material);
+	}
+
+	// 해왕성 (Neptune)
+	{
+		shared_ptr<Shader>	shader = GET_SINGLE(Resources)->Get<Shader>(L"Deferred");
+		shared_ptr<Texture> diff = GET_SINGLE(Resources)->Load<Texture>(
+			L"Neptune_Diffuse", L"..\\Resources\\FBX\\Planets\\Neptune\\2k_neptune.jpg");
+		shared_ptr<Material> material = make_shared<Material>();
+		material->SetTexture(0, diff);
+		material->SetShader(shader);
+		Add<Material>(L"Neptune", material);
+	}
+
 	// Shadow
 	{
 		shared_ptr<Shader>	 shader = GET_SINGLE(Resources)->Get<Shader>(L"Shadow");
