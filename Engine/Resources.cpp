@@ -353,8 +353,8 @@ shared_ptr<MeshData> Resources::LoadFBX(const wstring &path)
 
 	// .meshdata 파일이 있는지 확인
 	fs::path fbxPath(path);
-	wstring fileName = fbxPath.stem().wstring();
-	wstring meshDataPath = L"..\\Resources\\MeshData\\" + fileName + L".meshdata";
+	wstring	 fileName = fbxPath.stem().wstring();
+	wstring	 meshDataPath = L"..\\Resources\\MeshData\\" + fileName + L".meshdata";
 
 	if (fs::exists(meshDataPath))
 	{
@@ -611,6 +611,24 @@ void Resources::CreateDefaultMaterial()
 		material->SetTexture(0, texture);
 		material->SetTexture(1, texture2);
 		Add<Material>(L"GameObject", material);
+	}
+
+	// Earth
+	{
+		shared_ptr<Shader>	shader = GET_SINGLE(Resources)->Get<Shader>(L"Deferred");
+		shared_ptr<Texture> diff = GET_SINGLE(Resources)->Load<Texture>(
+			L"Earth_Diffuse", L"..\\Resources\\FBX\\Planets\\Erath\\2k_earth_daymap.jpg");
+		shared_ptr<Texture> norm = GET_SINGLE(Resources)->Load<Texture>(
+			L"Earth_Normal", L"..\\Resources\\FBX\\Planets\\Erath\\2k_earth_normal_map.tif");
+		shared_ptr<Texture> spec = GET_SINGLE(Resources)->Load<Texture>(
+			L"Earth_Specular", L"..\\Resources\\FBX\\Planets\\Erath\\2k_earth_specular_map.tif");
+
+		shared_ptr<Material> material = make_shared<Material>();
+		material->SetTexture(0, diff);
+		material->SetTexture(1, norm);
+		material->SetTexture(2, spec);
+		material->SetShader(shader);
+		Add<Material>(L"Earth", material);
 	}
 
 	// Shadow

@@ -129,6 +129,7 @@ private:
 	FbxScene	*_scene = nullptr;
 	FbxImporter *_importer = nullptr;
 	wstring		 _resourceDirectory;
+	wstring		 _fbxDirectory;
 
 	vector<FbxMeshInfo>					_meshes;
 	vector<shared_ptr<FbxBoneInfo>>		_bones;

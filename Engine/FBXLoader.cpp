@@ -43,8 +43,8 @@ void FBXLoader::Import(const wstring &path)
 	_scene = FbxScene::Create(_manager, "");
 
 	// 나중에 Texture 경로 계산할 때 쓸 것
-	_resourceDirectory =
-		fs::path(path).parent_path().wstring() + L"\\" + fs::path(path).filename().stem().wstring() + L".fbm";
+	_fbxDirectory = fs::path(path).parent_path().wstring();
+	_resourceDirectory = _fbxDirectory + L"\\" + fs::path(path).filename().stem().wstring() + L".fbm";
 
 	_importer = FbxImporter::Create(_manager, "");
 
@@ -283,29 +283,31 @@ void FBXLoader::CreateTextures()
 	{
 		for (size_t j = 0; j < _meshes[i].materials.size(); j++)
 		{
-			// DiffuseTexture
+			auto LoadTexture = [&](wstring relativePath)
 			{
-				wstring relativePath = _meshes[i].materials[j].diffuseTexName.c_str();
+				if (relativePath.empty()) return;
+
 				wstring filename = fs::path(relativePath).filename();
-				wstring fullPath = _resourceDirectory + L"\\" + filename;
-				if (filename.empty() == false) GET_SINGLE(Resources)->Load<Texture>(filename, fullPath);
-			}
+				wstring fullPath = L"";
+
+				if (fs::exists(_resourceDirectory + L"\\" + filename))
+					fullPath = _resourceDirectory + L"\\" + filename;
+				else if (fs::exists(_fbxDirectory + L"\\" + relativePath))
+					fullPath = _fbxDirectory + L"\\" + relativePath;
+				else if (fs::exists(_fbxDirectory + L"\\" + filename))
+					fullPath = _fbxDirectory + L"\\" + filename;
+
+				if (fullPath.empty() == false) GET_SINGLE(Resources)->Load<Texture>(filename, fullPath);
+			};
+
+			// DiffuseTexture
+			LoadTexture(_meshes[i].materials[j].diffuseTexName);
 
 			// NormalTexture
-			{
-				wstring relativePath = _meshes[i].materials[j].normalTexName.c_str();
-				wstring filename = fs::path(relativePath).filename();
-				wstring fullPath = _resourceDirectory + L"\\" + filename;
-				if (filename.empty() == false) GET_SINGLE(Resources)->Load<Texture>(filename, fullPath);
-			}
+			LoadTexture(_meshes[i].materials[j].normalTexName);
 
 			// SpecularTexture
-			{
-				wstring relativePath = _meshes[i].materials[j].specularTexName.c_str();
-				wstring filename = fs::path(relativePath).filename();
-				wstring fullPath = _resourceDirectory + L"\\" + filename;
-				if (filename.empty() == false) GET_SINGLE(Resources)->Load<Texture>(filename, fullPath);
-			}
+			LoadTexture(_meshes[i].materials[j].specularTexName);
 		}
 	}
 }
