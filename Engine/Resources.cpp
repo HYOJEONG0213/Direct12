@@ -351,7 +351,24 @@ shared_ptr<MeshData> Resources::LoadFBX(const wstring &path)
 	shared_ptr<MeshData> meshData = Get<MeshData>(key);
 	if (meshData) return meshData;
 
-	meshData = MeshData::LoadFromFBX(path);
+	// .meshdata 파일이 있는지 확인
+	fs::path fbxPath(path);
+	wstring fileName = fbxPath.stem().wstring();
+	wstring meshDataPath = L"..\\Resources\\MeshData\\" + fileName + L".meshdata";
+
+	if (fs::exists(meshDataPath))
+	{
+		meshData = make_shared<MeshData>();
+		meshData->Load(meshDataPath);
+	}
+	else
+	{
+		meshData = MeshData::LoadFromFBX(path);
+		// 폴더 생성
+		fs::create_directories(L"..\\Resources\\MeshData");
+		meshData->Save(meshDataPath);
+	}
+
 	meshData->SetName(key);
 	Add(key, meshData);
 

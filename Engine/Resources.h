@@ -5,6 +5,8 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "Texture.h"
+#include <filesystem>
+namespace fs = std::filesystem;
 
 class Resources
 {
@@ -59,6 +61,8 @@ inline shared_ptr<T> Resources::Load(const wstring &key, const wstring &path)
 	if (findIt != keyObjMap.end()) return static_pointer_cast<T>(findIt->second);
 
 	shared_ptr<T> object = make_shared<T>();
+	object->SetName(key);
+	object->SetPath(path);
 	object->Load(path);
 	keyObjMap[key] = object;
 
@@ -74,6 +78,7 @@ bool Resources::Add(const wstring &key, shared_ptr<T> object)
 	auto findIt = keyObjMap.find(key);
 	if (findIt != keyObjMap.end()) return false;
 
+	object->SetName(key);
 	keyObjMap[key] = object;
 
 	return true;
