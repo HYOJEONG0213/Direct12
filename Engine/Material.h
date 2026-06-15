@@ -55,6 +55,9 @@ public:
 	void SetVec4(uint8 index, Vec4 value) { _params.SetVec4(index, value); }
 	void SetMatrix(uint8 index, Matrix &value) { _params.SetMatrix(index, value); }
 
+	virtual void Load(const wstring &path) override;
+	virtual void Save(const wstring &path) override;
+
 	void PushGraphicsData();
 	void PushComputeData();
 	void Dispatch(uint32 x, uint32 y, uint32 z);

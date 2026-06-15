@@ -24,6 +24,9 @@ public:
 public:
 	virtual void FinalUpdate() override;
 
+	virtual void Load(const wstring& path) override;
+	virtual void Save(const wstring& path) override;
+
 private:
 	const vector<BoneInfo>	   *_bones;
 	const vector<AnimClipInfo> *_animClips;

@@ -6,6 +6,7 @@
 #include "Mesh.h"
 #include "MeshRenderer.h"
 #include "StructuredBuffer.h"
+#include <fstream>
 
 Animator::Animator() : Component(COMPONENT_TYPE::ANIMATOR)
 {
@@ -14,6 +15,98 @@ Animator::Animator() : Component(COMPONENT_TYPE::ANIMATOR)
 }
 
 Animator::~Animator() {}
+
+void Animator::Load(const wstring &path)
+{
+	ifstream ifs(path, ios::binary);
+	assert(ifs.is_open());
+
+	// Bones
+	uint32 boneCount;
+	ifs.read(reinterpret_cast<char *>(&boneCount), sizeof(boneCount));
+	vector<BoneInfo> *bones = new vector<BoneInfo>(boneCount);
+	for (uint32 i = 0; i < boneCount; i++)
+	{
+		BoneInfo &info = (*bones)[i];
+		string	  name;
+		size_t	  nameSize;
+		ifs.read(reinterpret_cast<char *>(&nameSize), sizeof(nameSize));
+		name.resize(nameSize);
+		ifs.read(&name[0], nameSize);
+		info.boneName = s2ws(name);
+		ifs.read(reinterpret_cast<char *>(&info.parentIdx), sizeof(info.parentIdx));
+		ifs.read(reinterpret_cast<char *>(&info.matOffset), sizeof(info.matOffset));
+	}
+	_bones = bones;
+
+	// Animation Clips
+	uint32 animCount;
+	ifs.read(reinterpret_cast<char *>(&animCount), sizeof(animCount));
+	vector<AnimClipInfo> *animClips = new vector<AnimClipInfo>(animCount);
+	for (uint32 i = 0; i < animCount; i++)
+	{
+		AnimClipInfo &info = (*animClips)[i];
+		string		  name;
+		size_t		  nameSize;
+		ifs.read(reinterpret_cast<char *>(&nameSize), sizeof(nameSize));
+		name.resize(nameSize);
+		ifs.read(&name[0], nameSize);
+		info.animName = s2ws(name);
+		ifs.read(reinterpret_cast<char *>(&info.frameCount), sizeof(info.frameCount));
+		ifs.read(reinterpret_cast<char *>(&info.duration), sizeof(info.duration));
+
+		info.keyFrames.resize(boneCount);
+		for (uint32 b = 0; b < boneCount; b++)
+		{
+			uint32 keyframeCount;
+			ifs.read(reinterpret_cast<char *>(&keyframeCount), sizeof(keyframeCount));
+			info.keyFrames[b].resize(keyframeCount);
+			ifs.read(reinterpret_cast<char *>(info.keyFrames[b].data()), keyframeCount * sizeof(KeyFrameInfo));
+		}
+	}
+	_animClips = animClips;
+}
+
+void Animator::Save(const wstring &path)
+{
+	ofstream ofs(path, ios::binary);
+	assert(ofs.is_open());
+
+	// Bones
+	uint32 boneCount = static_cast<uint32>(_bones->size());
+	ofs.write(reinterpret_cast<char *>(&boneCount), sizeof(boneCount));
+	for (uint32 i = 0; i < boneCount; i++)
+	{
+		const BoneInfo &info = (*_bones)[i];
+		string			name = ws2s(info.boneName);
+		size_t			nameSize = name.size();
+		ofs.write(reinterpret_cast<char *>(&nameSize), sizeof(nameSize));
+		ofs.write(name.c_str(), nameSize);
+		ofs.write(reinterpret_cast<const char *>(&info.parentIdx), sizeof(info.parentIdx));
+		ofs.write(reinterpret_cast<const char *>(&info.matOffset), sizeof(info.matOffset));
+	}
+
+	// Animation Clips
+	uint32 animCount = static_cast<uint32>(_animClips->size());
+	ofs.write(reinterpret_cast<char *>(&animCount), sizeof(animCount));
+	for (uint32 i = 0; i < animCount; i++)
+	{
+		const AnimClipInfo &info = (*_animClips)[i];
+		string				name = ws2s(info.animName);
+		size_t				nameSize = name.size();
+		ofs.write(reinterpret_cast<char *>(&nameSize), sizeof(nameSize));
+		ofs.write(name.c_str(), nameSize);
+		ofs.write(reinterpret_cast<const char *>(&info.frameCount), sizeof(info.frameCount));
+		ofs.write(reinterpret_cast<const char *>(&info.duration), sizeof(info.duration));
+
+		for (uint32 b = 0; b < boneCount; b++)
+		{
+			uint32 keyframeCount = static_cast<uint32>(info.keyFrames[b].size());
+			ofs.write(reinterpret_cast<char *>(&keyframeCount), sizeof(keyframeCount));
+			ofs.write(reinterpret_cast<const char *>(info.keyFrames[b].data()), keyframeCount * sizeof(KeyFrameInfo));
+		}
+	}
+}
 
 void Animator::FinalUpdate()
 {

@@ -50,6 +50,9 @@ public:
 
 	static shared_ptr<Mesh> CreateFromFBX(const struct FbxMeshInfo *meshInfo, class FBXLoader &loader);
 
+	virtual void Load(const wstring &path) override;
+	virtual void Save(const wstring &path) override;
+
 private:
 	void   CreateVertexBuffer(const vector<Vertex> &buffer);
 	void   CreateIndexBuffer(const vector<uint32> &buffer);
@@ -70,6 +73,9 @@ public:
 	shared_ptr<StructuredBuffer> GetBoneOffsetBuffer() { return _offsetBuffer; }
 
 private:
+	vector<Vertex>		   _vertices;
+	vector<vector<uint32>> _indices;
+
 	ComPtr<ID3D12Resource>	 _vertexBuffer;
 	D3D12_VERTEX_BUFFER_VIEW _vertexBufferView = {};
 	uint32					 _vertexCount = 0;

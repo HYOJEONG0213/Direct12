@@ -5,10 +5,174 @@
 #include "InstancingBuffer.h"
 #include "FBXLoader.h"
 #include "StructuredBuffer.h"
+#include <fstream>
 
 Mesh::Mesh() : Object(OBJECT_TYPE::MESH) {}
 
 Mesh::~Mesh() {}
+
+void Mesh::Load(const wstring &path)
+{
+	ifstream ifs(path, ios::binary);
+	assert(ifs.is_open());
+
+	// Vertex Buffer
+	ifs.read(reinterpret_cast<char *>(&_vertexCount), sizeof(_vertexCount));
+	vector<Vertex> vertices(_vertexCount);
+	ifs.read(reinterpret_cast<char *>(vertices.data()), _vertexCount * sizeof(Vertex));
+	CreateVertexBuffer(vertices);
+
+	// Index Buffers
+	uint32 indexCount;
+	ifs.read(reinterpret_cast<char *>(&indexCount), sizeof(indexCount));
+	for (uint32 i = 0; i < indexCount; i++)
+	{
+		uint32 count;
+		ifs.read(reinterpret_cast<char *>(&count), sizeof(count));
+		vector<uint32> indices(count);
+		ifs.read(reinterpret_cast<char *>(indices.data()), count * sizeof(uint32));
+		CreateIndexBuffer(indices);
+	}
+
+	// Bones
+	uint32 boneCount;
+	ifs.read(reinterpret_cast<char *>(&boneCount), sizeof(boneCount));
+	_bones.resize(boneCount);
+	for (uint32 i = 0; i < boneCount; i++)
+	{
+		BoneInfo &info = _bones[i];
+		string	  name;
+		size_t	  nameSize;
+		ifs.read(reinterpret_cast<char *>(&nameSize), sizeof(nameSize));
+		name.resize(nameSize);
+		ifs.read(&name[0], nameSize);
+		info.boneName = s2ws(name);
+		ifs.read(reinterpret_cast<char *>(&info.parentIdx), sizeof(info.parentIdx));
+		ifs.read(reinterpret_cast<char *>(&info.matOffset), sizeof(info.matOffset));
+	}
+
+	// Animation Clips
+	uint32 animCount;
+	ifs.read(reinterpret_cast<char *>(&animCount), sizeof(animCount));
+	_animClips.resize(animCount);
+	for (uint32 i = 0; i < animCount; i++)
+	{
+		AnimClipInfo &info = _animClips[i];
+		string		  name;
+		size_t		  nameSize;
+		ifs.read(reinterpret_cast<char *>(&nameSize), sizeof(nameSize));
+		name.resize(nameSize);
+		ifs.read(&name[0], nameSize);
+		info.animName = s2ws(name);
+		ifs.read(reinterpret_cast<char *>(&info.frameCount), sizeof(info.frameCount));
+		ifs.read(reinterpret_cast<char *>(&info.duration), sizeof(info.duration));
+
+		info.keyFrames.resize(boneCount);
+		for (uint32 b = 0; b < boneCount; b++)
+		{
+			uint32 keyframeCount;
+			ifs.read(reinterpret_cast<char *>(&keyframeCount), sizeof(keyframeCount));
+			info.keyFrames[b].resize(keyframeCount);
+			ifs.read(reinterpret_cast<char *>(info.keyFrames[b].data()), keyframeCount * sizeof(KeyFrameInfo));
+		}
+	}
+
+	// SkinData
+	if (IsAnimMesh())
+	{
+		// BoneOffet 행렬
+		const int32	   boneCount = static_cast<int32>(_bones.size());
+		vector<Matrix> offsetVec(boneCount);
+		for (size_t b = 0; b < boneCount; b++) offsetVec[b] = _bones[b].matOffset;
+
+		// OffsetMatrix StructuredBuffer 세팅
+		_offsetBuffer = make_shared<StructuredBuffer>();
+		_offsetBuffer->Init(sizeof(Matrix), static_cast<uint32>(offsetVec.size()), offsetVec.data());
+
+		const int32 animCount = static_cast<int32>(_animClips.size());
+		for (int32 i = 0; i < animCount; i++)
+		{
+			AnimClipInfo &animClip = _animClips[i];
+
+			// 애니메이션 프레임 정보
+			vector<AnimFrameParams> frameParams;
+			frameParams.resize(_bones.size() * animClip.frameCount);
+
+			for (int32 b = 0; b < boneCount; b++)
+			{
+				const int32 keyFrameCount = static_cast<int32>(animClip.keyFrames[b].size());
+				for (int32 f = 0; f < keyFrameCount; f++)
+				{
+					int32 idx = static_cast<int32>(boneCount * f + b);
+
+					frameParams[idx] = AnimFrameParams{Vec4(animClip.keyFrames[b][f].scale),
+													   animClip.keyFrames[b][f].rotation, // Quaternion
+													   Vec4(animClip.keyFrames[b][f].translate)};
+				}
+			}
+
+			// StructuredBuffer 세팅
+			_frameBuffer.push_back(make_shared<StructuredBuffer>());
+			_frameBuffer.back()->Init(sizeof(AnimFrameParams), static_cast<uint32>(frameParams.size()),
+									  frameParams.data());
+		}
+	}
+}
+
+void Mesh::Save(const wstring &path)
+{
+	ofstream ofs(path, ios::binary);
+	assert(ofs.is_open());
+
+	// Vertex Buffer
+	ofs.write(reinterpret_cast<char *>(&_vertexCount), sizeof(_vertexCount));
+	ofs.write(reinterpret_cast<const char *>(_vertices.data()), _vertexCount * sizeof(Vertex));
+
+	// Index Buffers
+	uint32 indexCount = static_cast<uint32>(_indices.size());
+	ofs.write(reinterpret_cast<char *>(&indexCount), sizeof(indexCount));
+	for (uint32 i = 0; i < indexCount; i++)
+	{
+		uint32 count = static_cast<uint32>(_indices[i].size());
+		ofs.write(reinterpret_cast<char *>(&count), sizeof(count));
+		ofs.write(reinterpret_cast<const char *>(_indices[i].data()), count * sizeof(uint32));
+	}
+
+	// Bones
+	uint32 boneCount = static_cast<uint32>(_bones.size());
+	ofs.write(reinterpret_cast<char *>(&boneCount), sizeof(boneCount));
+	for (uint32 i = 0; i < boneCount; i++)
+	{
+		BoneInfo &info = _bones[i];
+		string	  name = ws2s(info.boneName);
+		size_t	  nameSize = name.size();
+		ofs.write(reinterpret_cast<char *>(&nameSize), sizeof(nameSize));
+		ofs.write(name.c_str(), nameSize);
+		ofs.write(reinterpret_cast<char *>(&info.parentIdx), sizeof(info.parentIdx));
+		ofs.write(reinterpret_cast<char *>(&info.matOffset), sizeof(info.matOffset));
+	}
+
+	// Animation Clips
+	uint32 animCount = static_cast<uint32>(_animClips.size());
+	ofs.write(reinterpret_cast<char *>(&animCount), sizeof(animCount));
+	for (uint32 i = 0; i < animCount; i++)
+	{
+		AnimClipInfo &info = _animClips[i];
+		string		  name = ws2s(info.animName);
+		size_t		  nameSize = name.size();
+		ofs.write(reinterpret_cast<char *>(&nameSize), sizeof(nameSize));
+		ofs.write(name.c_str(), nameSize);
+		ofs.write(reinterpret_cast<char *>(&info.frameCount), sizeof(info.frameCount));
+		ofs.write(reinterpret_cast<char *>(&info.duration), sizeof(info.duration));
+
+		for (uint32 b = 0; b < boneCount; b++)
+		{
+			uint32 keyframeCount = static_cast<uint32>(info.keyFrames[b].size());
+			ofs.write(reinterpret_cast<char *>(&keyframeCount), sizeof(keyframeCount));
+			ofs.write(reinterpret_cast<const char *>(info.keyFrames[b].data()), keyframeCount * sizeof(KeyFrameInfo));
+		}
+	}
+}
 
 void Mesh::Create(const vector<Vertex> &vertexBuffer, const vector<uint32> &indexbuffer)
 {
@@ -40,6 +204,7 @@ void Mesh::Render(shared_ptr<InstancingBuffer> &buffer, uint32 idx)
 shared_ptr<Mesh> Mesh::CreateFromFBX(const FbxMeshInfo *meshInfo, FBXLoader &loader)
 {
 	shared_ptr<Mesh> mesh = make_shared<Mesh>();
+	mesh->SetName(meshInfo->name);
 	mesh->CreateVertexBuffer(meshInfo->vertices);
 
 	for (const vector<uint32> &buffer : meshInfo->indices)
@@ -61,6 +226,7 @@ shared_ptr<Mesh> Mesh::CreateFromFBX(const FbxMeshInfo *meshInfo, FBXLoader &loa
 // 벡터에 vertex 받기 (위치, 컬러 정보)
 void Mesh::CreateVertexBuffer(const vector<Vertex> &buffer)
 {
+	_vertices = buffer;
 	_vertexCount = static_cast<uint32>(buffer.size());
 	uint32 bufferSize = _vertexCount * sizeof(Vertex);
 
@@ -94,6 +260,7 @@ void Mesh::CreateVertexBuffer(const vector<Vertex> &buffer)
 
 void Mesh::CreateIndexBuffer(const vector<uint32> &buffer)
 {
+	_indices.push_back(buffer);
 	uint32 indexCount = static_cast<uint32>(buffer.size());
 	uint32 bufferSize = indexCount * sizeof(uint32);
 

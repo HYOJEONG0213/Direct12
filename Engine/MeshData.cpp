@@ -7,6 +7,7 @@
 #include "Transform.h"
 #include "MeshRenderer.h"
 #include "Animator.h"
+#include <fstream>
 
 MeshData::MeshData() : Object(OBJECT_TYPE::MESH_DATA) {}
 
@@ -42,14 +43,90 @@ shared_ptr<MeshData> MeshData::LoadFromFBX(const wstring &path)
 	return meshData;
 }
 
-void MeshData::Load(const wstring &_strFilePath)
+void MeshData::Load(const wstring &path)
 {
-	// TODO
+	ifstream ifs(path, ios::binary);
+	assert(ifs.is_open());
+
+	uint32 count;
+	ifs.read(reinterpret_cast<char *>(&count), sizeof(count));
+
+	for (uint32 i = 0; i < count; i++)
+	{
+		MeshRenderInfo info = {};
+
+		// Mesh
+		string meshName;
+		size_t meshSize;
+		ifs.read(reinterpret_cast<char *>(&meshSize), sizeof(meshSize));
+		meshName.resize(meshSize);
+		ifs.read(&meshName[0], meshSize);
+
+		wstring meshPath = L"..\\Resources\\Mesh\\" + s2ws(meshName) + L".mesh";
+		info.mesh = GET_SINGLE(Resources)->Load<Mesh>(s2ws(meshName), meshPath);
+
+		// Materials
+		uint32 materialCount;
+		ifs.read(reinterpret_cast<char *>(&materialCount), sizeof(materialCount));
+		for (uint32 j = 0; j < materialCount; j++)
+		{
+			string materialName;
+			size_t materialSize;
+			ifs.read(reinterpret_cast<char *>(&materialSize), sizeof(materialSize));
+			materialName.resize(materialSize);
+			ifs.read(&materialName[0], materialSize);
+
+			wstring				 materialPath = L"..\\Resources\\Material\\" + s2ws(materialName) + L".mat";
+			shared_ptr<Material> material = GET_SINGLE(Resources)->Load<Material>(s2ws(materialName), materialPath);
+			info.materials.push_back(material);
+		}
+
+		_meshRenders.push_back(info);
+	}
 }
 
-void MeshData::Save(const wstring &_strFilePath)
+void MeshData::Save(const wstring &path)
 {
-	// TODO
+	// 디렉토리 생성
+	fs::path parentPath = fs::path(path).parent_path();
+	fs::create_directories(L"..\\Resources\\Mesh");
+	fs::create_directories(L"..\\Resources\\Material");
+
+	ofstream ofs(path, ios::binary);
+	assert(ofs.is_open());
+
+	uint32 count = static_cast<uint32>(_meshRenders.size());
+	ofs.write(reinterpret_cast<char *>(&count), sizeof(count));
+
+	for (uint32 i = 0; i < count; i++)
+	{
+		MeshRenderInfo &info = _meshRenders[i];
+
+		// Mesh
+		string meshName = ws2s(info.mesh->GetName());
+		size_t meshSize = meshName.size();
+		ofs.write(reinterpret_cast<char *>(&meshSize), sizeof(meshSize));
+		ofs.write(meshName.c_str(), meshSize);
+
+		// Mesh 별도 저장
+		wstring meshPath = L"..\\Resources\\Mesh\\" + info.mesh->GetName() + L".mesh";
+		info.mesh->Save(meshPath);
+
+		// Materials
+		uint32 materialCount = static_cast<uint32>(info.materials.size());
+		ofs.write(reinterpret_cast<char *>(&materialCount), sizeof(materialCount));
+		for (uint32 j = 0; j < materialCount; j++)
+		{
+			string materialName = ws2s(info.materials[j]->GetName());
+			size_t materialSize = materialName.size();
+			ofs.write(reinterpret_cast<char *>(&materialSize), sizeof(materialSize));
+			ofs.write(materialName.c_str(), materialSize);
+
+			// Material 별도 저장
+			wstring materialPath = L"..\\Resources\\Material\\" + info.materials[j]->GetName() + L".mat";
+			info.materials[j]->Save(materialPath);
+		}
+	}
 }
 
 vector<shared_ptr<GameObject>> MeshData::Instantiate()
