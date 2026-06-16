@@ -305,18 +305,25 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 	//	}
 	// #pragma endregion
 
-#pragma region FBX2
+#pragma region PlaentFBX
 	{
 		shared_ptr<MeshData> meshData = GET_SINGLE(Resources)->LoadFBX(L"..\\Resources\\FBX\\PlanetsFBX.fbx");
+	}
+#pragma endregion
+#pragma region BasketFBX
+	{
+		shared_ptr<MeshData> meshData = GET_SINGLE(Resources)->LoadFBX(L"..\\Resources\\FBX\\Basket.fbx");
 
 		vector<shared_ptr<GameObject>> gameObjects = meshData->Instantiate();
+		shared_ptr<Material>		   basketMaterial = GET_SINGLE(Resources)->Get<Material>(L"Basket");
 
 		for (auto &gameObject : gameObjects)
 		{
-			gameObject->SetName(L"Planets");
+			gameObject->SetName(L"Basket");
 			gameObject->SetCheckFrustum(false);
-			gameObject->GetTransform()->SetLocalPosition(Vec3(0.f, 0.f, 300.f));
-			gameObject->GetTransform()->SetLocalScale(Vec3(1.f, 1.f, 1.f));
+			gameObject->GetTransform()->SetLocalPosition(Vec3(0.f, -20.f, 200.f));
+			gameObject->GetTransform()->SetLocalScale(Vec3(100.f, 100.f, 100.f));
+			gameObject->GetMeshRenderer()->SetMaterial(basketMaterial->Clone());
 			scene->AddGameObject(gameObject);
 		}
 	}

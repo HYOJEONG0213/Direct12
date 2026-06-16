@@ -656,8 +656,8 @@ void Resources::CreateDefaultMaterial()
 	// 화성 (Mars)
 	{
 		shared_ptr<Shader>	shader = GET_SINGLE(Resources)->Get<Shader>(L"Deferred");
-		shared_ptr<Texture> diff = GET_SINGLE(Resources)->Load<Texture>(
-			L"Mars_Diffuse", L"..\\Resources\\FBX\\Planets\\Mars\\2k_mars.jpg");
+		shared_ptr<Texture> diff =
+			GET_SINGLE(Resources)->Load<Texture>(L"Mars_Diffuse", L"..\\Resources\\FBX\\Planets\\Mars\\2k_mars.jpg");
 		shared_ptr<Material> material = make_shared<Material>();
 		material->SetTexture(0, diff);
 		material->SetShader(shader);
@@ -706,6 +706,27 @@ void Resources::CreateDefaultMaterial()
 		material->SetTexture(0, diff);
 		material->SetShader(shader);
 		Add<Material>(L"Neptune", material);
+	}
+
+	// Basket
+	{
+		shared_ptr<Shader>	shader = GET_SINGLE(Resources)->Get<Shader>(L"Deferred");
+		shared_ptr<Texture> diff =
+			GET_SINGLE(Resources)->Load<Texture>(L"Basket_BC", L"..\\Resources\\FBX\\Basket\\T_Bamboo_Basket_BC.png");
+		shared_ptr<Texture> norm =
+			GET_SINGLE(Resources)->Load<Texture>(L"Basket_N", L"..\\Resources\\FBX\\Basket\\T_Bamboo_Basket_N.png");
+		shared_ptr<Texture> spec =
+			GET_SINGLE(Resources)->Load<Texture>(L"Basket_AO", L"..\\Resources\\FBX\\Basket\\T_Bamboo_Basket_AO.png");
+		// shared_ptr<Texture> rough = GET_SINGLE(Resources)->Load<Texture>(L"Basket_R",
+		// L"..\\Resources\\FBX\\Basket\\T_Bamboo_Basket_R.png");
+
+		shared_ptr<Material> material = make_shared<Material>();
+		material->SetTexture(0, diff);
+		material->SetTexture(1, norm);
+		material->SetTexture(2, spec);
+		// material->SetTexture(3, Roughness);
+		material->SetShader(shader);
+		Add<Material>(L"Basket", material);
 	}
 
 	// Shadow
