@@ -110,7 +110,7 @@ void FBXLoader::LoadMesh(FbxMesh *mesh)
 	}
 
 	const int32 materialCount = mesh->GetNode()->GetMaterialCount();
-	meshInfo.indices.resize(materialCount);
+	meshInfo.indices.resize(materialCount ? materialCount : 1);
 
 	FbxGeometryElementMaterial *geometryElementMaterial = mesh->GetElementMaterial();
 
@@ -120,6 +120,9 @@ void FBXLoader::LoadMesh(FbxMesh *mesh)
 	uint32 arrIdx[3];
 	uint32 vertexCounter = 0; // 정점의 개수
 
+	vector<int32>					cpFirstUV(vertexCount, -1);
+	map<pair<int32, int32>, uint32> splitMap; // (cp, uv)
+
 	// 삼각형 스캔하면서 index, noraml, tangent, uv 추출
 	const int32 triCount = mesh->GetPolygonCount(); // 메쉬의 삼각형 개수를 가져온다
 	for (int32 i = 0; i < triCount; i++)			// 삼각형의 개수
@@ -127,16 +130,42 @@ void FBXLoader::LoadMesh(FbxMesh *mesh)
 		for (int32 j = 0; j < 3; j++) // 삼각형은 세 개의 정점으로 구성
 		{
 			int32 controlPointIndex = mesh->GetPolygonVertex(i, j); // 제어점의 인덱스 추출
-			arrIdx[j] = controlPointIndex;
+			int32 uvIndex = mesh->GetTextureUVIndex(i, j);
 
-			GetNormal(mesh, &meshInfo, controlPointIndex, vertexCounter);
-			GetTangent(mesh, &meshInfo, controlPointIndex, vertexCounter);
-			GetUV(mesh, &meshInfo, controlPointIndex, mesh->GetTextureUVIndex(i, j));
+			if (cpFirstUV[controlPointIndex] == -1)
+			{
+				cpFirstUV[controlPointIndex] = uvIndex;
+				arrIdx[j] = controlPointIndex;
+			}
+			else if (cpFirstUV[controlPointIndex] != uvIndex)
+			{
+				// 같은 CP에 다른 UV → 새 정점 append
+				auto key = make_pair(controlPointIndex, uvIndex);
+				auto it = splitMap.find(key);
+				if (it == splitMap.end())
+				{
+					uint32 splitIdx = static_cast<uint32>(meshInfo.vertices.size());
+					meshInfo.vertices.push_back(meshInfo.vertices[controlPointIndex]);
+					splitMap[key] = splitIdx;
+					arrIdx[j] = splitIdx;
+				}
+				else { arrIdx[j] = it->second; }
+			}
+			else { arrIdx[j] = controlPointIndex; }
+
+			GetNormal(mesh, &meshInfo, arrIdx[j], vertexCounter);
+			GetTangent(mesh, &meshInfo, arrIdx[j], vertexCounter);
+			GetUV(mesh, &meshInfo, arrIdx[j], uvIndex);
 
 			vertexCounter++;
 		}
 
-		const uint32 subsetIdx = geometryElementMaterial->GetIndexArray().GetAt(i);
+		uint32 subsetIdx = 0;
+		if (geometryElementMaterial)
+		{
+			subsetIdx = geometryElementMaterial->GetIndexArray().GetAt(i);
+			if (subsetIdx >= static_cast<uint32>(meshInfo.indices.size())) meshInfo.indices.resize(subsetIdx + 1);
+		}
 		meshInfo.indices[subsetIdx].push_back(arrIdx[0]);
 		meshInfo.indices[subsetIdx].push_back(arrIdx[2]);
 		meshInfo.indices[subsetIdx].push_back(arrIdx[1]);
@@ -144,6 +173,13 @@ void FBXLoader::LoadMesh(FbxMesh *mesh)
 
 	// Animation
 	LoadAnimationData(mesh, &meshInfo);
+
+	/*for (auto &[key, splitIdx] : splitMap)
+	{
+		int32 cpIdx = key.first;
+		meshInfo.vertices[splitIdx].indices = meshInfo.vertices[cpIdx].indices;
+		meshInfo.vertices[splitIdx].weights = meshInfo.vertices[cpIdx].weights;
+	}*/
 }
 
 void FBXLoader::LoadMaterial(FbxSurfaceMaterial *surfaceMaterial)
