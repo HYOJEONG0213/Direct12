@@ -45,7 +45,7 @@ VS_OUT VS_Main(VS_IN input)
 float4 PS_Main(VS_OUT input) : SV_Target
 {
 	float4 color = float4(1.f, 1.f, 1.f, 1.f);
-	if(g_tex_on_0)
+	if (g_tex_on_0)
 		color = g_tex_0.Sample(g_sam_0, input.uv);
 
 	float3 viewNormal = input.viewNormal;
@@ -112,6 +112,32 @@ float4 PS_Tex(VS_TEX_OUT input) : SV_Target
 		color = g_tex_0.Sample(g_sam_0, input.uv);
 
 	return color;
+}
+
+// [Collider Debug Shader]
+struct VS_DEBUG_IN
+{
+	float3 pos : POSITION;
+	float2 uv : TEXCOORD;
+	float3 normal : NORMAL;
+	float3 tangent : TANGENT;
+};
+
+struct VS_DEBUG_OUT
+{
+	float4 pos : SV_Position;
+};
+
+VS_DEBUG_OUT VS_Debug(VS_DEBUG_IN input)
+{
+	VS_DEBUG_OUT output = (VS_DEBUG_OUT) 0;
+	output.pos = mul(float4(input.pos, 1.f), g_matWVP);
+	return output;
+}
+
+float4 PS_Debug(VS_DEBUG_OUT input) : SV_Target
+{
+	return float4(0.f, 1.f, 0.f, 1.f);
 }
 
 #endif

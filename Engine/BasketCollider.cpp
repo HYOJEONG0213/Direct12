@@ -5,6 +5,8 @@
 #include "Transform.h"
 #include "CylinderCollider.h"
 #include "PlaneCollider.h"
+#include "MeshRenderer.h"
+#include "Resources.h"
 
 static const float BASKET_WALL_R = 24.f;
 static const float BASKET_HALF_H = 11.5f;
@@ -35,4 +37,36 @@ void BasketCollider::Init(shared_ptr<Scene> scene, Vec3 basketPos)
 	planeCol->SetNormal(Vec3(0.f, 1.f, 0.f));
 	floorObj->AddComponent(planeCol);
 	scene->AddGameObject(floorObj);
+
+#ifdef _DEBUG
+	shared_ptr<Material> debugMat = GET_SINGLE(Resources)->Get<Material>(L"ColliderDebug");
+
+	// cylinder wireframe visual — size read directly from collider to guarantee match
+	{
+		shared_ptr<GameObject> visObj = make_shared<GameObject>();
+		visObj->AddComponent(make_shared<Transform>());
+		visObj->GetTransform()->SetLocalPosition(Vec3(basketPos.x, cylinderCenY, basketPos.z));
+		visObj->GetTransform()->SetLocalScale(Vec3(cylCol->GetRadius(), cylCol->GetHalfHeight() * 2.f, cylCol->GetRadius()));
+		visObj->SetCheckFrustum(false);
+		shared_ptr<MeshRenderer> mr = make_shared<MeshRenderer>();
+		mr->SetMesh(GET_SINGLE(Resources)->LoadCylinderMesh());
+		mr->SetMaterial(debugMat->Clone());
+		visObj->AddComponent(mr);
+		scene->AddGameObject(visObj);
+	}
+
+	// floor disc wireframe visual — position read directly from collider
+	{
+		shared_ptr<GameObject> visObj = make_shared<GameObject>();
+		visObj->AddComponent(make_shared<Transform>());
+		visObj->GetTransform()->SetLocalPosition(floorObj->GetTransform()->GetLocalPosition());
+		visObj->GetTransform()->SetLocalScale(Vec3(cylCol->GetRadius(), 1.f, cylCol->GetRadius()));
+		visObj->SetCheckFrustum(false);
+		shared_ptr<MeshRenderer> mr = make_shared<MeshRenderer>();
+		mr->SetMesh(GET_SINGLE(Resources)->LoadDiscMesh());
+		mr->SetMaterial(debugMat->Clone());
+		visObj->AddComponent(mr);
+		scene->AddGameObject(visObj);
+	}
+#endif
 }

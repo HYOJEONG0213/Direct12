@@ -375,6 +375,76 @@ shared_ptr<MeshData> Resources::LoadFBX(const wstring &path)
 	return meshData;
 }
 
+shared_ptr<Mesh> Resources::LoadCylinderMesh(int32 slices)
+{
+	shared_ptr<Mesh> findMesh = Get<Mesh>(L"Cylinder");
+	if (findMesh) return findMesh;
+
+	vector<Vertex> vec;
+	vector<uint32> idx;
+
+	const float TWO_PI = 6.2831853f;
+	for (int32 i = 0; i < slices; ++i)
+	{
+		float a0 = TWO_PI * i / slices;
+		float a1 = TWO_PI * (i + 1) / slices;
+		float x0 = cosf(a0), z0 = sinf(a0);
+		float x1 = cosf(a1), z1 = sinf(a1);
+
+		uint32 base = static_cast<uint32>(vec.size());
+
+		// side quad (2 triangles)
+		vec.push_back(Vertex(Vec3(x0, -0.5f, z0), Vec2(0, 1), Vec3(x0, 0, z0), Vec3(0, 1, 0)));
+		vec.push_back(Vertex(Vec3(x0, 0.5f, z0), Vec2(0, 0), Vec3(x0, 0, z0), Vec3(0, 1, 0)));
+		vec.push_back(Vertex(Vec3(x1, 0.5f, z1), Vec2(1, 0), Vec3(x1, 0, z1), Vec3(0, 1, 0)));
+		vec.push_back(Vertex(Vec3(x1, -0.5f, z1), Vec2(1, 1), Vec3(x1, 0, z1), Vec3(0, 1, 0)));
+
+		idx.push_back(base + 0);
+		idx.push_back(base + 1);
+		idx.push_back(base + 2);
+		idx.push_back(base + 0);
+		idx.push_back(base + 2);
+		idx.push_back(base + 3);
+	}
+
+	shared_ptr<Mesh> mesh = make_shared<Mesh>();
+	mesh->Create(vec, idx);
+	Add(L"Cylinder", mesh);
+	return mesh;
+}
+
+shared_ptr<Mesh> Resources::LoadDiscMesh(int32 slices)
+{
+	shared_ptr<Mesh> findMesh = Get<Mesh>(L"Disc");
+	if (findMesh) return findMesh;
+
+	vector<Vertex> vec;
+	vector<uint32> idx;
+
+	// center vertex
+	vec.push_back(Vertex(Vec3(0, 0, 0), Vec2(0.5f, 0.5f), Vec3(0, 1, 0), Vec3(1, 0, 0)));
+
+	const float TWO_PI = 6.2831853f;
+	for (int32 i = 0; i <= slices; ++i)
+	{
+		float a = TWO_PI * i / slices;
+		float x = cosf(a), z = sinf(a);
+		vec.push_back(Vertex(Vec3(x, 0, z), Vec2(x * 0.5f + 0.5f, z * 0.5f + 0.5f), Vec3(0, 1, 0), Vec3(1, 0, 0)));
+	}
+
+	for (int32 i = 0; i < slices; ++i)
+	{
+		idx.push_back(0);
+		idx.push_back(static_cast<uint32>(i + 1));
+		idx.push_back(static_cast<uint32>(i + 2));
+	}
+
+	shared_ptr<Mesh> mesh = make_shared<Mesh>();
+	mesh->Create(vec, idx);
+	Add(L"Disc", mesh);
+	return mesh;
+}
+
 void Resources::CreateDefaultShader()
 {
 	// Skybox
@@ -526,6 +596,16 @@ void Resources::CreateDefaultShader()
 		shared_ptr<Shader> shader = make_shared<Shader>();
 		shader->CreateComputeShader(L"..\\Resources\\Shader\\animation.fx", "CS_Main", "cs_5_0");
 		Add<Shader>(L"ComputeAnimation", shader);
+	}
+
+	// ColliderDebug
+	{
+		ShaderInfo		   info = {SHADER_TYPE::FORWARD, RASTERIZER_TYPE::WIREFRAME, DEPTH_STENCIL_TYPE::LESS,
+								   BLEND_TYPE::DEFAULT, D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST};
+		ShaderArg		   arg = {"VS_Debug", "", "", "", "PS_Debug"};
+		shared_ptr<Shader> shader = make_shared<Shader>();
+		shader->CreateGraphicsShader(L"..\\Resources\\Shader\\forward.fx", info, arg);
+		Add<Shader>(L"ColliderDebug", shader);
 	}
 }
 
@@ -763,5 +843,13 @@ void Resources::CreateDefaultMaterial()
 		material->SetShader(shader);
 
 		Add<Material>(L"ComputeAnimation", material);
+	}
+
+	// ColliderDebug
+	{
+		shared_ptr<Shader>	 shader = GET_SINGLE(Resources)->Get<Shader>(L"ColliderDebug");
+		shared_ptr<Material> material = make_shared<Material>();
+		material->SetShader(shader);
+		Add<Material>(L"ColliderDebug", material);
 	}
 }
