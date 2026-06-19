@@ -11,6 +11,7 @@
 #include "Light.h"
 #include "Terrain.h"
 #include "SphereCollider.h"
+#include "BasketCollider.h"
 #include "MeshData.h"
 #include "TestDragon.h"
 
@@ -317,15 +318,19 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 		vector<shared_ptr<GameObject>> gameObjects = meshData->Instantiate();
 		shared_ptr<Material>		   basketMaterial = GET_SINGLE(Resources)->Get<Material>(L"Basket");
 
+		Vec3 basketPos = Vec3(0.f, -20.f, 200.f);
+
 		for (auto &gameObject : gameObjects)
 		{
 			gameObject->SetName(L"Basket");
 			gameObject->SetCheckFrustum(false);
-			gameObject->GetTransform()->SetLocalPosition(Vec3(0.f, -20.f, 200.f));
+			gameObject->GetTransform()->SetLocalPosition(basketPos);
 			gameObject->GetTransform()->SetLocalScale(Vec3(100.f, 100.f, 100.f));
 			gameObject->GetMeshRenderer()->SetMaterial(basketMaterial->Clone());
 			scene->AddGameObject(gameObject);
 		}
+
+		BasketCollider::Init(scene, basketPos);
 	}
 #pragma endregion
 
