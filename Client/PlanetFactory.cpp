@@ -6,6 +6,7 @@
 #include "SphereCollider.h"
 #include "MeshRenderer.h"
 #include "Resources.h"
+#include "Rigidbody.h"
 
 PlanetData g_PlanetTable[] = {
 	//			현재 타입, 다음 진화 타입,	 스케일, 질량, 점수, 매터리얼
@@ -34,6 +35,11 @@ shared_ptr<GameObject> PlanetFactory::CreatePlanet(PLANET_TYPE type, Vec3 spawnP
 	shared_ptr<SphereCollider> collider = make_shared<SphereCollider>();
 	collider->SetRadius(0.8f);
 	obj->AddComponent(collider);
+
+	// Rigidbody
+	shared_ptr<Rigidbody> rigid = make_shared<Rigidbody>();
+	rigid->SetMass(data.mass);
+	obj->AddComponent(rigid);
 
 	// 물리 최적화
 	obj->SetCheckFrustum(false);

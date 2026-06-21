@@ -168,6 +168,9 @@
     <ClInclude Include="TableCollider.h">
       <Filter>Object\Component\Collider</Filter>
     </ClInclude>
+    <ClInclude Include="Rigidbody.h">
+      <Filter>Object\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EnginePch.cpp">
@@ -304,6 +307,9 @@
     </ClCompile>
     <ClCompile Include="TableCollider.cpp">
       <Filter>Object\Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Rigidbody.cpp">
+      <Filter>Object\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

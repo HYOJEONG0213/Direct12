@@ -11,6 +11,7 @@ enum class COMPONENT_TYPE : uint8
 	TERRAIN,
 	COLLIDER,
 	ANIMATOR,
+	RIGIDBODY,
 	MONO_BEHAVIOUR, // 꼭 마지막에 위치!
 	END,
 };
