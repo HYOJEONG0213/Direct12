@@ -41,12 +41,13 @@ void BasketCollider::Init(shared_ptr<Scene> scene, Vec3 basketPos)
 #ifdef _DEBUG
 	shared_ptr<Material> debugMat = GET_SINGLE(Resources)->Get<Material>(L"ColliderDebug");
 
-	// cylinder wireframe visual — size read directly from collider to guarantee match
+	// 옆면
 	{
 		shared_ptr<GameObject> visObj = make_shared<GameObject>();
 		visObj->AddComponent(make_shared<Transform>());
 		visObj->GetTransform()->SetLocalPosition(Vec3(basketPos.x, cylinderCenY, basketPos.z));
-		visObj->GetTransform()->SetLocalScale(Vec3(cylCol->GetRadius(), cylCol->GetHalfHeight() * 2.f, cylCol->GetRadius()));
+		visObj->GetTransform()->SetLocalScale(
+			Vec3(cylCol->GetRadius(), cylCol->GetHalfHeight() * 2.f, cylCol->GetRadius()));
 		visObj->SetCheckFrustum(false);
 		shared_ptr<MeshRenderer> mr = make_shared<MeshRenderer>();
 		mr->SetMesh(GET_SINGLE(Resources)->LoadCylinderMesh());
@@ -55,7 +56,7 @@ void BasketCollider::Init(shared_ptr<Scene> scene, Vec3 basketPos)
 		scene->AddGameObject(visObj);
 	}
 
-	// floor disc wireframe visual — position read directly from collider
+	// 바닥
 	{
 		shared_ptr<GameObject> visObj = make_shared<GameObject>();
 		visObj->AddComponent(make_shared<Transform>());

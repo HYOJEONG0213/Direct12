@@ -165,6 +165,9 @@
     <ClInclude Include="BasketCollider.h">
       <Filter>Object\Component\Collider</Filter>
     </ClInclude>
+    <ClInclude Include="TableCollider.h">
+      <Filter>Object\Component\Collider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EnginePch.cpp">
@@ -297,6 +300,9 @@
       <Filter>Object\Component\Collider</Filter>
     </ClCompile>
     <ClCompile Include="BasketCollider.cpp">
+      <Filter>Object\Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="TableCollider.cpp">
       <Filter>Object\Component\Collider</Filter>
     </ClCompile>
   </ItemGroup>

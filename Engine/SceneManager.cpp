@@ -12,6 +12,7 @@
 #include "Terrain.h"
 #include "SphereCollider.h"
 #include "BasketCollider.h"
+#include "TableCollider.h"
 #include "MeshData.h"
 #include "TestDragon.h"
 
@@ -333,7 +334,7 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 		BasketCollider::Init(scene, basketPos);
 	}
 #pragma endregion
-#pragma region BasketFBX
+#pragma region TableFBX
 	{
 		shared_ptr<MeshData> meshData = GET_SINGLE(Resources)->LoadFBX(L"..\\Resources\\FBX\\Table.fbx");
 
@@ -352,7 +353,7 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 			scene->AddGameObject(gameObject);
 		}
 
-		BasketCollider::Init(scene, tablePos);
+		TableCollider::Init(scene, tablePos);
 	}
 #pragma endregion
 
