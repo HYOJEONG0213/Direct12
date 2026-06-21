@@ -333,6 +333,28 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 		BasketCollider::Init(scene, basketPos);
 	}
 #pragma endregion
+#pragma region BasketFBX
+	{
+		shared_ptr<MeshData> meshData = GET_SINGLE(Resources)->LoadFBX(L"..\\Resources\\FBX\\Table.fbx");
+
+		vector<shared_ptr<GameObject>> gameObjects = meshData->Instantiate();
+		shared_ptr<Material>		   basketMaterial = GET_SINGLE(Resources)->Get<Material>(L"Table");
+
+		Vec3 tablePos = Vec3(0.f, -30.f, 200.f);
+
+		for (auto &gameObject : gameObjects)
+		{
+			gameObject->SetName(L"Table");
+			gameObject->SetCheckFrustum(false);
+			gameObject->GetTransform()->SetLocalPosition(tablePos);
+			gameObject->GetTransform()->SetLocalScale(Vec3(200.f, 200.f, 200.f));
+			gameObject->GetMeshRenderer()->SetMaterial(basketMaterial->Clone());
+			scene->AddGameObject(gameObject);
+		}
+
+		BasketCollider::Init(scene, tablePos);
+	}
+#pragma endregion
 
 	shared_ptr<GameObject> jupiter = PlanetFactory::CreatePlanet(PLANET_TYPE::JUPITER, Vec3(440.f, 0.f, 800.f));
 	scene->AddGameObject(jupiter);

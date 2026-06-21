@@ -809,6 +809,15 @@ void Resources::CreateDefaultMaterial()
 		Add<Material>(L"Basket", material);
 	}
 
+	// Table
+	{
+		shared_ptr<Shader>	 shader = GET_SINGLE(Resources)->Get<Shader>(L"Deferred");
+		shared_ptr<Material> material = make_shared<Material>();
+		// material->SetTexture(3, Roughness);
+		material->SetShader(shader);
+		Add<Material>(L"Table", material);
+	}
+
 	// Shadow
 	{
 		shared_ptr<Shader>	 shader = GET_SINGLE(Resources)->Get<Shader>(L"Shadow");
