@@ -46,6 +46,26 @@ void PhysicsManager::Update(Scene *scene)
 			// 속도 반전
 			float vDotN = vel.Dot(n);
 			if (vDotN < 0.f) vel -= n * (1.3f * vDotN);
+
+			// 가장자리 근처면 XZ 방향으로 밀어내기
+			float planeRadius = plane->GetRadius();
+			if (planeRadius > 0.f)
+			{
+				Vec3  planePos = plane->GetWorldPos();
+				float dx = pos.x - planePos.x;
+				float dz = pos.z - planePos.z;
+				float xzDist = sqrtf(dx * dx + dz * dz);
+				float outerBound = planeRadius + radius; // 경계끝
+				float edgeStart = planeRadius * 0.9f;	 // 경계 시작
+
+				if (xzDist > edgeStart && xzDist < outerBound)
+				{
+					float t = (xzDist - edgeStart) / (outerBound - edgeStart); // 치우침정도
+					Vec3  outward = Vec3(dx, 0.f, dz);						   // 평면 -> 공 방향 벡터
+					outward.Normalize();
+					vel += outward * (t * 70.f);
+				}
+			}
 		}
 
 		object->GetTransform()->SetLocalPosition(pos);

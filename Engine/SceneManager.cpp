@@ -267,7 +267,7 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 	}
 #pragma endregion
 
-#pragma region PlaentFBX
+#pragma region PlanetFBX
 	{
 		shared_ptr<MeshData> meshData = GET_SINGLE(Resources)->LoadFBX(L"..\\Resources\\FBX\\PlanetsFBX.fbx");
 	}
@@ -313,7 +313,7 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 			scene->AddGameObject(gameObject);
 		}
 
-		// TableCollider::Init(scene, tablePos, 100.f);
+		TableCollider::Init(scene, tablePos, 100.f);
 	}
 #pragma endregion
 
