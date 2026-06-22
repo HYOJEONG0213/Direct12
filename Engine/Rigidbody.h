@@ -19,10 +19,14 @@ public:
 	bool GetUseGravity() const { return _useGravity; }
 	void SetUseGravity(bool b) { _useGravity = b; }
 
+	float GetRadius() const { return _radius; }
+	void  SetRadius(float r) { _radius = r; }
+
 private:
 	Vec3  _velocity = {};
 	float _mass = 1.f;
 	bool  _useGravity = true;
+	float _radius = 1.f;
 
 	static constexpr float GRAVITY = 9.8f;
 };

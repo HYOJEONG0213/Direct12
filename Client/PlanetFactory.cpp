@@ -39,6 +39,7 @@ shared_ptr<GameObject> PlanetFactory::CreatePlanet(PLANET_TYPE type, Vec3 spawnP
 	// Rigidbody
 	shared_ptr<Rigidbody> rigid = make_shared<Rigidbody>();
 	rigid->SetMass(data.mass);
+	rigid->SetRadius(collider->GetRadius() * data.scale); // 실제 월드 반지름!
 	obj->AddComponent(rigid);
 
 	// 물리 최적화
