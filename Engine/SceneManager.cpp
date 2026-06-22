@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "SceneManager.h"
 #include "Scene.h"
+#include "PhysicsManager.h"
 
 #include "Engine.h"
 #include "Material.h"
@@ -28,6 +29,7 @@ void SceneManager::Update()
 
 	_activeScene->Update();
 	_activeScene->LateUpdate();
+	_activeScene->PhysicsUpdate();
 	_activeScene->FinalUpdate();
 }
 
@@ -38,13 +40,13 @@ void SceneManager::Render()
 }
 void SceneManager::LoadScene(wstring sceneName)
 {
-	// TODO : 기존 Scene 정리
-	// TODO : 파일에서 Scene 정보 로드
-
 	_activeScene = LoadTestScene();
 
 	_activeScene->Awake();
 	_activeScene->Start();
+
+	// 정적 콜라이더 수집 한 번만!!
+	GET_SINGLE(PhysicsManager)->Init(_activeScene.get());
 }
 
 shared_ptr<GameObject> SceneManager::Pick(int32 screenX, int32 screenY)

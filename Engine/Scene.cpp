@@ -6,6 +6,7 @@
 #include "Engine.h"
 #include "ConstantBuffer.h"
 #include "Resources.h"
+#include "PhysicsManager.h"
 
 void Scene::Awake()
 {
@@ -25,6 +26,11 @@ void Scene::Update()
 void Scene::LateUpdate()
 {
 	for (const shared_ptr<GameObject> &gameObject : _gameObjects) { gameObject->LateUpdate(); }
+}
+
+void Scene::PhysicsUpdate()
+{
+	GET_SINGLE(PhysicsManager)->Update(this);
 }
 
 void Scene::FinalUpdate()

@@ -10,6 +10,7 @@ public:
 	void Start();
 	void Update();
 	void LateUpdate();
+	void PhysicsUpdate();
 	void FinalUpdate();
 
 	shared_ptr<class Camera> GetMainCamera();

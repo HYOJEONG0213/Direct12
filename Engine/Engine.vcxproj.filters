@@ -171,6 +171,9 @@
     <ClInclude Include="Rigidbody.h">
       <Filter>Object\Component</Filter>
     </ClInclude>
+    <ClInclude Include="PhysicsManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EnginePch.cpp">
@@ -310,6 +313,9 @@
     </ClCompile>
     <ClCompile Include="Rigidbody.cpp">
       <Filter>Object\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsManager.cpp">
+      <Filter>Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
