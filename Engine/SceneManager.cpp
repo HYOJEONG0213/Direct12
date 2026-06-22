@@ -272,26 +272,26 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 		shared_ptr<MeshData> meshData = GET_SINGLE(Resources)->LoadFBX(L"..\\Resources\\FBX\\PlanetsFBX.fbx");
 	}
 #pragma endregion
-#pragma region BasketFBX
+#pragma region PlateFBX
 	{
-		shared_ptr<MeshData> meshData = GET_SINGLE(Resources)->LoadFBX(L"..\\Resources\\FBX\\Basket.fbx");
+		shared_ptr<MeshData> meshData = GET_SINGLE(Resources)->LoadFBX(L"..\\Resources\\FBX\\Plate.fbx");
 
 		vector<shared_ptr<GameObject>> gameObjects = meshData->Instantiate();
-		shared_ptr<Material>		   basketMaterial = GET_SINGLE(Resources)->Get<Material>(L"Basket");
+		shared_ptr<Material>		   plateMaterial = GET_SINGLE(Resources)->Get<Material>(L"Plate");
 
-		Vec3 basketPos = Vec3(0.f, -20.f, 200.f);
+		Vec3 platePos = Vec3(0.f, -45.f, 200.f);
 
 		for (auto &gameObject : gameObjects)
 		{
-			gameObject->SetName(L"Basket");
+			gameObject->SetName(L"Plate");
 			gameObject->SetCheckFrustum(false);
-			gameObject->GetTransform()->SetLocalPosition(basketPos);
-			gameObject->GetTransform()->SetLocalScale(Vec3(250.f, 250.f, 250.f));
-			gameObject->GetMeshRenderer()->SetMaterial(basketMaterial->Clone());
+			gameObject->GetTransform()->SetLocalPosition(platePos);
+			gameObject->GetTransform()->SetLocalScale(Vec3(10.f, 10.f, 10.f));
+			gameObject->GetMeshRenderer()->SetMaterial(plateMaterial->Clone());
 			scene->AddGameObject(gameObject);
 		}
 
-		BasketCollider::Init(scene, basketPos);
+		TableCollider::Init(scene, platePos);
 	}
 #pragma endregion
 #pragma region TableFBX
@@ -299,17 +299,17 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 		shared_ptr<MeshData> meshData = GET_SINGLE(Resources)->LoadFBX(L"..\\Resources\\FBX\\Table.fbx");
 
 		vector<shared_ptr<GameObject>> gameObjects = meshData->Instantiate();
-		shared_ptr<Material>		   basketMaterial = GET_SINGLE(Resources)->Get<Material>(L"Table");
+		shared_ptr<Material>		   tableMaterial = GET_SINGLE(Resources)->Get<Material>(L"Table");
 
-		Vec3 tablePos = Vec3(0.f, -47.f, 200.f);
+		Vec3 tablePos = Vec3(0.f, -55.f, 200.f);
 
 		for (auto &gameObject : gameObjects)
 		{
 			gameObject->SetName(L"Table");
 			gameObject->SetCheckFrustum(false);
 			gameObject->GetTransform()->SetLocalPosition(tablePos);
-			gameObject->GetTransform()->SetLocalScale(Vec3(200.f, 200.f, 200.f));
-			gameObject->GetMeshRenderer()->SetMaterial(basketMaterial->Clone());
+			gameObject->GetTransform()->SetLocalScale(Vec3(250.f, 250.f, 250.f));
+			gameObject->GetMeshRenderer()->SetMaterial(tableMaterial->Clone());
 			scene->AddGameObject(gameObject);
 		}
 
@@ -317,7 +317,7 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 	}
 #pragma endregion
 
-	shared_ptr<GameObject> jupiter = PlanetFactory::CreatePlanet(PLANET_TYPE::JUPITER, Vec3(0.f, 100.f, 200.f));
+	shared_ptr<GameObject> jupiter = PlanetFactory::CreatePlanet(PLANET_TYPE::JUPITER, Vec3(60.f, 100.f, 200.f));
 	scene->AddGameObject(jupiter);
 
 	return scene;

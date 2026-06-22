@@ -789,31 +789,52 @@ void Resources::CreateDefaultMaterial()
 	}
 
 	// Basket
+	//{
+	//	shared_ptr<Shader>	shader = GET_SINGLE(Resources)->Get<Shader>(L"Deferred");
+	//	shared_ptr<Texture> diff =
+	//		GET_SINGLE(Resources)->Load<Texture>(L"Basket_BC", L"..\\Resources\\FBX\\Basket\\T_Bamboo_Basket_BC.png");
+	//	shared_ptr<Texture> norm =
+	//		GET_SINGLE(Resources)->Load<Texture>(L"Basket_N", L"..\\Resources\\FBX\\Basket\\T_Bamboo_Basket_N.png");
+	//	shared_ptr<Texture> spec =
+	//		GET_SINGLE(Resources)->Load<Texture>(L"Basket_AO", L"..\\Resources\\FBX\\Basket\\T_Bamboo_Basket_AO.png");
+	//	// shared_ptr<Texture> rough = GET_SINGLE(Resources)->Load<Texture>(L"Basket_R",
+	//	// L"..\\Resources\\FBX\\Basket\\T_Bamboo_Basket_R.png");
+
+	//	shared_ptr<Material> material = make_shared<Material>();
+	//	material->SetTexture(0, diff);
+	//	material->SetTexture(1, norm);
+	//	material->SetTexture(2, spec);
+	//	// material->SetTexture(3, Roughness);
+	//	material->SetShader(shader);
+	//	Add<Material>(L"Basket", material);
+	//}
+
+	// Plate
 	{
 		shared_ptr<Shader>	shader = GET_SINGLE(Resources)->Get<Shader>(L"Deferred");
 		shared_ptr<Texture> diff =
-			GET_SINGLE(Resources)->Load<Texture>(L"Basket_BC", L"..\\Resources\\FBX\\Basket\\T_Bamboo_Basket_BC.png");
+			GET_SINGLE(Resources)->Load<Texture>(L"Plate_BC", L"..\\Resources\\FBX\\Plate\\Plate_baseColor.png");
 		shared_ptr<Texture> norm =
-			GET_SINGLE(Resources)->Load<Texture>(L"Basket_N", L"..\\Resources\\FBX\\Basket\\T_Bamboo_Basket_N.png");
-		shared_ptr<Texture> spec =
-			GET_SINGLE(Resources)->Load<Texture>(L"Basket_AO", L"..\\Resources\\FBX\\Basket\\T_Bamboo_Basket_AO.png");
-		// shared_ptr<Texture> rough = GET_SINGLE(Resources)->Load<Texture>(L"Basket_R",
-		// L"..\\Resources\\FBX\\Basket\\T_Bamboo_Basket_R.png");
+			GET_SINGLE(Resources)->Load<Texture>(L"Plate_N", L"..\\Resources\\FBX\\Plate\\Plate_normal.png");
 
 		shared_ptr<Material> material = make_shared<Material>();
 		material->SetTexture(0, diff);
 		material->SetTexture(1, norm);
-		material->SetTexture(2, spec);
-		// material->SetTexture(3, Roughness);
 		material->SetShader(shader);
 		Add<Material>(L"Basket", material);
 	}
 
 	// Table
 	{
-		shared_ptr<Shader>	 shader = GET_SINGLE(Resources)->Get<Shader>(L"Deferred");
+		shared_ptr<Shader>	shader = GET_SINGLE(Resources)->Get<Shader>(L"Deferred");
+		shared_ptr<Texture> diff =
+			GET_SINGLE(Resources)->Load<Texture>(L"Wood", L"..\\Resources\\Texture\\Wood.jpg");
+		shared_ptr<Texture> norm =
+			GET_SINGLE(Resources)->Load<Texture>(L"Wood_normal", L"..\\Resources\\Texture\\Wood_normal.jpg");
+
 		shared_ptr<Material> material = make_shared<Material>();
-		// material->SetTexture(3, Roughness);
+		material->SetTexture(0, diff);
+		material->SetTexture(1, norm);
 		material->SetShader(shader);
 		Add<Material>(L"Table", material);
 	}
