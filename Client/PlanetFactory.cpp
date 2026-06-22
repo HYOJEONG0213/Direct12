@@ -10,14 +10,14 @@
 
 PlanetData g_PlanetTable[] = {
 	//			현재 타입, 다음 진화 타입,	 스케일, 질량, 점수, 매터리얼
-	{PLANET_TYPE::MERCURY, PLANET_TYPE::MARS, 5.0f, 1.0f, 2, L"Mercury"},
-	{PLANET_TYPE::MARS, PLANET_TYPE::VENUS, 7.5f, 1.5f, 4, L"Mars"},
-	{PLANET_TYPE::VENUS, PLANET_TYPE::EARTH, 10.0f, 2.0f, 8, L"Venus"},
-	{PLANET_TYPE::EARTH, PLANET_TYPE::NEPTUNE, 15.0f, 3.0f, 16, L"Earth"},
-	{PLANET_TYPE::NEPTUNE, PLANET_TYPE::URANUS, 22.5f, 4.5f, 32, L"Neptune"},
-	{PLANET_TYPE::URANUS, PLANET_TYPE::SATURN, 32.5f, 6.5f, 64, L"Uranus"},
-	{PLANET_TYPE::SATURN, PLANET_TYPE::JUPITER, 47.5f, 9.5f, 128, L"Saturn"},
-	{PLANET_TYPE::JUPITER, PLANET_TYPE::END, 81.0f, 16.0f, 256, L"Jupiter"}};
+	{PLANET_TYPE::MERCURY, PLANET_TYPE::MARS, 3.0f, 1.0f, 2, L"Mercury"},
+	{PLANET_TYPE::MARS, PLANET_TYPE::VENUS, 5.0f, 1.5f, 4, L"Mars"},
+	{PLANET_TYPE::VENUS, PLANET_TYPE::EARTH, 7.0f, 2.0f, 8, L"Venus"},
+	{PLANET_TYPE::EARTH, PLANET_TYPE::NEPTUNE, 9.0f, 3.0f, 16, L"Earth"},
+	{PLANET_TYPE::NEPTUNE, PLANET_TYPE::URANUS, 11.5f, 4.5f, 32, L"Neptune"},
+	{PLANET_TYPE::URANUS, PLANET_TYPE::SATURN, 13.5f, 6.5f, 64, L"Uranus"},
+	{PLANET_TYPE::SATURN, PLANET_TYPE::JUPITER, 15.5f, 9.5f, 128, L"Saturn"},
+	{PLANET_TYPE::JUPITER, PLANET_TYPE::END, 17.0f, 16.0f, 256, L"Jupiter"}};
 
 shared_ptr<GameObject> PlanetFactory::CreatePlanet(PLANET_TYPE type, Vec3 spawnPos)
 {
