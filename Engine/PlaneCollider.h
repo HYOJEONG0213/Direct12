@@ -17,11 +17,14 @@ public:
 		_normal = n;
 		_normal.Normalize();
 	}
+	void SetRadius(float r) { _radius = r; }
 
-	Vec3 GetNormal() const { return _normal; }
-	Vec3 GetWorldPos() const { return _worldPos; }
+	Vec3  GetNormal() const { return _normal; }
+	Vec3  GetWorldPos() const { return _worldPos; }
+	float GetRadius() const { return _radius; }
 
 private:
-	Vec3 _normal = Vec3(0.f, 1.f, 0.f);
-	Vec3 _worldPos = {};
+	Vec3  _normal = Vec3(0.f, 1.f, 0.f);
+	Vec3  _worldPos = {};
+	float _radius = 0.f;
 };
