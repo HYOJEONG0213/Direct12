@@ -8,9 +8,9 @@
 #include "MeshRenderer.h"
 #include "Resources.h"
 
-static const float BASKET_WALL_R = 24.f;
-static const float BASKET_HALF_H = 11.5f;
-static const float BASKET_BOTTOM_OFS = -11.f;
+static const float BASKET_WALL_R = 60.f;
+static const float BASKET_HALF_H = 28.75f;
+static const float BASKET_BOTTOM_OFS = -27.5f;
 
 void BasketCollider::Init(shared_ptr<Scene> scene, Vec3 basketPos)
 {

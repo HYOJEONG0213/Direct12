@@ -151,7 +151,8 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 	camera->GetCamera()->SetFar(10000.f);
 	camera->AddComponent(make_shared<TestCameraScript>());
 
-	camera->GetTransform()->SetLocalPosition(Vec3(0.f, 0.f, 0.f));
+	camera->GetTransform()->SetLocalPosition(Vec3(0.f, 80.f, 30.f));
+	camera->GetTransform()->SetLocalRotation(Vec3(0.4f, 0.f, 0.f));
 
 	uint8 layerIndex = GET_SINGLE(SceneManager)->LayerNameToIndex(L"UI");
 	camera->GetCamera()->SetCullingMaskLayerOnOff(layerIndex, true); // UI는 안 찍음
@@ -285,7 +286,7 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 			gameObject->SetName(L"Basket");
 			gameObject->SetCheckFrustum(false);
 			gameObject->GetTransform()->SetLocalPosition(basketPos);
-			gameObject->GetTransform()->SetLocalScale(Vec3(100.f, 100.f, 100.f));
+			gameObject->GetTransform()->SetLocalScale(Vec3(250.f, 250.f, 250.f));
 			gameObject->GetMeshRenderer()->SetMaterial(basketMaterial->Clone());
 			scene->AddGameObject(gameObject);
 		}
@@ -300,7 +301,7 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 		vector<shared_ptr<GameObject>> gameObjects = meshData->Instantiate();
 		shared_ptr<Material>		   basketMaterial = GET_SINGLE(Resources)->Get<Material>(L"Table");
 
-		Vec3 tablePos = Vec3(0.f, -30.f, 200.f);
+		Vec3 tablePos = Vec3(0.f, -47.f, 200.f);
 
 		for (auto &gameObject : gameObjects)
 		{
