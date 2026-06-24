@@ -45,7 +45,7 @@ void PhysicsManager::Update(Scene *scene)
 
 			// 속도 반전
 			float vDotN = vel.Dot(n);
-			if (vDotN < 0.f) vel -= n * (1.3f * vDotN);
+			if (vDotN < 0.f) vel -= n * (1.05f * vDotN);
 
 			// 가장자리 근처면 XZ 방향으로 밀어내기
 			float planeRadius = plane->GetRadius();
