@@ -28,5 +28,5 @@ private:
 	bool  _useGravity = true;
 	float _radius = 1.f;
 
-	static constexpr float GRAVITY = 9.8f;
+	static constexpr float GRAVITY = 30.f;
 };

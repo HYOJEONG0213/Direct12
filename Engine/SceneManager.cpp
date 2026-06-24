@@ -313,11 +313,11 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 			scene->AddGameObject(gameObject);
 		}
 
-		TableCollider::Init(scene, tablePos, 100.f);
+		TableCollider::Init(scene, tablePos, 92.f);
 	}
 #pragma endregion
 
-	shared_ptr<GameObject> jupiter = PlanetFactory::CreatePlanet(PLANET_TYPE::JUPITER, Vec3(48.f, 100.f, 200.f));
+	shared_ptr<GameObject> jupiter = PlanetFactory::CreatePlanet(PLANET_TYPE::JUPITER, Vec3(100.f, 300.f, 200.f));
 	scene->AddGameObject(jupiter);
 
 	return scene;
