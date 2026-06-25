@@ -22,6 +22,7 @@
 #include "ParticleSystem.h"
 
 #include "PlanetFactory.h"
+#include "PlanetLauncher.h"
 
 shared_ptr<Scene> LoadGameScene()
 {
@@ -58,6 +59,7 @@ shared_ptr<Scene> LoadGameScene()
 	camera->AddComponent(make_shared<Camera>()); // Near:1, Far:1000, Fov:45도
 	camera->GetCamera()->SetFar(10000.f);
 	camera->AddComponent(make_shared<TestCameraScript>());
+	camera->AddComponent(make_shared<PlanetLauncher>());
 
 	camera->GetTransform()->SetLocalPosition(Vec3(0.f, 80.f, 30.f));
 	camera->GetTransform()->SetLocalRotation(Vec3(0.4f, 0.f, 0.f));

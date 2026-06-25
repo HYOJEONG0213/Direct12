@@ -34,7 +34,7 @@ void SceneManager::LoadScene(shared_ptr<Scene> scene)
 	GET_SINGLE(PhysicsManager)->Init(_activeScene.get());
 }
 
-shared_ptr<GameObject> SceneManager::Pick(int32 screenX, int32 screenY)
+void SceneManager::GetPickRay(int32 screenX, int32 screenY, Vec4 &outOrigin, Vec4 &outDir)
 {
 	shared_ptr<Camera> camera = GetActiveScene()->GetMainCamera();
 
@@ -47,26 +47,30 @@ shared_ptr<GameObject> SceneManager::Pick(int32 screenX, int32 screenY)
 	float viewX = (+2.0f * screenX / width - 1.0f) / projectionMatrix(0, 0);
 	float viewY = (-2.0f * screenY / height + 1.0f) / projectionMatrix(1, 1);
 
-	Matrix viewMatrix = camera->GetViewMatrix();
-	Matrix viewMatrixInv = viewMatrix.Invert();
+	Matrix viewMatrixInv = camera->GetViewMatrix().Invert();
 
-	auto &gameObjects = GET_SINGLE(SceneManager)->GetActiveScene()->GetGameObjects();
+	// ViewSpace에서의 Ray 정의
+	outOrigin = Vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	outDir    = Vec4(viewX, viewY, 1.0f, 0.0f);
 
-	float				   minDistance = FLT_MAX;
+	// WorldSpace에서의 Ray 정의
+	outOrigin = XMVector3TransformCoord(outOrigin, viewMatrixInv);
+	outDir    = XMVector3TransformNormal(outDir, viewMatrixInv);
+	outDir.Normalize();
+}
+
+shared_ptr<GameObject> SceneManager::Pick(int32 screenX, int32 screenY)
+{
+	Vec4 rayOrigin, rayDir;
+	GetPickRay(screenX, screenY, rayOrigin, rayDir);
+
+	auto  &gameObjects  = GetActiveScene()->GetGameObjects();
+	float  minDistance  = FLT_MAX;
 	shared_ptr<GameObject> picked;
 
 	for (auto &gameObject : gameObjects)
 	{
 		if (gameObject->GetCollider() == nullptr) continue;
-
-		// ViewSpace에서의 Ray 정의
-		Vec4 rayOrigin = Vec4(0.0f, 0.0f, 0.0f, 1.0f);
-		Vec4 rayDir = Vec4(viewX, viewY, 1.0f, 0.0f);
-
-		// WorldSpace에서의 Ray 정의
-		rayOrigin = XMVector3TransformCoord(rayOrigin, viewMatrixInv);
-		rayDir = XMVector3TransformNormal(rayDir, viewMatrixInv);
-		rayDir.Normalize();
 
 		// WorldSpace에서 연산
 		float distance = 0.f;

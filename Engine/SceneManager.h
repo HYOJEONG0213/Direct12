@@ -21,6 +21,7 @@ public:
 	uint8		   LayerNameToIndex(const wstring &name);
 
 	shared_ptr<class GameObject> Pick(int32 screenX, int32 screenY);
+	void GetPickRay(int32 screenX, int32 screenY, Vec4& outOrigin, Vec4& outDir);
 
 public:
 	shared_ptr<Scene> GetActiveScene() { return _activeScene; }
