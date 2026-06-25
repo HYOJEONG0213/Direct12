@@ -14,7 +14,7 @@ class SceneManager
 public:
 	void Update();
 	void Render();
-	void LoadScene(wstring sceneName); // 씬 바꾸기
+	void LoadScene(shared_ptr<Scene> scene); // 씬 바꾸기
 
 	void		   SetLayerName(uint8 index, const wstring &name);
 	const wstring &IndexToLayerName(uint8 index) { return _layerNames[index]; }
@@ -24,9 +24,6 @@ public:
 
 public:
 	shared_ptr<Scene> GetActiveScene() { return _activeScene; }
-
-private:
-	shared_ptr<Scene> LoadTestScene();
 
 private:
 	shared_ptr<Scene> _activeScene; // 현재 씬

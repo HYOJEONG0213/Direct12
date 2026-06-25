@@ -41,6 +41,9 @@
     <ClInclude Include="PlanetFactory.h">
       <Filter>소스 파일\Game</Filter>
     </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>소스 파일\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -69,6 +72,9 @@
       <Filter>소스 파일\Game</Filter>
     </ClCompile>
     <ClCompile Include="PlanetFactory.cpp">
+      <Filter>소스 파일\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
       <Filter>소스 파일\Game</Filter>
     </ClCompile>
   </ItemGroup>
