@@ -20,7 +20,11 @@ void Scene::Start()
 
 void Scene::Update()
 {
+	_isUpdating = true;
 	for (const shared_ptr<GameObject> &gameObject : _gameObjects) { gameObject->Update(); }
+	_isUpdating = false;
+
+	FlushDeferredObjects();
 }
 
 void Scene::LateUpdate()
@@ -28,10 +32,7 @@ void Scene::LateUpdate()
 	for (const shared_ptr<GameObject> &gameObject : _gameObjects) { gameObject->LateUpdate(); }
 }
 
-void Scene::PhysicsUpdate()
-{
-	GET_SINGLE(PhysicsManager)->Update(this);
-}
+void Scene::PhysicsUpdate() { GET_SINGLE(PhysicsManager)->Update(this); }
 
 void Scene::FinalUpdate()
 {
@@ -159,10 +160,27 @@ void Scene::PushLightData()
 
 void Scene::AddGameObject(shared_ptr<GameObject> gameObject)
 {
+	if (_isUpdating)
+	{
+		_deferredObjects.push_back(gameObject);
+		return;
+	}
+
 	if (gameObject->GetCamera() != nullptr) { _cameras.push_back(gameObject->GetCamera()); }
 	else if (gameObject->GetLight() != nullptr) { _lights.push_back(gameObject->GetLight()); }
 
 	_gameObjects.push_back(gameObject);
+}
+
+void Scene::FlushDeferredObjects()
+{
+	for (auto &gameObject : _deferredObjects)
+	{
+		gameObject->Awake();
+		gameObject->Start();
+		AddGameObject(gameObject);
+	}
+	_deferredObjects.clear();
 }
 
 void Scene::RemoveGameObject(shared_ptr<GameObject> gameObject)
