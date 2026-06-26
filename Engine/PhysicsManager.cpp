@@ -56,7 +56,7 @@ void PhysicsManager::Update(Scene *scene)
 				float dz = pos.z - planePos.z;
 				float xzDist = sqrtf(dx * dx + dz * dz);
 				float outerBound = planeRadius + radius; // 경계끝
-				float edgeStart = planeRadius * 0.9f;	 // 경계 시작
+				float edgeStart = planeRadius * 0.999f;	 // 경계 시작
 
 				if (xzDist > edgeStart && xzDist < outerBound)
 				{

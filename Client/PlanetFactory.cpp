@@ -33,7 +33,7 @@ shared_ptr<GameObject> PlanetFactory::CreatePlanet(PLANET_TYPE type, Vec3 spawnP
 
 	// Collider
 	shared_ptr<SphereCollider> collider = make_shared<SphereCollider>();
-	collider->SetRadius(0.8f);
+	collider->SetRadius(0.5f);
 	obj->AddComponent(collider);
 
 	// Rigidbody

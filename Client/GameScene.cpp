@@ -221,7 +221,7 @@ shared_ptr<Scene> LoadGameScene()
 			scene->AddGameObject(gameObject);
 		}
 
-		TableCollider::Init(scene, tablePos, 92.f);
+		TableCollider::Init(scene, tablePos + Vec3(0.f, 10.f, 0.f), 97.f);
 	}
 #pragma endregion
 
