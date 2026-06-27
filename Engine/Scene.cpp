@@ -179,6 +179,7 @@ void Scene::FlushDeferredObjects()
 		gameObject->Awake();
 		gameObject->Start();
 		AddGameObject(gameObject);
+		GET_SINGLE(PhysicsManager)->RegisterDynamic(gameObject);
 	}
 	_deferredObjects.clear();
 }
