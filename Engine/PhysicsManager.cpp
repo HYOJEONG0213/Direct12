@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "PhysicsManager.h"
 #include "Scene.h"
 #include "GameObject.h"
@@ -45,6 +45,10 @@ void PhysicsManager::Update(class Scene *scene)
 			// 속도 반전
 			float vDotN = vel.Dot(n);
 			if (vDotN < 0.f) vel -= n * (1.05f * vDotN);
+
+			// 마찰력 적용
+			Vec3 velTangent = vel - n * vel.Dot(n); // 수평 성분만
+			vel -= velTangent * 0.1f;
 
 			// 가장자리 근처면 XZ 방향으로 밀어내기
 			float planeRadius = plane->GetRadius();
@@ -105,6 +109,12 @@ void PhysicsManager::Update(class Scene *scene)
 			float impulse = -(1.f + COR) * vRelN / (1.f / a.mass + 1.f / b.mass);
 			velA += n * (impulse / a.mass);
 			velB -= n * (impulse / b.mass);
+
+			// 공끼리 마찰력 적용
+			Vec3 vRel = velA - velB;
+			Vec3 vRelTangent = vRel - n * vRel.Dot(n); // 접선 성분만
+			velA -= vRelTangent * 0.03f;
+			velB += vRelTangent * 0.03f;
 
 			a.object->GetTransform()->SetLocalPosition(posA);
 			b.object->GetTransform()->SetLocalPosition(posB);
