@@ -4,6 +4,10 @@
 #include "framework.h"
 #include "Client.h"
 #include "Game.h"
+#include "UIManager.h"
+#include "imgui_impl_win32.h"
+
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 #define MAX_LOADSTRING 100
 
@@ -64,6 +68,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 		// TODO
 		game->Update();
 	}
+
+	GET_SINGLE(UIManager)->Shutdown();
 
 	return (int)msg.wParam;
 }
@@ -133,6 +139,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam)) return true;
+
 	switch (message)
 	{
 	case WM_COMMAND:

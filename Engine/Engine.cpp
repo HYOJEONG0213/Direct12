@@ -1,5 +1,6 @@
-﻿#include "pch.h"
+#include "pch.h"
 #include "Engine.h"
+#include "UIManager.h"
 #include "Material.h"
 #include "Transform.h"
 #include "Input.h"
@@ -75,10 +76,8 @@ void Engine::Update()
 void Engine::Render()
 {
 	RenderBegin();
-
-	// 그려줄(렌더링할) 내용
 	GET_SINGLE(SceneManager)->Render();
-
+	GET_SINGLE(UIManager)->Render();
 	RenderEnd();
 }
 
