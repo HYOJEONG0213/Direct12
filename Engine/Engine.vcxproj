@@ -80,12 +80,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Output\</OutDir>
-    <IncludePath>$(SolutionDir)Library/Include/FBX/;$(SolutionDir)Library\Include\;$(SolutionDir)Library\Include\FBX\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Library\Include\ImGui\;$(SolutionDir)Library/Include/ImGui/;$(SolutionDir)Library/Include/FBX/;$(SolutionDir)Library\Include\;$(SolutionDir)Library\Include\FBX\;$(IncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Output\</OutDir>
-    <IncludePath>$(SolutionDir)Library/Include/FBX/;$(SolutionDir)Library\Include\;$(SolutionDir)Library\Include\FBX\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Library\Include\ImGui\;$(SolutionDir)Library/Include/ImGui/;$(SolutionDir)Library/Include/FBX/;$(SolutionDir)Library\Include\;$(SolutionDir)Library\Include\FBX\;$(IncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -227,11 +227,16 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="UIManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animator.cpp" />
     <ClCompile Include="BaseCollider.cpp" />
     <ClCompile Include="BasketCollider.cpp" />
+    <ClCompile Include="ImGuiBuild.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="PhysicsManager.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="TableCollider.cpp" />
@@ -281,6 +286,7 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl" />

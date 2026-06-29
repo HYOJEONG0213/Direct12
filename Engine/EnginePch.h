@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 // std::byte 사용하지 않음
 #define _HAS_STD_BYTE 0
@@ -34,6 +34,10 @@ using namespace Microsoft::WRL;
 #include <DirectXTex/DirectXTex.inl>
 
 #include "FBX/fbxsdk.h"
+
+#include "imgui.h"
+#include "imgui_impl_dx12.h"
+#include "imgui_impl_win32.h"
 
 // 각종 lib
 #pragma comment(lib, "d3d12")
