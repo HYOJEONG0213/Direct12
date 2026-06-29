@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 class PlaneCollider;
 class SphereCollider;
 class Rigidbody;
@@ -12,6 +12,7 @@ public:
 	void Init(class Scene *scene);
 	void Update(class Scene *scene);
 	void RegisterDynamic(shared_ptr<GameObject> object);
+	void UnregisterDynamic(shared_ptr<GameObject> object);
 
 private:
 	struct SphereData

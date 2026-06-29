@@ -122,6 +122,11 @@ shared_ptr<Rigidbody> GameObject::GetRigidbody()
 	return static_pointer_cast<Rigidbody>(component);
 }
 
+void GameObject::TriggerCollision(shared_ptr<GameObject> other)
+{
+	for (shared_ptr<MonoBehaviour> &script : _scripts) { script->OnCollision(other); }
+}
+
 void GameObject::AddComponent(shared_ptr<Component> component)
 {
 	// shared_from_this() : 자기 자신에 대한 포인터 만듦

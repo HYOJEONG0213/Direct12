@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "PlanetFactory.h"
 #include "PlanetData.h"
 #include "GameObject.h"
@@ -7,6 +7,7 @@
 #include "MeshRenderer.h"
 #include "Resources.h"
 #include "Rigidbody.h"
+#include "PlanetMerger.h"
 
 PlanetData g_PlanetTable[] = {
 	//			현재 타입, 다음 진화 타입,	 스케일, 질량, 점수, 매터리얼
@@ -55,6 +56,7 @@ shared_ptr<GameObject> PlanetFactory::CreatePlanet(PLANET_TYPE type, Vec3 spawnP
 	if (material != nullptr) { meshRenderer->SetMaterial(material->Clone()); }
 
 	obj->AddComponent(meshRenderer);
+	obj->AddComponent(make_shared<PlanetMerger>(type));
 
 	return obj;
 }

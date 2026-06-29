@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Component.h"
 #include "Object.h"
 
@@ -47,6 +47,8 @@ public:
 
 	void SetStatic(bool flag) { _static = flag; }
 	bool IsStatic() { return _static; }
+
+	void TriggerCollision(shared_ptr<GameObject> other);
 
 private:
 	array<shared_ptr<Component>, FIXED_COMPONENT_COUNT> _components;

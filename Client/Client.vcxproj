@@ -177,6 +177,7 @@
     <ClInclude Include="PlanetData.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="PlanetFactory.h" />
+    <ClInclude Include="PlanetMerger.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -193,6 +194,7 @@
     <ClCompile Include="PlanetData.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="PlanetFactory.cpp" />
+    <ClCompile Include="PlanetMerger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc" />

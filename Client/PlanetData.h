@@ -21,3 +21,5 @@ struct PlanetData
 	int			 score;
 	std::wstring material;
 };
+
+extern PlanetData g_PlanetTable[];

@@ -1,4 +1,4 @@
-﻿#include "pch.h"
+#include "pch.h"
 #include "PhysicsManager.h"
 #include "Scene.h"
 #include "GameObject.h"
@@ -49,7 +49,6 @@ void PhysicsManager::Update(class Scene *scene)
 			// 마찰력 적용
 			Vec3 velTangent = vel - n * vel.Dot(n); // 수평 성분만
 			vel -= velTangent * 0.1f;
-
 		}
 
 		sphere.object->GetTransform()->SetLocalPosition(pos);
@@ -101,6 +100,21 @@ void PhysicsManager::Update(class Scene *scene)
 			b.object->GetTransform()->SetLocalPosition(posB);
 			a.rigid->SetVelocity(velA);
 			b.rigid->SetVelocity(velB);
+
+			// 합치기 판정
+			a.object->TriggerCollision(b.object);
+		}
+	}
+}
+
+void PhysicsManager::UnregisterDynamic(shared_ptr<GameObject> object)
+{
+	for (int i = 0; i < _spheres.size(); i++)
+	{
+		if (_spheres[i].object == object)
+		{
+			_spheres.erase(_spheres.begin() + i);
+			return;
 		}
 	}
 }

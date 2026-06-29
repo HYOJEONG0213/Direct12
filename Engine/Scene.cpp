@@ -32,7 +32,26 @@ void Scene::LateUpdate()
 	for (const shared_ptr<GameObject> &gameObject : _gameObjects) { gameObject->LateUpdate(); }
 }
 
-void Scene::PhysicsUpdate() { GET_SINGLE(PhysicsManager)->Update(this); }
+void Scene::PhysicsUpdate()
+{
+	_isUpdating = true;
+	GET_SINGLE(PhysicsManager)->Update(this);
+	_isUpdating = false;
+	FlushDeferredRemovals();
+	FlushDeferredObjects();
+}
+
+void Scene::RemoveGameObjectDeferred(shared_ptr<GameObject> gameObject) { _deferredRemovals.push_back(gameObject); }
+
+void Scene::FlushDeferredRemovals()
+{
+	for (auto &gameObject : _deferredRemovals)
+	{
+		GET_SINGLE(PhysicsManager)->UnregisterDynamic(gameObject);
+		RemoveGameObject(gameObject);
+	}
+	_deferredRemovals.clear();
+}
 
 void Scene::FinalUpdate()
 {
