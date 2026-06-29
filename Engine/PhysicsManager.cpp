@@ -50,25 +50,6 @@ void PhysicsManager::Update(class Scene *scene)
 			Vec3 velTangent = vel - n * vel.Dot(n); // 수평 성분만
 			vel -= velTangent * 0.1f;
 
-			// 가장자리 근처면 XZ 방향으로 밀어내기
-			float planeRadius = plane->GetRadius();
-			if (planeRadius > 0.f)
-			{
-				Vec3  planePos = plane->GetWorldPos();
-				float dx = pos.x - planePos.x;
-				float dz = pos.z - planePos.z;
-				float xzDist = sqrtf(dx * dx + dz * dz);
-				float outerBound = planeRadius + sphere.radius; // 경계끝
-				float edgeStart = planeRadius * 0.999f;			// 경계 시작
-
-				if (xzDist > edgeStart && xzDist < outerBound)
-				{
-					float t = (xzDist - edgeStart) / (outerBound - edgeStart); // 치우침정도
-					Vec3  outward = Vec3(dx, 0.f, dz);						   // 평면 -> 공 방향 벡터
-					outward.Normalize();
-					vel += outward * (t * 70.f);
-				}
-			}
 		}
 
 		sphere.object->GetTransform()->SetLocalPosition(pos);
