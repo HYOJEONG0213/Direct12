@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "GameScene.h"
 
 #include "MeshRenderer.h"
@@ -65,8 +65,8 @@ shared_ptr<Scene> LoadGameScene()
 	shared_ptr<PlanetLauncher> launcher = make_shared<PlanetLauncher>();
 	camera->AddComponent(launcher);
 
-	camera->GetTransform()->SetLocalPosition(Vec3(0.f, 80.f, 30.f));
-	camera->GetTransform()->SetLocalRotation(Vec3(0.4f, 0.f, 0.f));
+	camera->GetTransform()->SetLocalPosition(Vec3(-3.3f, 18.4f, 108.8f));
+	camera->GetTransform()->SetLocalRotation(Vec3(0.63f, 0.f, 0.f));
 
 	uint8 layerIndex = GET_SINGLE(SceneManager)->LayerNameToIndex(L"UI");
 	camera->GetCamera()->SetCullingMaskLayerOnOff(layerIndex, true); // UI는 안 찍음
