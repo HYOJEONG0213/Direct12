@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Component.h"
 
 class Rigidbody : public Component
@@ -21,6 +21,8 @@ public:
 
 	float GetRadius() const { return _radius; }
 	void  SetRadius(float r) { _radius = r; }
+
+	static float GetGravity() { return GRAVITY; }
 
 private:
 	Vec3  _velocity = {};
