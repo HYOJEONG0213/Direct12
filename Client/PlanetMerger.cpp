@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "PlanetMerger.h"
 #include "PlanetData.h"
 #include "PlanetFactory.h"
@@ -6,6 +6,7 @@
 #include "Scene.h"
 #include "Transform.h"
 #include "GameObject.h"
+#include "UIManager.h"
 
 void PlanetMerger::OnCollision(shared_ptr<GameObject> other)
 {
@@ -24,6 +25,8 @@ void PlanetMerger::OnCollision(shared_ptr<GameObject> other)
 	auto scene = GET_SINGLE(SceneManager)->GetActiveScene();
 	scene->RemoveGameObjectDeferred(GetGameObject());
 	scene->RemoveGameObjectDeferred(other);
+
+	GET_SINGLE(UIManager)->AddScore(data.score);
 
 	auto newPlanet = PlanetFactory::CreatePlanet(data.nextType, midpoint);
 	scene->AddGameObject(newPlanet);

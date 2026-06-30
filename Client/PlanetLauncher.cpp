@@ -7,6 +7,10 @@
 #include "Engine.h"
 #include "Scene.h"
 #include "GameObject.h"
+#include "Resources.h"
+#include "Material.h"
+#include "Shader.h"
+#include "MeshRenderer.h"
 
 void PlanetLauncher::Update()
 {
@@ -29,5 +33,22 @@ void PlanetLauncher::Update()
 		GET_SINGLE(SceneManager)->GetActiveScene()->AddGameObject(planet);
 
 		_nextType = static_cast<PLANET_TYPE>(rand() % (static_cast<int>(PLANET_TYPE::VENUS) + 1));
+
+		UpdatePreview();
+	}
+}
+
+void PlanetLauncher::UpdatePreview()
+{
+	if (_preview == nullptr) return;
+
+	PlanetData			&data = g_PlanetTable[static_cast<int>(_nextType)];
+	shared_ptr<Material> material = GET_SINGLE(Resources)->Get<Material>(data.material);
+	if (material != nullptr)
+	{
+		shared_ptr<Material> uiMat = make_shared<Material>();
+		uiMat->SetShader(GET_SINGLE(Resources)->Get<Shader>(L"Texture"));
+		uiMat->SetTexture(0, material->GetTexture(0));
+		_preview->GetMeshRenderer()->SetMaterial(uiMat);
 	}
 }

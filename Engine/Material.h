@@ -41,7 +41,8 @@ public:
 	Material();
 	virtual ~Material();
 
-	shared_ptr<Shader> GetShader() { return _shader; }
+	shared_ptr<Shader>	GetShader() { return _shader; }
+	shared_ptr<Texture> GetTexture(uint8 index) { return _textures[index]; }
 
 	void SetShader(shared_ptr<Shader> shader) { _shader = shader; }
 	void SetInt(uint8 index, int32 value) { _params.SetInt(index, value); }

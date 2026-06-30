@@ -23,6 +23,9 @@
 
 #include "PlanetFactory.h"
 #include "PlanetLauncher.h"
+#include "PlanetData.h"
+#include "MeshRenderer.h"
+#include "Resources.h"
 
 shared_ptr<Scene> LoadGameScene()
 {
@@ -59,7 +62,8 @@ shared_ptr<Scene> LoadGameScene()
 	camera->AddComponent(make_shared<Camera>()); // Near:1, Far:1000, Fov:45도
 	camera->GetCamera()->SetFar(10000.f);
 	camera->AddComponent(make_shared<TestCameraScript>());
-	camera->AddComponent(make_shared<PlanetLauncher>());
+	shared_ptr<PlanetLauncher> launcher = make_shared<PlanetLauncher>();
+	camera->AddComponent(launcher);
 
 	camera->GetTransform()->SetLocalPosition(Vec3(0.f, 80.f, 30.f));
 	camera->GetTransform()->SetLocalRotation(Vec3(0.4f, 0.f, 0.f));
@@ -126,7 +130,7 @@ shared_ptr<Scene> LoadGameScene()
 	// #pragma endregion
 
 #pragma region UI_Test
-	for (int32 i = 0; i < 6; i++)
+	for (int32 i = 0; i < 7; i++)
 	{
 		shared_ptr<GameObject> obj = make_shared<GameObject>();
 		obj->SetLayerIndex(GET_SINGLE(SceneManager)->LayerNameToIndex(L"UI")); // UI
@@ -146,8 +150,16 @@ shared_ptr<Scene> LoadGameScene()
 				texture = GEngine->GetRTGroup(RENDER_TARGET_GROUP_TYPE::G_BUFFER)->GetRTTexture(i);
 			else if (i < 5)
 				texture = GEngine->GetRTGroup(RENDER_TARGET_GROUP_TYPE::LIGHTING)->GetRTTexture(i - 3);
-			else
+			else if (i < 6)
 				texture = GEngine->GetRTGroup(RENDER_TARGET_GROUP_TYPE::SHADOW)->GetRTTexture(0);
+			else
+			{
+				meshRenderer->SetMesh(GET_SINGLE(Resources)->LoadSphereMesh());
+				shared_ptr<Material> planetMat = GET_SINGLE(Resources)->Get<Material>(
+					g_PlanetTable[static_cast<int>(launcher->GetNextType())].material);
+				if (planetMat != nullptr) texture = planetMat->GetTexture(0);
+				launcher->SetPreviewObject(obj);
+			}
 
 			shared_ptr<Material> material = make_shared<Material>();
 			material->SetShader(shader);
