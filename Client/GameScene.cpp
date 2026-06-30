@@ -171,6 +171,31 @@ shared_ptr<Scene> LoadGameScene()
 	}
 #pragma endregion
 
+#pragma region PlanetOrder
+	{
+		shared_ptr<GameObject> obj = make_shared<GameObject>();
+		obj->SetLayerIndex(GET_SINGLE(SceneManager)->LayerNameToIndex(L"UI"));
+		obj->AddComponent(make_shared<Transform>());
+		obj->GetTransform()->SetLocalScale(Vec3(110.f, 400.f, 1.f));
+		obj->GetTransform()->SetLocalPosition(Vec3(-345.f, 0.f, 500.f));
+		obj->SetCheckFrustum(false);
+
+		shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
+		meshRenderer->SetMesh(GET_SINGLE(Resources)->LoadRectangleMesh());
+
+		shared_ptr<Texture> texture =
+			GET_SINGLE(Resources)->Load<Texture>(L"PlanetOrder", L"..\\Resources\\Texture\\PlanetOrder.png");
+
+		shared_ptr<Material> material = make_shared<Material>();
+		material->SetShader(GET_SINGLE(Resources)->Get<Shader>(L"Texture"));
+		material->SetTexture(0, texture);
+		meshRenderer->SetMaterial(material);
+
+		obj->AddComponent(meshRenderer);
+		scene->AddGameObject(obj);
+	}
+#pragma endregion
+
 #pragma region Directional Light
 	{
 		shared_ptr<GameObject> light = make_shared<GameObject>();

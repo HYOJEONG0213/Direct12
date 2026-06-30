@@ -38,7 +38,15 @@ void UIManager::Render()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	ImGui::Begin("Score");
+	ImVec2 disp = ImGui::GetIO().DisplaySize;
+	ImVec2 pos(20.f, 540.f / 600.f * disp.y - 50.0f);
+	ImVec2 size(140.f / 800.f * disp.x, 60.f / 600.f * disp.y);
+
+	ImGui::SetNextWindowPos(pos, ImGuiCond_Always);
+	ImGui::SetNextWindowSize(size, ImGuiCond_Always);
+	ImGui::Begin("Score", nullptr,
+				 ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar |
+					 ImGuiWindowFlags_NoBackground);
 	ImGui::Text("Score: %d", _score);
 	ImGui::End();
 
