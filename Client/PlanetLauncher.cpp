@@ -92,6 +92,10 @@ void PlanetLauncher::UpdateGuideLine(float targetX)
 	// 처음만 생성!
 	if (_guideDots.empty())
 	{
+		// 인스턴싱 방법 이용해 궤적 UI 생성
+		shared_ptr<Mesh>	 sharedMesh = GET_SINGLE(Resources)->LoadSphereMesh();
+		shared_ptr<Material> sharedMaterial = GET_SINGLE(Resources)->Get<Material>(L"GuideDot");
+
 		for (int32 i = 0; i < GUIDE_DOT_COUNT; i++)
 		{
 			shared_ptr<GameObject> dot = make_shared<GameObject>();
@@ -99,15 +103,8 @@ void PlanetLauncher::UpdateGuideLine(float targetX)
 			dot->SetCheckFrustum(false);
 
 			shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
-			meshRenderer->SetMesh(GET_SINGLE(Resources)->LoadSphereMesh());
-
-			shared_ptr<Texture> texture =
-				GET_SINGLE(Resources)->Load<Texture>(L"GuideLine", L"..\\Resources\\Texture\\GuideLine.png");
-
-			shared_ptr<Material> material = make_shared<Material>();
-			material->SetShader(GET_SINGLE(Resources)->Get<Shader>(L"Texture"));
-			material->SetTexture(0, texture);
-			meshRenderer->SetMaterial(material);
+			meshRenderer->SetMesh(sharedMesh);
+			meshRenderer->SetMaterial(sharedMaterial);
 
 			dot->AddComponent(meshRenderer);
 			GET_SINGLE(SceneManager)->GetActiveScene()->AddGameObject(dot);
@@ -127,7 +124,7 @@ void PlanetLauncher::UpdateGuideLine(float targetX)
 		pos.z = launchPos.z + velocity.z * t;
 
 		_guideDots[i]->GetTransform()->SetLocalPosition(pos);
-		_guideDots[i]->GetTransform()->SetLocalScale(Vec3(1.5f, 1.5f, 1.5f));
+		_guideDots[i]->GetTransform()->SetLocalScale(Vec3(1.2f, 1.2f, 1.2f));
 	}
 }
 

@@ -23,7 +23,7 @@ private:
 	void  UpdateGuideLine(float targetX);
 	float FallTime() const;
 
-	static constexpr int				 GUIDE_DOT_COUNT = 20;
+	static constexpr int				 GUIDE_DOT_COUNT = 200;
 	vector<shared_ptr<class GameObject>> _guideDots;
 
 	float _cooldown = 0.f;

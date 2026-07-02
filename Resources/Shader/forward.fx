@@ -87,6 +87,12 @@ struct VS_TEX_IN
 {
 	float3 pos : POSITION;
 	float2 uv : TEXCOORD;
+
+	// 인스턴싱용 
+	row_major matrix matWorld : W;
+	row_major matrix matWV : WV;
+	row_major matrix matWVP : WVP;
+	uint instanceID : SV_InstanceID;
 };
 
 struct VS_TEX_OUT
@@ -99,7 +105,12 @@ VS_TEX_OUT VS_Tex(VS_TEX_IN input)
 {
 	VS_TEX_OUT output = (VS_TEX_OUT) 0;
 
-	output.pos = mul(float4(input.pos, 1.f), g_matWVP);
+	// 인스턴싱 사용시 
+	if (g_int_0 == 1)
+		output.pos = mul(float4(input.pos, 1.f), input.matWVP);
+	else
+		output.pos = mul(float4(input.pos, 1.f), g_matWVP);
+
 	output.uv = input.uv;
 
 	return output;

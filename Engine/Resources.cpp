@@ -487,6 +487,16 @@ void Resources::CreateDefaultShader()
 		Add<Shader>(L"Texture", shader);
 	}
 
+	// GuideDot
+	{
+		ShaderInfo info = {SHADER_TYPE::FORWARD, RASTERIZER_TYPE::CULL_NONE, DEPTH_STENCIL_TYPE::LESS};
+		ShaderArg  arg = {"VS_Tex", "", "", "", "PS_Tex"};
+
+		shared_ptr<Shader> shader = make_shared<Shader>();
+		shader->CreateGraphicsShader(L"..\\Resources\\Shader\\forward.fx", info, arg);
+		Add<Shader>(L"GuideDot", shader);
+	}
+
 	// DirLight
 	{
 		// 빛은 범위 표현 용도인데 DirLight 범위 상관없으므로 CULL_NONE으로
@@ -679,6 +689,18 @@ void Resources::CreateDefaultMaterial()
 		Add<Material>(L"ComputeParticle", material);
 	}
 
+	// GuideDot
+	{
+		shared_ptr<Shader>	shader = GET_SINGLE(Resources)->Get<Shader>(L"GuideDot");
+		shared_ptr<Texture> texture =
+			GET_SINGLE(Resources)->Load<Texture>(L"GuideLine", L"..\\Resources\\Texture\\GuideLine.png");
+		shared_ptr<Material> material = make_shared<Material>();
+		material->SetShader(shader);
+		material->SetTexture(0, texture);
+		material->SetInt(0, 1); // 인스턴싱 방식!
+		Add<Material>(L"GuideDot", material);
+	}
+
 	// GameObject
 	{
 		shared_ptr<Shader>	shader = GET_SINGLE(Resources)->Get<Shader>(L"Deferred");
@@ -827,8 +849,7 @@ void Resources::CreateDefaultMaterial()
 	// Table
 	{
 		shared_ptr<Shader>	shader = GET_SINGLE(Resources)->Get<Shader>(L"Deferred");
-		shared_ptr<Texture> diff =
-			GET_SINGLE(Resources)->Load<Texture>(L"Wood", L"..\\Resources\\Texture\\Wood.jpg");
+		shared_ptr<Texture> diff = GET_SINGLE(Resources)->Load<Texture>(L"Wood", L"..\\Resources\\Texture\\Wood.jpg");
 		shared_ptr<Texture> norm =
 			GET_SINGLE(Resources)->Load<Texture>(L"Wood_normal", L"..\\Resources\\Texture\\Wood_normal.jpg");
 
