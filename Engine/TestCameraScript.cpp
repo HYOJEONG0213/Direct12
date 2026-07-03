@@ -11,6 +11,22 @@ TestCameraScript::TestCameraScript() {}
 
 TestCameraScript::~TestCameraScript() {}
 
+void TestCameraScript::Start()
+{
+	Vec3 pos = GetTransform()->GetLocalPosition();
+
+	float offsetX = pos.x - _orbitPivot.x;
+	float offsetZ = pos.z - _orbitPivot.z;
+
+	// 접시-카메라 거리 = 궤도 반지름 길이
+	_orbitRadius = sqrtf(offsetX * offsetX + offsetZ * offsetZ);
+
+	// offset : 접시->카메라, forward : 카메라->접시
+	// forward = (sin세타, 0, cos세타), camPos = pivot - forward*radius
+	// forward = -(offset)/radius 이므로 아크탄젠트 적용!
+	_orbitAngle = atan2f(-offsetX, -offsetZ);
+}
+
 void TestCameraScript::LateUpdate()
 {
 	Vec3 pos = GetTransform()->GetLocalPosition();
@@ -38,17 +54,30 @@ void TestCameraScript::LateUpdate()
 		GetTransform()->SetLocalRotation(rotation);
 	}
 
+	// 접시 중심 회전
+	bool orbiting = false;
 	if (INPUT->GetButton(KEY_TYPE::Z))
 	{
-		Vec3 rotation = GetTransform()->GetLocalRotation();
-		rotation.y += DELTA_TIME * 0.5f;
-		GetTransform()->SetLocalRotation(rotation);
+		_orbitAngle += DELTA_TIME * _orbitSpeed;
+		orbiting = true;
 	}
 
 	if (INPUT->GetButton(KEY_TYPE::C))
 	{
+		_orbitAngle -= DELTA_TIME * _orbitSpeed;
+		orbiting = true;
+	}
+
+	if (orbiting)
+	{
+		// 바뀐 각도만큼 pos 재계산 후 이동 및 회전 적용
+		Vec3 forward = Vec3(sinf(_orbitAngle), 0.f, cosf(_orbitAngle));
+
+		pos.x = _orbitPivot.x - forward.x * _orbitRadius;
+		pos.z = _orbitPivot.z - forward.z * _orbitRadius;
+
 		Vec3 rotation = GetTransform()->GetLocalRotation();
-		rotation.y -= DELTA_TIME * 0.5f;
+		rotation.y = _orbitAngle;
 		GetTransform()->SetLocalRotation(rotation);
 	}
 
