@@ -8,20 +8,21 @@ public:
 	PlanetLauncher() = default;
 	virtual ~PlanetLauncher() = default;
 
-	virtual void Update() override;
+	virtual void LateUpdate() override;
 
 	void		SetNextType(PLANET_TYPE type) { _nextType = type; }
 	PLANET_TYPE GetNextType() const { return _nextType; }
+	Vec3		GetLaunchPos();
 
 	void SetPreviewObject(shared_ptr<class GameObject> obj) { _preview = obj; }
 
 private:
 	void  UpdatePreview();
-	void  SpawnCurrent();
-	void  Throw(float targetX);
-	Vec3  ComputeVelocity(float targetX) const;
-	void  UpdateGuideLine(float targetX);
-	float FallTime() const;
+	void  SpawnCurrent(const Vec3 &launchPos);
+	void  Throw(const Vec3 &launchPos, float targetX);
+	Vec3  ComputeVelocity(const Vec3 &launchPos, float targetX) const;
+	void  UpdateGuideLine(const Vec3 &launchPos, float targetX);
+	float FallTime(float launchY) const;
 
 	static constexpr int				 GUIDE_DOT_COUNT = 200;
 	vector<shared_ptr<class GameObject>> _guideDots;
@@ -31,8 +32,8 @@ private:
 	float _spawnY = -30.f; // 착지 높이
 	float _spawnZ = 200.f; // 착지 깊이
 
-	float _launchY = 6.f;	// 발사대 높이
-	float _launchZ = 120.f; // 발사대 깊이
+	float _launchY = 5.f;  // 발사대 높이
+	float _launchZ = 40.f; // 발사대 깊이
 
 	float _powerScale = 0.7f; // 거리조절용 상수
 

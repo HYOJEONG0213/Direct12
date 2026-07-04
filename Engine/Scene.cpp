@@ -29,7 +29,11 @@ void Scene::Update()
 
 void Scene::LateUpdate()
 {
+	_isUpdating = true;
 	for (const shared_ptr<GameObject> &gameObject : _gameObjects) { gameObject->LateUpdate(); }
+	_isUpdating = false;
+
+	FlushDeferredObjects();
 }
 
 void Scene::PhysicsUpdate()

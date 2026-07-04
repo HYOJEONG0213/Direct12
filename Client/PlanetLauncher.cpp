@@ -15,11 +15,18 @@
 #include "Rigidbody.h"
 #include "Transform.h"
 
-void PlanetLauncher::Update()
+void PlanetLauncher::LateUpdate()
 {
 	_cooldown -= DELTA_TIME;
 
-	if (_current == nullptr) SpawnCurrent(); // 발사대에 공 채워넣기
+	GetTransform()->FinalUpdate();
+
+	Vec3 launchPos = GetLaunchPos();
+
+	if (_current == nullptr)
+		SpawnCurrent(launchPos); // 발사대에 공 채워넣기
+	else
+		_current->GetTransform()->SetLocalPosition(launchPos);
 
 	// 마우스 X좌표 = 착지 지점
 	POINT mouse = INPUT->GetMousePos();
@@ -29,28 +36,33 @@ void PlanetLauncher::Update()
 	float distToPlane = (_spawnZ - rayOrigin.z) / rayDir.z;
 	float worldX = rayOrigin.x + rayDir.x * distToPlane; // 마우스 X를 착지 평면상의 월드 X로 변환
 
-	UpdateGuideLine(worldX);
+	UpdateGuideLine(launchPos, worldX);
 
 	if (INPUT->GetButtonDown(KEY_TYPE::LBUTTON) && _cooldown <= 0.f)
 	{
 		_cooldown = 0.5f;
-		Throw(worldX);
+		Throw(launchPos, worldX);
 	}
 }
 
-float PlanetLauncher::FallTime() const
+Vec3 PlanetLauncher::GetLaunchPos()
+{
+	// 발사대 로컬좌표 -> 월드 변환
+	Vec3 localOffset = Vec3(0.f, -_launchY, _launchZ);
+	return Vec3::Transform(localOffset, GetTransform()->GetLocalToWorldMatrix());
+}
+
+float PlanetLauncher::FallTime(float launchY) const
 {
 	// s = 1/2 * g * t^2  =>  t = sqrt(2s/g)
 	float gravity = Rigidbody::GetGravity();
-	return sqrtf(2.f * (_launchY - _spawnY) / gravity);
+	return sqrtf(2.f * (launchY - _spawnY) / gravity);
 }
 
-Vec3 PlanetLauncher::ComputeVelocity(float targetX) const
+Vec3 PlanetLauncher::ComputeVelocity(const Vec3 &launchPos, float targetX) const
 {
-	Vec3 launchPos = Vec3(0.f, _launchY, _launchZ);
-
 	// X, Z 방향 속도 계산 (등속 직선 운동)
-	float t = FallTime();
+	float t = FallTime(launchPos.y);
 	float vx = (targetX - launchPos.x) / t * _powerScale;
 	float vz = (_spawnZ - launchPos.z) / t * _powerScale;
 	float vy = 0.f;
@@ -58,20 +70,19 @@ Vec3 PlanetLauncher::ComputeVelocity(float targetX) const
 	return Vec3(vx, vy, vz);
 }
 
-void PlanetLauncher::SpawnCurrent()
+void PlanetLauncher::SpawnCurrent(const Vec3 &launchPos)
 {
-	Vec3 launchPos = Vec3(0.f, _launchY, _launchZ);
-
 	_current = PlanetFactory::CreatePlanet(_currentType, launchPos);
 	_current->GetRigidbody()->SetUseGravity(false); // 발사 전까지 제자리 고정
 
 	GET_SINGLE(SceneManager)->GetActiveScene()->AddGameObject(_current);
 }
 
-void PlanetLauncher::Throw(float targetX)
+void PlanetLauncher::Throw(const Vec3 &launchPos, float targetX)
 {
-	Vec3 velocity = ComputeVelocity(targetX);
+	Vec3 velocity = ComputeVelocity(launchPos, targetX);
 
+	_current->GetTransform()->SetLocalPosition(launchPos);
 	_current->GetRigidbody()->SetUseGravity(true);
 	_current->GetRigidbody()->SetVelocity(velocity);
 	_current = nullptr;
@@ -81,12 +92,11 @@ void PlanetLauncher::Throw(float targetX)
 	UpdatePreview();
 }
 
-void PlanetLauncher::UpdateGuideLine(float targetX)
+void PlanetLauncher::UpdateGuideLine(const Vec3 &launchPos, float targetX)
 {
 	if (_current == nullptr) return;
 
-	Vec3  launchPos = _current->GetTransform()->GetLocalPosition();
-	Vec3  velocity = ComputeVelocity(targetX);
+	Vec3  velocity = ComputeVelocity(launchPos, targetX);
 	float gravity = Rigidbody::GetGravity();
 
 	// 처음만 생성!
@@ -112,8 +122,8 @@ void PlanetLauncher::UpdateGuideLine(float targetX)
 		}
 	}
 
-	// x = x0 + vx*t, y = y0 + vy*t - 0.5*g*t^2
-	float fallTime = FallTime();
+	// x = x0 + vx*t, y = y0 + vy*t - 0.5*g*t^2  (월드 좌표)
+	float fallTime = FallTime(launchPos.y);
 	for (int32 i = 0; i < GUIDE_DOT_COUNT; i++)
 	{
 		float t = fallTime * (float)i / (float)(GUIDE_DOT_COUNT - 1);
