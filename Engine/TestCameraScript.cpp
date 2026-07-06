@@ -55,30 +55,33 @@ void TestCameraScript::LateUpdate()
 	// }
 
 	// 접시 중심 회전
-	bool orbiting = false;
-	if (INPUT->GetButton(KEY_TYPE::Z))
+	if (!_movementLocked)
 	{
-		_orbitAngle += DELTA_TIME * _orbitSpeed;
-		orbiting = true;
-	}
+		bool orbiting = false;
+		if (INPUT->GetButton(KEY_TYPE::Z))
+		{
+			_orbitAngle += DELTA_TIME * _orbitSpeed;
+			orbiting = true;
+		}
 
-	if (INPUT->GetButton(KEY_TYPE::C))
-	{
-		_orbitAngle -= DELTA_TIME * _orbitSpeed;
-		orbiting = true;
-	}
+		if (INPUT->GetButton(KEY_TYPE::C))
+		{
+			_orbitAngle -= DELTA_TIME * _orbitSpeed;
+			orbiting = true;
+		}
 
-	if (orbiting)
-	{
-		// 바뀐 각도만큼 pos 재계산 후 이동 및 회전 적용
-		Vec3 forward = Vec3(sinf(_orbitAngle), 0.f, cosf(_orbitAngle));
+		if (orbiting)
+		{
+			// 바뀐 각도만큼 pos 재계산 후 이동 및 회전 적용
+			Vec3 forward = Vec3(sinf(_orbitAngle), 0.f, cosf(_orbitAngle));
 
-		pos.x = _orbitPivot.x - forward.x * _orbitRadius;
-		pos.z = _orbitPivot.z - forward.z * _orbitRadius;
+			pos.x = _orbitPivot.x - forward.x * _orbitRadius;
+			pos.z = _orbitPivot.z - forward.z * _orbitRadius;
 
-		Vec3 rotation = GetTransform()->GetLocalRotation();
-		rotation.y = _orbitAngle;
-		GetTransform()->SetLocalRotation(rotation);
+			Vec3 rotation = GetTransform()->GetLocalRotation();
+			rotation.y = _orbitAngle;
+			GetTransform()->SetLocalRotation(rotation);
+		}
 	}
 
 	if (INPUT->GetButtonDown(KEY_TYPE::RBUTTON))

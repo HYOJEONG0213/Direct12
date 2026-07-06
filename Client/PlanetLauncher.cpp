@@ -14,6 +14,7 @@
 #include "MeshRenderer.h"
 #include "Rigidbody.h"
 #include "Transform.h"
+#include "TestCameraScript.h"
 
 void PlanetLauncher::LateUpdate()
 {
@@ -38,9 +39,11 @@ void PlanetLauncher::LateUpdate()
 
 	UpdateGuideLine(launchPos, worldX);
 
+	if (_cameraScript != nullptr) _cameraScript->SetMovementLocked(_cooldown > 0.f);
+
 	if (INPUT->GetButtonDown(KEY_TYPE::LBUTTON) && _cooldown <= 0.f)
 	{
-		_cooldown = 0.5f;
+		_cooldown = 1.0f;
 		Throw(launchPos, worldX);
 	}
 }

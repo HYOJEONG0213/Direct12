@@ -10,6 +10,8 @@ public:
 	virtual void Start() override;
 	virtual void LateUpdate() override;
 
+	void SetMovementLocked(bool locked) { _movementLocked = locked; }
+
 private:
 	float _speed = 100.f;
 
@@ -17,4 +19,6 @@ private:
 	float _orbitRadius = 0.f;
 	float _orbitAngle = 0.f;
 	float _orbitSpeed = 1.0f;
+
+	bool _movementLocked = false;
 };

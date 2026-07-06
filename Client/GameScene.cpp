@@ -61,9 +61,11 @@ shared_ptr<Scene> LoadGameScene()
 	camera->AddComponent(make_shared<Transform>());
 	camera->AddComponent(make_shared<Camera>()); // Near:1, Far:1000, Fov:45도
 	camera->GetCamera()->SetFar(10000.f);
-	camera->AddComponent(make_shared<TestCameraScript>());
+	shared_ptr<TestCameraScript> cameraScript = make_shared<TestCameraScript>();
+	camera->AddComponent(cameraScript);
 	shared_ptr<PlanetLauncher> launcher = make_shared<PlanetLauncher>();
 	camera->AddComponent(launcher);
+	launcher->SetCameraScript(cameraScript);
 
 	camera->GetTransform()->SetLocalPosition(Vec3(-3.3f, 18.4f, 108.8f));
 	camera->GetTransform()->SetLocalRotation(Vec3(0.63f, 0.f, 0.f));

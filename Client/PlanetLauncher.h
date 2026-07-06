@@ -15,6 +15,7 @@ public:
 	Vec3		GetLaunchPos();
 
 	void SetPreviewObject(shared_ptr<class GameObject> obj) { _preview = obj; }
+	void SetCameraScript(shared_ptr<class TestCameraScript> script) { _cameraScript = script; }
 
 private:
 	void  UpdatePreview();
@@ -41,4 +42,6 @@ private:
 	PLANET_TYPE					 _nextType = PLANET_TYPE::MERCURY;
 	shared_ptr<class GameObject> _current;
 	shared_ptr<class GameObject> _preview;
+
+	shared_ptr<class TestCameraScript> _cameraScript;
 };
