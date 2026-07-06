@@ -20,9 +20,9 @@ public:
 private:
 	void  UpdatePreview();
 	void  SpawnCurrent(const Vec3 &launchPos);
-	void  Throw(const Vec3 &launchPos, float targetX);
-	Vec3  ComputeVelocity(const Vec3 &launchPos, float targetX) const;
-	void  UpdateGuideLine(const Vec3 &launchPos, float targetX);
+	void  Throw(const Vec3 &launchPos, const Vec3 &targetPos);
+	Vec3  ComputeVelocity(const Vec3 &launchPos, const Vec3 &targetPos) const;
+	void  UpdateGuideLine(const Vec3 &launchPos, const Vec3 &targetPos);
 	float FallTime(float launchY) const;
 
 	static constexpr int				 GUIDE_DOT_COUNT = 200;
@@ -31,7 +31,6 @@ private:
 	float _cooldown = 0.f;
 
 	float _spawnY = -30.f; // 착지 높이
-	float _spawnZ = 200.f; // 착지 깊이
 
 	float _launchY = 5.f;  // 발사대 높이
 	float _launchZ = 40.f; // 발사대 깊이
