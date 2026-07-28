@@ -171,35 +171,34 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Client.h" />
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="PlanetLauncher.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="PlanetData.h" />
-    <ClInclude Include="GameScene.h" />
-    <ClInclude Include="PlanetFactory.h" />
-    <ClInclude Include="PlanetMerger.h" />
-    <ClInclude Include="Resource.h" />
-    <ClInclude Include="targetver.h" />
+    <ClInclude Include="Game\Game.h" />
+    <ClInclude Include="Game\GameScene.h" />
+    <ClInclude Include="Game\PlanetData.h" />
+    <ClInclude Include="Game\PlanetFactory.h" />
+    <ClInclude Include="Game\PlanetLauncher.h" />
+    <ClInclude Include="Game\PlanetMerger.h" />
+    <ClInclude Include="Utils\Client.h" />
+    <ClInclude Include="Utils\framework.h" />
+    <ClInclude Include="Utils\pch.h" />
+    <ClInclude Include="Utils\Resource.h" />
+    <ClInclude Include="Utils\targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Client.cpp" />
-    <ClCompile Include="PlanetLauncher.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    <ClCompile Include="Game\Game.cpp" />
+    <ClCompile Include="Game\GameScene.cpp" />
+    <ClCompile Include="Game\PlanetData.cpp" />
+    <ClCompile Include="Game\PlanetFactory.cpp" />
+    <ClCompile Include="Game\PlanetLauncher.cpp" />
+    <ClCompile Include="Game\PlanetMerger.cpp" />
+    <ClCompile Include="Utils\Client.cpp" />
+    <ClCompile Include="Utils\pch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="PlanetData.cpp" />
-    <ClCompile Include="GameScene.cpp" />
-    <ClCompile Include="PlanetFactory.cpp" />
-    <ClCompile Include="PlanetMerger.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Client.rc" />
+    <ResourceCompile Include="Client.rc">
+      <AdditionalIncludeDirectories>Utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico" />
