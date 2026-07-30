@@ -1,14 +1,14 @@
-﻿#pragma once
+#pragma once
 
 #include "Device.h"
 #include "CommandQueue.h"
 #include "SwapChain.h"
 #include "RootSignature.h"
-#include "Mesh.h"
-#include "Shader.h"
+#include "../Mesh.h"
+#include "../Shader.h"
 #include "ConstantBuffer.h"
 #include "TableDescriptorHeap.h"
-#include "Texture.h"
+#include "../Texture.h"
 #include "RenderTargetGroup.h"
 
 class Engine

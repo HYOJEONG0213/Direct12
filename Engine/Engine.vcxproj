@@ -96,7 +96,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -118,7 +118,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -140,7 +140,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -163,7 +163,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -182,23 +182,28 @@
     <ClInclude Include="Animator.h" />
     <ClInclude Include="BaseCollider.h" />
     <ClInclude Include="BasketCollider.h" />
+    <ClInclude Include="Engine\CommandQueue.h" />
+    <ClInclude Include="Engine\ConstantBuffer.h" />
+    <ClInclude Include="Engine\Device.h" />
+    <ClInclude Include="Engine\Engine.h" />
+    <ClInclude Include="Engine\InstancingBuffer.h" />
+    <ClInclude Include="Engine\RenderTargetGroup.h" />
+    <ClInclude Include="Engine\RootSignature.h" />
+    <ClInclude Include="Engine\StructuredBuffer.h" />
+    <ClInclude Include="Engine\SwapChain.h" />
+    <ClInclude Include="Engine\TableDescriptorHeap.h" />
     <ClInclude Include="PhysicsManager.h" />
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="TableCollider.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="CommandQueue.h" />
     <ClInclude Include="Component.h" />
-    <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="CylinderCollider.h" />
     <ClInclude Include="d3dx12.h" />
-    <ClInclude Include="Device.h" />
-    <ClInclude Include="Engine.h" />
     <ClInclude Include="EnginePch.h" />
     <ClInclude Include="FBXLoader.h" />
     <ClInclude Include="Frustum.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Input.h" />
-    <ClInclude Include="InstancingBuffer.h" />
     <ClInclude Include="InstancingManager.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
@@ -210,17 +215,12 @@
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PlaneCollider.h" />
-    <ClInclude Include="RenderTargetGroup.h" />
     <ClInclude Include="Resources.h" />
-    <ClInclude Include="RootSignature.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SimpleMath.h" />
     <ClInclude Include="SphereCollider.h" />
-    <ClInclude Include="StructuredBuffer.h" />
-    <ClInclude Include="SwapChain.h" />
-    <ClInclude Include="TableDescriptorHeap.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="TestCameraScript.h" />
     <ClInclude Include="TestDragon.h" />
@@ -233,6 +233,16 @@
     <ClCompile Include="Animator.cpp" />
     <ClCompile Include="BaseCollider.cpp" />
     <ClCompile Include="BasketCollider.cpp" />
+    <ClCompile Include="Engine\CommandQueue.cpp" />
+    <ClCompile Include="Engine\ConstantBuffer.cpp" />
+    <ClCompile Include="Engine\Device.cpp" />
+    <ClCompile Include="Engine\Engine.cpp" />
+    <ClCompile Include="Engine\InstancingBuffer.cpp" />
+    <ClCompile Include="Engine\RenderTargetGroup.cpp" />
+    <ClCompile Include="Engine\RootSignature.cpp" />
+    <ClCompile Include="Engine\StructuredBuffer.cpp" />
+    <ClCompile Include="Engine\SwapChain.cpp" />
+    <ClCompile Include="Engine\TableDescriptorHeap.cpp" />
     <ClCompile Include="ImGuiBuild.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -241,18 +251,13 @@
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="TableCollider.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CommandQueue.cpp" />
     <ClCompile Include="Component.cpp" />
-    <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="CylinderCollider.cpp" />
-    <ClCompile Include="Device.cpp" />
-    <ClCompile Include="Engine.cpp" />
     <ClCompile Include="EnginePch.cpp" />
     <ClCompile Include="FBXLoader.cpp" />
     <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Input.cpp" />
-    <ClCompile Include="InstancingBuffer.cpp" />
     <ClCompile Include="InstancingManager.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Material.cpp" />
@@ -269,17 +274,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="PlaneCollider.cpp" />
-    <ClCompile Include="RenderTargetGroup.cpp" />
     <ClCompile Include="Resources.cpp" />
-    <ClCompile Include="RootSignature.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SimpleMath.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
-    <ClCompile Include="StructuredBuffer.cpp" />
-    <ClCompile Include="SwapChain.cpp" />
-    <ClCompile Include="TableDescriptorHeap.cpp" />
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="TestCameraScript.cpp" />
     <ClCompile Include="TestDragon.cpp" />
