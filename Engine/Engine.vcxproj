@@ -80,12 +80,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Output\</OutDir>
-    <IncludePath>$(SolutionDir)Library\Include\ImGui\;$(SolutionDir)Library/Include/ImGui/;$(SolutionDir)Library/Include/FBX/;$(SolutionDir)Library\Include\;$(SolutionDir)Library\Include\FBX\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Library\Include\ImGui\;$(SolutionDir)Library/Include/ImGui/;$(SolutionDir)Library/Include/FBX/;$(SolutionDir)Library\Include\;$(SolutionDir)Library\Include\FBX\;$(SolutionDir)Engine\Manager\;$(IncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Output\</OutDir>
-    <IncludePath>$(SolutionDir)Library\Include\ImGui\;$(SolutionDir)Library/Include/ImGui/;$(SolutionDir)Library/Include/FBX/;$(SolutionDir)Library\Include\;$(SolutionDir)Library\Include\FBX\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Library\Include\ImGui\;$(SolutionDir)Library/Include/ImGui/;$(SolutionDir)Library/Include/FBX/;$(SolutionDir)Library\Include\;$(SolutionDir)Library\Include\FBX\;$(SolutionDir)Engine\Manager\;$(IncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -96,7 +96,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)Manager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -118,7 +118,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)Manager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -140,7 +140,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)Manager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -163,7 +163,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)Manager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -192,7 +192,7 @@
     <ClInclude Include="Engine\StructuredBuffer.h" />
     <ClInclude Include="Engine\SwapChain.h" />
     <ClInclude Include="Engine\TableDescriptorHeap.h" />
-    <ClInclude Include="PhysicsManager.h" />
+    <ClInclude Include="Manager\PhysicsManager.h" />
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="TableCollider.h" />
     <ClInclude Include="Camera.h" />
@@ -203,8 +203,8 @@
     <ClInclude Include="FBXLoader.h" />
     <ClInclude Include="Frustum.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="InstancingManager.h" />
+    <ClInclude Include="Manager\Input.h" />
+    <ClInclude Include="Manager\InstancingManager.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
@@ -215,9 +215,9 @@
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PlaneCollider.h" />
-    <ClInclude Include="Resources.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Manager\Resources.h" />
+    <ClInclude Include="Manager\Scene.h" />
+    <ClInclude Include="Manager\SceneManager.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SimpleMath.h" />
     <ClInclude Include="SphereCollider.h" />
@@ -225,9 +225,9 @@
     <ClInclude Include="TestCameraScript.h" />
     <ClInclude Include="TestDragon.h" />
     <ClInclude Include="Texture.h" />
-    <ClInclude Include="Timer.h" />
+    <ClInclude Include="Manager\Timer.h" />
     <ClInclude Include="Transform.h" />
-    <ClInclude Include="UIManager.h" />
+    <ClInclude Include="Manager\UIManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animator.cpp" />
@@ -247,7 +247,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="PhysicsManager.cpp" />
+    <ClCompile Include="Manager\PhysicsManager.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="TableCollider.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -257,8 +257,8 @@
     <ClCompile Include="FBXLoader.cpp" />
     <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="Input.cpp" />
-    <ClCompile Include="InstancingManager.cpp" />
+    <ClCompile Include="Manager\Input.cpp" />
+    <ClCompile Include="Manager\InstancingManager.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -274,9 +274,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="PlaneCollider.cpp" />
-    <ClCompile Include="Resources.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Manager\Resources.cpp" />
+    <ClCompile Include="Manager\Scene.cpp" />
+    <ClCompile Include="Manager\SceneManager.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SimpleMath.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
@@ -284,9 +284,9 @@
     <ClCompile Include="TestCameraScript.cpp" />
     <ClCompile Include="TestDragon.cpp" />
     <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Manager\Timer.cpp" />
     <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="Manager\UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl" />

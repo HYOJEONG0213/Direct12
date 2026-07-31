@@ -51,26 +51,11 @@
     <ClInclude Include="Material.h">
       <Filter>Object\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
     <ClInclude Include="SimpleMath.h">
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="TestCameraScript.h">
       <Filter>Object\Test</Filter>
-    </ClInclude>
-    <ClInclude Include="Resources.h">
-      <Filter>Manager</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>Object</Filter>
@@ -101,9 +86,6 @@
     </ClInclude>
     <ClInclude Include="ParticleSystem.h">
       <Filter>Object\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="InstancingManager.h">
-      <Filter>Manager</Filter>
     </ClInclude>
     <ClInclude Include="Terrain.h">
       <Filter>Object\Component</Filter>
@@ -141,12 +123,6 @@
     <ClInclude Include="Rigidbody.h">
       <Filter>Object\Component</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicsManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="UIManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\CommandQueue.h">
       <Filter>Engine</Filter>
     </ClInclude>
@@ -177,6 +153,30 @@
     <ClInclude Include="Engine\TableDescriptorHeap.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="Manager\Input.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\InstancingManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\PhysicsManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\Resources.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\Scene.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\SceneManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\Timer.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\UIManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EnginePch.cpp">
@@ -197,26 +197,11 @@
     <ClCompile Include="Material.cpp">
       <Filter>Object\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="Input.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
     <ClCompile Include="SimpleMath.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="TestCameraScript.cpp">
       <Filter>Object\Test</Filter>
-    </ClCompile>
-    <ClCompile Include="Resources.cpp">
-      <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="Object.cpp">
       <Filter>Object</Filter>
@@ -247,9 +232,6 @@
     </ClCompile>
     <ClCompile Include="ParticleSystem.cpp">
       <Filter>Object\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="InstancingManager.cpp">
-      <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="Terrain.cpp">
       <Filter>Object\Component</Filter>
@@ -287,12 +269,6 @@
     <ClCompile Include="Rigidbody.cpp">
       <Filter>Object\Component</Filter>
     </ClCompile>
-    <ClCompile Include="PhysicsManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="UIManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
     <ClCompile Include="ImGuiBuild.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
@@ -325,6 +301,30 @@
     </ClCompile>
     <ClCompile Include="Engine\TableDescriptorHeap.cpp">
       <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\Input.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\InstancingManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\PhysicsManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\Resources.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\Scene.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\SceneManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\Timer.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\UIManager.cpp">
+      <Filter>Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
