@@ -140,7 +140,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)Manager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)Manager;$(ProjectDir)Utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -163,7 +163,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)Manager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)Manager;$(ProjectDir)Utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -198,9 +198,6 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="CylinderCollider.h" />
-    <ClInclude Include="d3dx12.h" />
-    <ClInclude Include="EnginePch.h" />
-    <ClInclude Include="FBXLoader.h" />
     <ClInclude Include="Frustum.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Manager\Input.h" />
@@ -213,13 +210,11 @@
     <ClInclude Include="MonoBehaviour.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ParticleSystem.h" />
-    <ClInclude Include="pch.h" />
     <ClInclude Include="PlaneCollider.h" />
     <ClInclude Include="Manager\Resources.h" />
     <ClInclude Include="Manager\Scene.h" />
     <ClInclude Include="Manager\SceneManager.h" />
     <ClInclude Include="Shader.h" />
-    <ClInclude Include="SimpleMath.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="TestCameraScript.h" />
@@ -228,6 +223,11 @@
     <ClInclude Include="Manager\Timer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Manager\UIManager.h" />
+    <ClInclude Include="Utils\d3dx12.h" />
+    <ClInclude Include="Utils\EnginePch.h" />
+    <ClInclude Include="Utils\FBXLoader.h" />
+    <ClInclude Include="Utils\pch.h" />
+    <ClInclude Include="Utils\SimpleMath.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animator.cpp" />
@@ -244,8 +244,7 @@
     <ClCompile Include="Engine\SwapChain.cpp" />
     <ClCompile Include="Engine\TableDescriptorHeap.cpp" />
     <ClCompile Include="ImGuiBuild.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Manager\PhysicsManager.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
@@ -253,8 +252,6 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="CylinderCollider.cpp" />
-    <ClCompile Include="EnginePch.cpp" />
-    <ClCompile Include="FBXLoader.cpp" />
     <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Manager\Input.cpp" />
@@ -267,18 +264,11 @@
     <ClCompile Include="MonoBehaviour.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
-    <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="PlaneCollider.cpp" />
     <ClCompile Include="Manager\Resources.cpp" />
     <ClCompile Include="Manager\Scene.cpp" />
     <ClCompile Include="Manager\SceneManager.cpp" />
     <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="SimpleMath.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="TestCameraScript.cpp" />
@@ -287,9 +277,12 @@
     <ClCompile Include="Manager\Timer.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Manager\UIManager.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="SimpleMath.inl" />
+    <ClCompile Include="Utils\EnginePch.cpp" />
+    <ClCompile Include="Utils\FBXLoader.cpp" />
+    <ClCompile Include="Utils\pch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Utils\SimpleMath.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Resources\Shader\animation.fx" />
@@ -305,6 +298,9 @@
     <FxCompile Include="..\Resources\Shader\terrain.fx" />
     <FxCompile Include="..\Resources\Shader\tessellation.fx" />
     <FxCompile Include="..\Resources\Shader\utils.fx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Utils\SimpleMath.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

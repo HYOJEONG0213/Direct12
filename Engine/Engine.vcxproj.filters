@@ -30,15 +30,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="EnginePch.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="d3dx12.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>Object\Resource</Filter>
     </ClInclude>
@@ -50,9 +41,6 @@
     </ClInclude>
     <ClInclude Include="Material.h">
       <Filter>Object\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="SimpleMath.h">
-      <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="TestCameraScript.h">
       <Filter>Object\Test</Filter>
@@ -95,9 +83,6 @@
     </ClInclude>
     <ClInclude Include="SphereCollider.h">
       <Filter>Object\Component\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="FBXLoader.h">
-      <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="MeshData.h">
       <Filter>Object\Resource</Filter>
@@ -177,14 +162,23 @@
     <ClInclude Include="Manager\UIManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\d3dx12.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\EnginePch.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\FBXLoader.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\pch.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\SimpleMath.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EnginePch.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="pch.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>Object\Resource</Filter>
     </ClCompile>
@@ -196,9 +190,6 @@
     </ClCompile>
     <ClCompile Include="Material.cpp">
       <Filter>Object\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="SimpleMath.cpp">
-      <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="TestCameraScript.cpp">
       <Filter>Object\Test</Filter>
@@ -242,9 +233,6 @@
     <ClCompile Include="SphereCollider.cpp">
       <Filter>Object\Component\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="FBXLoader.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
     <ClCompile Include="MeshData.cpp">
       <Filter>Object\Resource</Filter>
     </ClCompile>
@@ -268,9 +256,6 @@
     </ClCompile>
     <ClCompile Include="Rigidbody.cpp">
       <Filter>Object\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGuiBuild.cpp">
-      <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="Engine\CommandQueue.cpp">
       <Filter>Engine</Filter>
@@ -326,11 +311,18 @@
     <ClCompile Include="Manager\UIManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="SimpleMath.inl">
+    <ClCompile Include="Utils\EnginePch.cpp">
       <Filter>Utils</Filter>
-    </None>
+    </ClCompile>
+    <ClCompile Include="Utils\FBXLoader.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\pch.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\SimpleMath.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Resources\Shader\params.fx">
@@ -372,5 +364,10 @@
     <FxCompile Include="..\Resources\Shader\math.fx">
       <Filter>Shader</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Utils\SimpleMath.inl">
+      <Filter>Utils</Filter>
+    </None>
   </ItemGroup>
 </Project>
