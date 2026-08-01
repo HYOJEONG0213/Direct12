@@ -80,12 +80,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Output\</OutDir>
-    <IncludePath>$(SolutionDir)Library\Include\ImGui\;$(SolutionDir)Library/Include/ImGui/;$(SolutionDir)Library/Include/FBX/;$(SolutionDir)Library\Include\;$(SolutionDir)Library\Include\FBX\;$(SolutionDir)Engine\Manager\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Library\Include\ImGui\;$(SolutionDir)Library/Include/ImGui/;$(SolutionDir)Library/Include/FBX/;$(SolutionDir)Library\Include\;$(SolutionDir)Library\Include\FBX\;$(SolutionDir)Engine\Manager\;$(SolutionDir)Engine\Object\;$(SolutionDir)Engine\Object\Component\;$(SolutionDir)Engine\Object\Test\;$(SolutionDir)Engine\Object\Resource\;$(SolutionDir)Engine\Object\Component\Collider\;$(IncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Output\</OutDir>
-    <IncludePath>$(SolutionDir)Library\Include\ImGui\;$(SolutionDir)Library/Include/ImGui/;$(SolutionDir)Library/Include/FBX/;$(SolutionDir)Library\Include\;$(SolutionDir)Library\Include\FBX\;$(SolutionDir)Engine\Manager\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Library\Include\ImGui\;$(SolutionDir)Library/Include/ImGui/;$(SolutionDir)Library/Include/FBX/;$(SolutionDir)Library\Include\;$(SolutionDir)Library\Include\FBX\;$(SolutionDir)Engine\Manager\;$(SolutionDir)Engine\Object\;$(SolutionDir)Engine\Object\Component\;$(SolutionDir)Engine\Object\Test\;$(SolutionDir)Engine\Object\Resource\;$(SolutionDir)Engine\Object\Component\Collider\;$(IncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -140,7 +140,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)Manager;$(ProjectDir)Utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)Manager;$(ProjectDir)Utils;$(ProjectDir)Object;$(ProjectDir)Object\Test;$(ProjectDir)Object\Resource;$(ProjectDir)Object\Component\Collider;$(ProjectDir)Object\Component;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -163,7 +163,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)Manager;$(ProjectDir)Utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine;$(ProjectDir)Manager;$(ProjectDir)Utils;$(ProjectDir)Object;$(ProjectDir)Object\Test;$(ProjectDir)Object\Resource;$(ProjectDir)Object\Component\Collider;$(ProjectDir)Object\Component;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -179,9 +179,6 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Animator.h" />
-    <ClInclude Include="BaseCollider.h" />
-    <ClInclude Include="BasketCollider.h" />
     <ClInclude Include="Engine\CommandQueue.h" />
     <ClInclude Include="Engine\ConstantBuffer.h" />
     <ClInclude Include="Engine\Device.h" />
@@ -193,36 +190,39 @@
     <ClInclude Include="Engine\SwapChain.h" />
     <ClInclude Include="Engine\TableDescriptorHeap.h" />
     <ClInclude Include="Manager\PhysicsManager.h" />
-    <ClInclude Include="Rigidbody.h" />
-    <ClInclude Include="TableCollider.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="CylinderCollider.h" />
-    <ClInclude Include="Frustum.h" />
-    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Object\Component\Animator.h" />
+    <ClInclude Include="Object\Component\Camera.h" />
+    <ClInclude Include="Object\Component\Collider\BaseCollider.h" />
+    <ClInclude Include="Object\Component\Collider\BasketCollider.h" />
+    <ClInclude Include="Object\Component\Collider\CylinderCollider.h" />
+    <ClInclude Include="Object\Component\Collider\PlaneCollider.h" />
+    <ClInclude Include="Object\Component\Collider\SphereCollider.h" />
+    <ClInclude Include="Object\Component\Collider\TableCollider.h" />
     <ClInclude Include="Manager\Input.h" />
     <ClInclude Include="Manager\InstancingManager.h" />
-    <ClInclude Include="Light.h" />
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="MeshData.h" />
-    <ClInclude Include="MeshRenderer.h" />
-    <ClInclude Include="MonoBehaviour.h" />
-    <ClInclude Include="Object.h" />
-    <ClInclude Include="ParticleSystem.h" />
-    <ClInclude Include="PlaneCollider.h" />
     <ClInclude Include="Manager\Resources.h" />
     <ClInclude Include="Manager\Scene.h" />
     <ClInclude Include="Manager\SceneManager.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="SphereCollider.h" />
-    <ClInclude Include="Terrain.h" />
-    <ClInclude Include="TestCameraScript.h" />
-    <ClInclude Include="TestDragon.h" />
-    <ClInclude Include="Texture.h" />
+    <ClInclude Include="Object\Component\Component.h" />
+    <ClInclude Include="Object\Component\Frustum.h" />
+    <ClInclude Include="Object\Component\Light.h" />
+    <ClInclude Include="Object\Component\MeshRenderer.h" />
+    <ClInclude Include="Object\Component\MonoBehaviour.h" />
+    <ClInclude Include="Object\Component\ParticleSystem.h" />
+    <ClInclude Include="Object\Component\Rigidbody.h" />
+    <ClInclude Include="Object\Component\Terrain.h" />
+    <ClInclude Include="Object\Component\Transform.h" />
+    <ClInclude Include="Object\GameObject.h" />
+    <ClInclude Include="Object\Object.h" />
+    <ClInclude Include="Object\Resource\Material.h" />
+    <ClInclude Include="Object\Resource\Mesh.h" />
+    <ClInclude Include="Object\Resource\MeshData.h" />
+    <ClInclude Include="Object\Resource\Shader.h" />
+    <ClInclude Include="Object\Resource\Texture.h" />
     <ClInclude Include="Manager\Timer.h" />
-    <ClInclude Include="Transform.h" />
     <ClInclude Include="Manager\UIManager.h" />
+    <ClInclude Include="Object\Test\TestCameraScript.h" />
+    <ClInclude Include="Object\Test\TestDragon.h" />
     <ClInclude Include="Utils\d3dx12.h" />
     <ClInclude Include="Utils\EnginePch.h" />
     <ClInclude Include="Utils\FBXLoader.h" />
@@ -230,9 +230,6 @@
     <ClInclude Include="Utils\SimpleMath.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Animator.cpp" />
-    <ClCompile Include="BaseCollider.cpp" />
-    <ClCompile Include="BasketCollider.cpp" />
     <ClCompile Include="Engine\CommandQueue.cpp" />
     <ClCompile Include="Engine\ConstantBuffer.cpp" />
     <ClCompile Include="Engine\Device.cpp" />
@@ -243,42 +240,43 @@
     <ClCompile Include="Engine\StructuredBuffer.cpp" />
     <ClCompile Include="Engine\SwapChain.cpp" />
     <ClCompile Include="Engine\TableDescriptorHeap.cpp" />
-    <ClCompile Include="ImGuiBuild.cpp">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="Manager\PhysicsManager.cpp" />
-    <ClCompile Include="Rigidbody.cpp" />
-    <ClCompile Include="TableCollider.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Component.cpp" />
-    <ClCompile Include="CylinderCollider.cpp" />
-    <ClCompile Include="Frustum.cpp" />
-    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Object\Component\Animator.cpp" />
+    <ClCompile Include="Object\Component\Camera.cpp" />
+    <ClCompile Include="Object\Component\Collider\BaseCollider.cpp" />
+    <ClCompile Include="Object\Component\Collider\BasketCollider.cpp" />
+    <ClCompile Include="Object\Component\Collider\CylinderCollider.cpp" />
+    <ClCompile Include="Object\Component\Collider\PlaneCollider.cpp" />
+    <ClCompile Include="Object\Component\Collider\SphereCollider.cpp" />
+    <ClCompile Include="Object\Component\Collider\TableCollider.cpp" />
     <ClCompile Include="Manager\Input.cpp" />
     <ClCompile Include="Manager\InstancingManager.cpp" />
-    <ClCompile Include="Light.cpp" />
-    <ClCompile Include="Material.cpp" />
-    <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="MeshData.cpp" />
-    <ClCompile Include="MeshRenderer.cpp" />
-    <ClCompile Include="MonoBehaviour.cpp" />
-    <ClCompile Include="Object.cpp" />
-    <ClCompile Include="ParticleSystem.cpp" />
-    <ClCompile Include="PlaneCollider.cpp" />
     <ClCompile Include="Manager\Resources.cpp" />
     <ClCompile Include="Manager\Scene.cpp" />
     <ClCompile Include="Manager\SceneManager.cpp" />
-    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="SphereCollider.cpp" />
-    <ClCompile Include="Terrain.cpp" />
-    <ClCompile Include="TestCameraScript.cpp" />
-    <ClCompile Include="TestDragon.cpp" />
-    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Object\Component\Component.cpp" />
+    <ClCompile Include="Object\Component\Frustum.cpp" />
+    <ClCompile Include="Object\Component\Light.cpp" />
+    <ClCompile Include="Object\Component\MeshRenderer.cpp" />
+    <ClCompile Include="Object\Component\MonoBehaviour.cpp" />
+    <ClCompile Include="Object\Component\ParticleSystem.cpp" />
+    <ClCompile Include="Object\Component\Rigidbody.cpp" />
+    <ClCompile Include="Object\Component\Terrain.cpp" />
+    <ClCompile Include="Object\Component\Transform.cpp" />
+    <ClCompile Include="Object\GameObject.cpp" />
+    <ClCompile Include="Object\Object.cpp" />
+    <ClCompile Include="Object\Resource\Material.cpp" />
+    <ClCompile Include="Object\Resource\Mesh.cpp" />
+    <ClCompile Include="Object\Resource\MeshData.cpp" />
+    <ClCompile Include="Object\Resource\Shader.cpp" />
+    <ClCompile Include="Object\Resource\Texture.cpp" />
     <ClCompile Include="Manager\Timer.cpp" />
-    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Manager\UIManager.cpp" />
+    <ClCompile Include="Object\Test\TestCameraScript.cpp" />
+    <ClCompile Include="Object\Test\TestDragon.cpp" />
     <ClCompile Include="Utils\EnginePch.cpp" />
     <ClCompile Include="Utils\FBXLoader.cpp" />
+    <ClCompile Include="Utils\ImGuiBuild.cpp" />
     <ClCompile Include="Utils\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
