@@ -12,6 +12,9 @@ Visual Studio 2022 / C++ / DirectX 12 / FBX SDK / ImGui
 Z, C : 접시 중심 카메라 회전
 
 ## 현재까지 개발 사항
+### 데모 영상
+![demo](docs/demo.gif)
+
 ### 엔진 (클론코딩)
 [C++과 언리얼로 만드는 MMORPG 게임 개발 시리즈 Part2: 게임 수학과 DirectX12](https://www.inflearn.com/course/%EC%96%B8%EB%A6%AC%EC%96%BC-3d-mmorpg-2)
 
